@@ -112,14 +112,15 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 
 flutter_native_splash:
+  background_image: assets/images/background.png
   image: assets/images/logo.png
-  branding: assets/images/branding12.png
-  color: "#f1b729" # cor de fundo
+  branding: assets/images/branding.png 
   branding_mode: bottom
   ios: true
+  android: true
   web: false
 
   android_12:
-    image: assets/images/logo.png
+    image: assets/images/logo12.png
     branding: assets/images/branding12.png
     color: "#f1b729"
