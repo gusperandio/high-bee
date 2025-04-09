@@ -15,6 +15,7 @@ bin/internal/engine.version
 .buildlog/
 .history
 .svn/
+devtools_options.yaml
 
 # IntelliJ related
 *.iml

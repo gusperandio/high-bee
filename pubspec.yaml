@@ -35,9 +35,25 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   firebase_core: ^3.12.0
-  infinite_carousel: ^1.1.1
-  overlapped_carousel: ^1.0.2
   vertical_card_pager: ^1.6.3
+  share_plus: ^10.1.4
+  lottie: ^3.3.1
+  flutter_native_splash: ^2.4.6
+  animations: ^2.0.11
+  in_app_review: ^2.0.10
+  flutter_dotenv: ^5.2.1
+  app_links: ^6.4.0
+  icons_launcher: ^3.0.1
+  in_app_purchase: ^3.2.1
+  flex_color_picker: ^3.7.0
+  animate_do: ^4.2.0
+  provider: ^6.1.4
+  permission_handler: ^11.4.0
+  cached_network_image: ^3.4.1
+  image_picker: ^1.1.2
+  blur: ^4.0.2
+  shared_preferences: ^2.5.3
+  flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +84,7 @@ flutter:
     - assets/images/Screenshot_3.png
     - assets/images/Screenshot_4.png
     - assets/images/Screenshot_5.png
+    - assets/images/Screenshot_6.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
