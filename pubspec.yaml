@@ -84,7 +84,6 @@ flutter:
     - assets/images/Screenshot_3.png
     - assets/images/Screenshot_4.png
     - assets/images/Screenshot_5.png
-    - assets/images/Screenshot_6.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -111,3 +110,16 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+flutter_native_splash:
+  image: assets/images/logo.png
+  branding: assets/images/branding12.png
+  color: "#f1b729" # cor de fundo
+  branding_mode: bottom
+  ios: true
+  web: false
+
+  android_12:
+    image: assets/images/logo.png
+    branding: assets/images/branding12.png
+    color: "#f1b729"

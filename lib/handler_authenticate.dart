@@ -24,7 +24,7 @@ class HandlerAuthenticate extends StatelessWidget {
 
         final authState = MSProvider.get<AuthenticationState>(context);
 
-        if (authState.isAuthenticated) return HomePage(title: 'Home Page');
+        if (authState.isAuthenticated) return HomePage();
 
         return const LoginPage();
       },

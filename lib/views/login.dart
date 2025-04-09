@@ -3,6 +3,7 @@ import 'package:high_bee/providers/authentication_state.dart';
 import 'package:high_bee/util/provider.dart';
 
 class LoginPage extends StatelessWidget {
+  static const routeName = '/login';
   const LoginPage({super.key});
 
   @override
