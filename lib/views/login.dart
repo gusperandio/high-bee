@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
           child: Stack(
             children: [
               SizedBox(
-                height: 420,
+                height: screenHeight * 0.62,
                 width: double.infinity,
                 child: Image.asset(
                   'assets/images/Screenshot_3.png',
@@ -25,7 +25,7 @@ class LoginPage extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: screenHeight * 0.42,
+                top: screenHeight * 0.50,
                 left: 0,
                 right: 0,
                 child: Container(
@@ -37,34 +37,26 @@ class LoginPage extends StatelessWidget {
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 16,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const Text(
-                        'Crie sua conta',
+                        'Bem-vindo a \nnossa causa!',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 32,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      // Campos fake
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.pink[100],
-                          borderRadius: BorderRadius.circular(10),
+                      const Text(
+                        'Aqui compartilhamos experiências \nem cima de produtos a base da vida',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 16),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.green[100],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      // Botão fake
+                      const SizedBox(height: 10),
                       Container(
                         height: 50,
                         decoration: BoxDecoration(
@@ -73,14 +65,20 @@ class LoginPage extends StatelessWidget {
                         ),
                         alignment: Alignment.center,
                         child: const Text(
-                          'Criar Conta',
+                          'Primeiro acesso',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
+                            fontSize: 16,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const Divider(
+                          height: 0,
+                          thickness: 1,
+                          endIndent: 4,
+                          indent: 4,
+                          color: Colors.black12),
                       Container(
                         height: 50,
                         decoration: BoxDecoration(
@@ -89,27 +87,28 @@ class LoginPage extends StatelessWidget {
                         ),
                         alignment: Alignment.center,
                         child: const Text(
-                          ' Registrar com Apple',
+                          'Tenho uma conta',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,
+                            fontSize: 16,
                           ),
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text('Já possui uma conta? '),
-                          Text(
-                            'Entre',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: const [
+                      //     Text('Já possui uma conta? '),
+                      //     Text(
+                      //       'Entre',
+                      //       style: TextStyle(
+                      //         color: Colors.blue,
+                      //         fontWeight: FontWeight.bold,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),
