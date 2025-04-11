@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/providers/authentication_state.dart';
-import 'package:high_bee/util/provider.dart';
-import 'package:high_bee/views/home.dart';
-import 'package:high_bee/views/login.dart';
+import 'package:high_bee/util/provider.dart'; 
+import 'package:high_bee/views/main_page.dart';
+import 'package:high_bee/views/welcome.dart';
 
 class HandlerAuthenticate extends StatelessWidget {
   static const routeName = '/';
@@ -24,9 +24,9 @@ class HandlerAuthenticate extends StatelessWidget {
 
         final authState = MSProvider.get<AuthenticationState>(context);
 
-        if (authState.isAuthenticated) return HomePage();
+        if (authState.isAuthenticated) return MainPage();
 
-        return const LoginPage();
+        return const WelcomePage();
       },
     );
   }

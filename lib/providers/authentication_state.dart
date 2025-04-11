@@ -29,7 +29,10 @@ class AuthenticationState extends ChangeNotifier {
   void logout() async {
     bool? authenticatedState = Cache().getAuth();
 
-    if (authenticatedState == null || authenticatedState) {
+    if (authenticatedState == null) {
+      await Cache().setAuth(false);
+      _isAuthenticated = false;
+    } else if (authenticatedState) {
       await Cache().setAuth(false);
       _isAuthenticated = false;
     } else {
