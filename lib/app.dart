@@ -17,11 +17,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void initialization() async {
-    print("Initializing app...");
-    await Future.delayed(const Duration(microseconds: 2500));
-    print("End splash...");
-    FlutterNativeSplash
-        .remove(); // Remove the splash screen after initialization
+    await Future.delayed(const Duration(microseconds: 2000));
+    FlutterNativeSplash.remove();
   }
 
   @override

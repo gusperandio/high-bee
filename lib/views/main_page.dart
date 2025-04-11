@@ -69,45 +69,58 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
-      child: AppContainer(
-        body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
-        bottomNavigationBar: Theme(
-          data: Theme.of(context).copyWith(
-              splashFactory: NoSplash.splashFactory,
-              highlightColor: Colors.transparent),
-          child: BottomNavigationBar(
-            backgroundColor: PrimaryColors.carvaoColor,
-            elevation: 0,
-            unselectedItemColor: const Color(0xFF8F9BBA),
-            type: BottomNavigationBarType.fixed,
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: getIcon('house', isSelected: _selectedIndex == 0),
-                  label: "Inicio"),
-              BottomNavigationBarItem(
-                  icon: getIcon('layers', isSelected: _selectedIndex == 1),
-                  label: "Concurso"),
-              BottomNavigationBarItem(
-                  icon: getIcon('cannabis', isSelected: _selectedIndex == 2),
-                  label: "Strains"),
-              BottomNavigationBarItem(
-                  icon: getIcon('trophy', isSelected: _selectedIndex == 3),
-                  label: "Exemplo"),
-              BottomNavigationBarItem(
-                  icon: getIcon('user', isSelected: _selectedIndex == 4),
-                  label: "Perfil"),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: _selectedIndex != 2
-                ? PrimaryColors.highBeeColor
-                : Colors.greenAccent,
-            unselectedLabelStyle: optionStyle,
-            selectedLabelStyle: optionStyle,
-            onTap: _onItemTapped,
+        length: 5,
+        child: AppContainer(
+          body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+                splashFactory: NoSplash.splashFactory,
+                highlightColor: Colors.transparent),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: PrimaryColors.carvaoColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: BottomNavigationBar(
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                  backgroundColor: PrimaryColors.carvaoColor,
+                  elevation: 10,
+                  unselectedItemColor: const Color(0xFF8F9BBA),
+                  type: BottomNavigationBarType.fixed,
+                  items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                        icon: getIcon('house', isSelected: _selectedIndex == 0),
+                        label: "Inicio"),
+                    BottomNavigationBarItem(
+                        icon:
+                            getIcon('layers', isSelected: _selectedIndex == 1),
+                        label: "Concurso"),
+                    BottomNavigationBarItem(
+                        icon: getIcon('cannabis',
+                            isSelected: _selectedIndex == 2),
+                        label: "Strains"),
+                    BottomNavigationBarItem(
+                        icon:
+                            getIcon('trophy', isSelected: _selectedIndex == 3),
+                        label: "Exemplo"),
+                    BottomNavigationBarItem(
+                        icon: getIcon('user', isSelected: _selectedIndex == 4),
+                        label: "Perfil"),
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: _selectedIndex != 2
+                      ? PrimaryColors.highBeeColor
+                      : Colors.greenAccent,
+                  unselectedLabelStyle: optionStyle,
+                  selectedLabelStyle: optionStyle,
+                  onTap: _onItemTapped,
+                ),
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 }

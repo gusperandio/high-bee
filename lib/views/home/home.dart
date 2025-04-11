@@ -1,11 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
-import 'package:high_bee/components/styles/colors.dart';
-import 'package:high_bee/providers/authentication_state.dart';
-import 'package:high_bee/util/provider.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,17 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String myBackground = 'assets/images/Screenshot_0.png'; // valor inicial
-
+  String myBackground = 'assets/images/Screenshot_0.png';
   @override
   Widget build(BuildContext context) {
-    final authState = MSProvider.get<AuthenticationState>(context);
-    final SvgPicture svgHouse = SvgPicture.asset(
-      'assets/svg/house.svg',
-      width: 42,
-      height: 42,
-      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-    );
     List<String> generateTitles(int count) {
       return List<String>.generate(count, (index) => "");
     }
@@ -69,12 +57,12 @@ class _HomePageState extends State<HomePage> {
                   image: AssetImage(myBackground),
                   fit: BoxFit.cover,
                 ),
-              ), // Cor de fundo com transparência
+              ),
             ),
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-                color: Colors.transparent, // para manter a cor original
+                color: Colors.transparent,
               ),
             ),
             Column(children: [

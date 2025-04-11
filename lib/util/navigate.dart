@@ -13,6 +13,11 @@ class MSNavigate {
     Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
   }
 
+ static void replaceWithName(BuildContext context, String nameRoute,
+      {Object? arguments}) {
+    Navigator.pushReplacementNamed(context, nameRoute, arguments: arguments);
+  }
+
   static void back(context) {
     Navigator.of(context).pop();
   }

@@ -21,7 +21,7 @@ class DialogHelper {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
           child: SizedBox(
             width: width ??
-                MediaQuery.of(context).size.width * 0.8, // Define a largura
+                MediaQuery.of(context).size.width * 0.8,  
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(

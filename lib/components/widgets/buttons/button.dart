@@ -25,7 +25,6 @@ class Button extends StatefulWidget {
     required this.shape,
   });
 
-  // Construtores nomeados para variantes
   factory Button.info({
     String? title,
     Widget? startContent,

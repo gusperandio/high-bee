@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/providers/authentication_state.dart';
-import 'package:high_bee/util/provider.dart'; 
+import 'package:high_bee/util/provider.dart';
 import 'package:high_bee/views/main_page.dart';
-import 'package:high_bee/views/welcome.dart';
+import 'package:high_bee/views/login/welcome.dart';
 
 class HandlerAuthenticate extends StatelessWidget {
   static const routeName = '/';

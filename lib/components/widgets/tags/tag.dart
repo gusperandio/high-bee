@@ -126,7 +126,7 @@ class Tag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: 8, vertical: 0), // Adjusts size dynamically
+          horizontal: 8, vertical: 0), 
       decoration: BoxDecoration(
         color: backgroundColor,
         border: Border.all(color: borderColor, width: 1),

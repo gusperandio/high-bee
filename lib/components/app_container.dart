@@ -32,7 +32,6 @@ class AppContainer extends StatelessWidget {
       value: SystemUiOverlayStyle(
         statusBarColor: statusBarColor ?? Colors.transparent,
         statusBarIconBrightness: statusBarIconBrightness ?? Brightness.light,
-        statusBarBrightness: statusBarBrightness ?? Brightness.dark,
         systemNavigationBarColor: systemNavigationBarColor ?? Colors.black,
         systemNavigationBarIconBrightness:
             systemNavigationBarIconBrightness ?? Brightness.light,

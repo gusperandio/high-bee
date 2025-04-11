@@ -177,7 +177,7 @@ class ButtonOutlineState extends State<ButtonOutline> {
             WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
           return widget.hasBackground
               ? widget.hoverColor
-              : Colors.transparent; // Small padding
+              : Colors.transparent;  
         }),
         side: WidgetStateProperty.resolveWith<BorderSide>(
             (Set<WidgetState> states) {

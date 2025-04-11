@@ -1,4 +1,3 @@
-// stores ExpansionPanel state information
 import 'package:flutter/material.dart';
 import 'package:high_bee/components/styles/colors.dart';
 
