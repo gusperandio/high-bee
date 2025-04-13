@@ -71,17 +71,41 @@ class _MainPageState extends State<MainPage> {
     return DefaultTabController(
         length: 5,
         child: AppContainer(
+          floatingActionButton: _selectedIndex == 0
+              ? FloatingActionButton(
+                  mini: true,
+                  onPressed: () {
+                    // ação ao clicar
+                    print('Botão flutuante clicado!');
+                  },
+                  backgroundColor: PrimaryColors.highBeeColor,
+                  child: SvgPicture.asset(
+                    'assets/svg/feather.svg',
+                    width: 20,
+                    height: 20,
+                    colorFilter:
+                        const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                  ),
+                )
+              : null,
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          backgroundColor: PrimaryColors.highBeeColor,
           body: IndexedStack(index: _selectedIndex, children: _widgetOptions),
           bottomNavigationBar: Theme(
             data: Theme.of(context).copyWith(
                 splashFactory: NoSplash.splashFactory,
                 highlightColor: Colors.transparent),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              ),
               child: Container(
                 decoration: BoxDecoration(
-                  color: PrimaryColors.carvaoColor,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
                 ),
                 child: BottomNavigationBar(
                   showSelectedLabels: false,

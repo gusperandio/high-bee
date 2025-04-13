@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:high_bee/components/styles/colors.dart';
 
-modalBottom({
+Future<dynamic> modalBottom({
   required BuildContext context,
   required Widget content,
   required String title,
@@ -10,7 +10,7 @@ modalBottom({
   bool divider = true,
   Color? closeColor,
 }) {
-  showModalBottomSheet(
+  return showModalBottomSheet(
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.white,
@@ -39,8 +39,8 @@ modalBottom({
                       onTap: () => Navigator.pop(context),
                       child: SvgPicture.asset(
                         'assets/svg/x.svg',
-                        width: 22,
-                        height: 22,
+                        width: 32,
+                        height: 32,
                         colorFilter: ColorFilter.mode(
                             closeColor ?? SecondaryColors.danger,
                             BlendMode.srcIn),

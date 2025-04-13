@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/router.dart';
 
 class MyApp extends StatefulWidget {
@@ -24,6 +25,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'High Bee',
+      locale: const Locale('pt', 'BR'),
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: PrimaryColors.carvaoColor,
+          selectionColor: PrimaryColors.highBeeColor,
+          selectionHandleColor: Colors.amber,
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       restorationScopeId: 'app',
       supportedLocales: const [Locale('en', 'pt-BR')],
