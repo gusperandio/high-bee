@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/handler_authenticate.dart';
 import 'package:high_bee/views/home/home.dart';
+import 'package:high_bee/views/loading/loading_page.dart';
 import 'package:high_bee/views/login/login.dart';
 import 'package:high_bee/views/login/welcome.dart';
 import 'package:high_bee/views/register/rules.dart';
@@ -16,6 +17,7 @@ class MSRouter {
         RegisterPage.routeName: (context) => const RegisterPage(),
         ValidationDatas.routeName: (context) => const ValidationDatas(),
         RulesPage.routeName: (context) => const RulesPage(),
+        LoadingPage.routeName: (context) => const LoadingPage(),
       };
 
   static MaterialPageRoute onGenerateRoute(RouteSettings routeSettings) =>

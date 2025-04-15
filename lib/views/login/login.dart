@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
+import 'package:high_bee/components/widgets/separator/separator.dart';
 import 'package:high_bee/components/widgets/watermaker/watermaker.dart';
 import 'package:high_bee/providers/authentication_state.dart';
 import 'package:high_bee/util/navigate.dart';
@@ -152,29 +153,14 @@ class LoginPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        const Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black,
-                            endIndent: 8,
-                          ),
-                        ),
-                        const Text("Ou acesse com",
+                    Separator(
+                        color: Colors.black,
+                        content: const Text("Ou acesse com",
                             style: TextStyle(
                                 fontSize: 15,
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w500)),
-                        const Expanded(
-                          child: Divider(
-                            thickness: 1,
-                            color: Colors.black,
-                            indent: 8,
-                          ),
-                        ),
-                      ],
-                    ),
+                        size: 1),
                     SizedBox(
                         width: double.infinity,
                         height: 55,
