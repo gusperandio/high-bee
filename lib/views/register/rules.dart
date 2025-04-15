@@ -287,7 +287,7 @@ class RulesPage extends StatelessWidget {
                                   title: "Continuar",
                                   onPressed: () {
                                     if (isChecked) {
-                                      MSNavigate.replaceWithName(
+                                      MSNavigate.toName(
                                           context, LoadingPage.routeName);
                                     } else {
                                       // Show a message to the user

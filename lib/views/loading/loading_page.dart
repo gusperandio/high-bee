@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/providers/authentication_state.dart';
+import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/util/provider.dart';
 
 class LoadingPage extends StatefulWidget {
@@ -14,16 +15,22 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  @override
-  void initState() {
-    super.initState();
-    final authState = MSProvider.get<AuthenticationState>(context);
+  AuthenticationState? authState;
 
-    Future.delayed(const Duration(seconds: 5), () {
-      if (mounted) {
-        authState.login();
-      }
-    });
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (authState == null) {
+      authState = MSProvider.get<AuthenticationState>(context);
+
+      Future.delayed(const Duration(seconds: 8), () {
+        if (context.mounted) {
+          authState!.login();
+          MSNavigate.toRoot(context);
+        }
+      });
+    }
   }
 
   @override

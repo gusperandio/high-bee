@@ -11,11 +11,11 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  await dotenv.load(fileName: ".env");
+  await Cache().init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await Cache().init();
-  await dotenv.load(fileName: ".env");
   runApp(
     ChangeNotifierProvider(
         create: (context) => AuthenticationState(), child: const MyApp()),
