@@ -350,7 +350,7 @@ class _ValidationDatasState extends State<ValidationDatas> {
                     ),
                     child: ListTile(
                       leading: SvgPicture.asset(
-                        'assets/svg/person-standing.svg',
+                        'assets/svg/calendar.svg',
                         width: 32,
                         height: 32,
                         colorFilter:
