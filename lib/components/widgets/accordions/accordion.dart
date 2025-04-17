@@ -26,77 +26,87 @@ class _AccordionState extends State<Accordion> {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionPanelList(
-      elevation: 0,
-      expansionCallback: (int index, bool isExpanded) {
-        setState(() {
-          _isExpanded = !_isExpanded;
-        });
-      },
-      expandIconColor: Colors.white,
-      children: [
-        ExpansionPanel(
-          backgroundColor: widget.background ?? PrimaryColors.highBeeColor,
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ListTile(
-              contentPadding: EdgeInsets.only(left: 20),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: PrimaryColors.carvaoColor, // Border color
+        ),
+        borderRadius: BorderRadius.circular(8.0), // Border radius
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8.0),
+        child: ExpansionPanelList(
+          elevation: 0,
+          expansionCallback: (int index, bool isExpanded) {
+            setState(() {
+              _isExpanded = !_isExpanded;
+            });
+          },
+          expandIconColor: PrimaryColors.carvaoColor,
+          children: [
+            ExpansionPanel(
+              backgroundColor: widget.background ?? PrimaryColors.highBeeColor,
+              headerBuilder: (BuildContext context, bool isExpanded) {
+                return ListTile(
+                  contentPadding: EdgeInsets.only(left: 20),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        widget.title,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Urbanist',
-                            fontWeight: FontWeight.bold),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.title,
+                            style: TextStyle(
+                                color: PrimaryColors.carvaoColor,
+                                fontFamily: 'Urbanist',
+                                fontWeight: FontWeight.bold),
+                          ),
+                          widget.description != null
+                              ? Text(
+                                  widget.description!,
+                                  style: TextStyle(
+                                    color: PrimaryColors.carvaoColor,
+                                    fontFamily: 'Urbanist',
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ],
                       ),
                       Visibility(
-                        visible: widget.description != null,
-                        child: Text(
-                          widget.description!,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Urbanist',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w300,
+                        visible: widget.auxiliarBtn != null,
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isExpanded = !_isExpanded;
+                            });
+                          },
+                          child: Text(
+                            "DETALHES",
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.white,
+                              color: Colors.white,
+                              fontFamily: 'AlegreyaSans',
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  Visibility(
-                    visible: widget.auxiliarBtn != null,
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _isExpanded = !_isExpanded;
-                        });
-                      },
-                      child: Text(
-                        "DETALHES",
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.white,
-                          color: Colors.white,
-                          fontFamily: 'AlegreyaSans',
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          body: widget.content,
-          isExpanded: _isExpanded,
+                );
+              },
+              body: widget.content,
+              isExpanded: _isExpanded,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
