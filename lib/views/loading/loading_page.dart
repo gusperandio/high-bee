@@ -24,7 +24,7 @@ class _LoadingPageState extends State<LoadingPage> {
     if (authState == null) {
       authState = MSProvider.get<AuthenticationState>(context);
 
-      Future.delayed(const Duration(seconds: 8), () {
+      Future.delayed(const Duration(seconds: 10), () {
         if (context.mounted) {
           authState!.login();
           MSNavigate.toRoot(context);
@@ -43,44 +43,47 @@ class _LoadingPageState extends State<LoadingPage> {
           children: [
             Loading(size: 160),
             const SizedBox(height: 24),
-            SizedBox(
-              height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    'Seja',
-                    style: TextStyle(
-                      fontSize: 40.0,
-                      fontFamily: 'Urbanist',
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  SizedBox(
-                    width: 220,
-                    child: DefaultTextStyle(
-                      style: const TextStyle(
+            Padding(
+              padding: const EdgeInsets.only(left: 50),
+              child: SizedBox(
+                height: 60,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text(
+                      'Seja',
+                      style: TextStyle(
                         fontSize: 40.0,
                         fontFamily: 'Urbanist',
                       ),
-                      child: AnimatedTextKit(
-                        isRepeatingAnimation: true,
-                        repeatForever: true,
-                        animatedTexts: [
-                          RotateAnimatedText('Bem-vindo',
-                              transitionHeight: 120,
-                              alignment: Alignment.centerLeft),
-                          RotateAnimatedText('Legal',
-                              transitionHeight: 120,
-                              alignment: Alignment.centerLeft),
-                          RotateAnimatedText('Informativo',
-                              transitionHeight: 120,
-                              alignment: Alignment.centerLeft),
-                        ],
+                    ),
+                    const SizedBox(width: 10),
+                    SizedBox(
+                      width: 220,
+                      child: DefaultTextStyle(
+                        style: const TextStyle(
+                          fontSize: 40.0,
+                          fontFamily: 'Urbanist',
+                        ),
+                        child: AnimatedTextKit(
+                          isRepeatingAnimation: true,
+                          repeatForever: true,
+                          animatedTexts: [
+                            RotateAnimatedText('Bem-vindo',
+                                transitionHeight: 120,
+                                alignment: Alignment.centerLeft),
+                            RotateAnimatedText('Legal',
+                                transitionHeight: 120,
+                                alignment: Alignment.centerLeft),
+                            RotateAnimatedText('Informativo',
+                                transitionHeight: 120,
+                                alignment: Alignment.centerLeft),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

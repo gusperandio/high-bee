@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
-import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/components/widgets/separator/separator.dart';
 import 'package:high_bee/components/widgets/watermaker/watermaker.dart';
 import 'package:high_bee/util/navigate.dart';
@@ -209,12 +208,12 @@ class RulesPage extends StatelessWidget {
                             rule['rule'], rule['ruleValid'], context),
                       );
                     }),
-                    Image.asset(
-                      "assets/images/smile.png",
-                      fit: BoxFit.cover,
-                      width: 150,
-                      height: 110,
-                    ),
+                    // Image.asset(
+                    //   "assets/images/smile.png",
+                    //   fit: BoxFit.cover,
+                    //   width: 150,
+                    //   height: 110,
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(top: 12, bottom: 8),
                       child: Separator(

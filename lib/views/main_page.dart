@@ -7,6 +7,7 @@ import 'package:high_bee/views/competition/competition.dart';
 import 'package:high_bee/views/home/home.dart';
 import 'package:high_bee/views/post/title_post.dart';
 import 'package:high_bee/views/profile/profile.dart';
+import 'package:high_bee/views/saved/saved.dart';
 import 'package:high_bee/views/stickers/stciker.dart';
 import 'package:high_bee/views/strain/strain.dart';
 
@@ -56,9 +57,9 @@ class _MainPageState extends State<MainPage> {
       TextStyle(fontSize: 12, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    CompetitionPage(),
-    StrainPage(),
     StickerPage(),
+    StrainPage(),
+    SavedPage(),
     ProfilePage(),
   ];
 
@@ -128,8 +129,8 @@ class _MainPageState extends State<MainPage> {
                             isSelected: _selectedIndex == 2),
                         label: "Strains"),
                     BottomNavigationBarItem(
-                        icon:
-                            getIcon('trophy', isSelected: _selectedIndex == 3),
+                        icon: getIcon('bookmark',
+                            isSelected: _selectedIndex == 3),
                         label: "Exemplo"),
                     BottomNavigationBarItem(
                         icon: getIcon('user', isSelected: _selectedIndex == 4),

@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   firebase_core: ^3.12.0
+  carousel_slider: ^5.0.0
   vertical_card_pager: ^1.6.3
   share_plus: ^10.1.4
   lottie: ^3.3.1
@@ -95,6 +96,7 @@ flutter:
     - assets/images/icon_launcher.png
     - assets/images/flor.png
     - assets/images/smile.png
+    - assets/images/stoner.png
     - assets/images/marcadagua.png
     - assets/images/Screenshot_0.png
     - assets/images/Screenshot_1.png
@@ -112,6 +114,7 @@ flutter:
     - assets/svg/calendar.svg
     - assets/svg/cannabis.svg
     - assets/svg/chevron-left.svg
+    - assets/svg/chevron-right.svg
     - assets/svg/check-check.svg
     - assets/svg/feather.svg
     - assets/svg/flag.svg
@@ -139,6 +142,9 @@ flutter:
     - assets/lottie/loading.json
     - assets/svg/rules/title_rule.svg
     - assets/svg/rules/cape_rule.svg
+    - assets/svg/rules/all_content.svg
+    - assets/svg/rules/copy_paste.svg
+    - assets/svg/rules/keyboards.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
@@ -216,6 +222,49 @@ flutter:
           weight: 900
         - asset: assets/fonts/Urbanist-BlackItalic.ttf
           weight: 900
+          style: italic
+
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Nunito-BlackItalic.ttf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/Nunito-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Nunito-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Nunito-ExtraBold.ttf
+          weight: 800
+        - asset: assets/fonts/Nunito-ExtraBoldItalic.ttf
+          weight: 800
+          style: italic
+        - asset: assets/fonts/Nunito-ExtraLight.ttf
+          weight: 200
+        - asset: assets/fonts/Nunito-ExtraLightItalic.ttf
+          weight: 200
+          style: italic
+        - asset: assets/fonts/Nunito-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/Nunito-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Nunito-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/Nunito-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Nunito-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Nunito-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Nunito-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Nunito-SemiBoldItalic.ttf
+          weight: 600
           style: italic
 
   #
