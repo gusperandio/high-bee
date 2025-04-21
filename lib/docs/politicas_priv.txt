@@ -1,0 +1,69 @@
+Política de Privacidade - High Bee
+
+1. Introdução
+Esta Política de Privacidade descreve como o aplicativo High Bee coleta, usa, armazena e compartilha seus dados pessoais, conforme a Lei Geral de Proteção de Dados Pessoais (Lei nº 13.709/2018 - LGPD).
+
+2. Dados Coletados
+Coletamos as seguintes informações pessoais:
+
+Nome e e-mail no momento do cadastro;
+
+Dados de uso, como visualizações, interações e postagens;
+
+Dados de pagamento, quando aplicável (assinaturas);
+
+Endereço IP e dados do dispositivo.
+
+3. Uso dos Dados
+Os dados são utilizados para:
+
+Permitir o funcionamento da plataforma;
+
+Personalizar a experiência do usuário;
+
+Gerenciar o sistema de aprovação e moderação de conteúdo;
+
+Processar pagamentos de funcionalidades premium;
+
+Enviar comunicações importantes relacionadas ao uso da plataforma;
+
+Atender a obrigações legais.
+
+4. Compartilhamento de Dados
+Não compartilhamos seus dados com terceiros, exceto:
+
+Com provedores de serviços essenciais (ex: servidores, processadores de pagamento);
+
+Quando exigido por ordem judicial ou autoridade legal competente;
+
+Em caso de investigações de violação dos Termos de Uso.
+
+5. Armazenamento e Segurança
+Os dados são armazenados em ambientes seguros, utilizando criptografia e boas práticas de segurança. O usuário pode solicitar a exclusão de seus dados a qualquer momento, conforme disposição da LGPD.
+
+6. Cookies e Tecnologias Similares
+Utilizamos cookies e tecnologias similares para analisar o desempenho do aplicativo, lembrar preferências e melhorar a experiência do usuário.
+
+7. Direitos do Usuário
+O usuário tem os seguintes direitos:
+
+Acessar seus dados pessoais;
+
+Corrigir dados incorretos ou incompletos;
+
+Solicitar exclusão ou anonimização;
+
+Revogar consentimentos previamente dados;
+
+Portar seus dados para outro serviço.
+
+8. Retenção de Dados
+Os dados são mantidos enquanto o usuário mantiver conta ativa ou conforme exigido por lei. Dados relacionados às interações e publicações podem ser mantidos para fins legais mesmo após exclusão da conta.
+
+9. Atualizações da Política
+Esta Política de Privacidade pode ser atualizada periodicamente. Notificaremos os usuários em caso de alterações significativas.
+
+10. Contato
+Em caso de dúvidas ou solicitações sobre privacidade, entre em contato: high.bee.cannabis@gmail.com
+
+Versão: 1.0 | Atualizado em: abril de 2025
