@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/handler_authenticate.dart';
+import 'package:high_bee/viewmodel/counter.dart';
+import 'package:high_bee/viewmodel/login_view_model.dart';
+import 'package:high_bee/viewmodel/register_view_model.dart';
+import 'package:high_bee/views/counter/counter.dart';
 import 'package:high_bee/views/home/home.dart';
 import 'package:high_bee/views/loading/loading_page.dart';
 import 'package:high_bee/views/login/login.dart';
@@ -11,15 +15,24 @@ import 'package:high_bee/views/post/title_post.dart';
 import 'package:high_bee/views/register/rules.dart';
 import 'package:high_bee/views/register/validation_datas.dart';
 import 'package:high_bee/views/register/register.dart';
+import 'package:provider/provider.dart';
 
 class MSRouter {
   static Map<String, Widget Function(BuildContext)> routes() => {
     HandlerAuthenticate.routeName: (context) => const HandlerAuthenticate(),
     WelcomePage.routeName: (context) => const WelcomePage(),
     HomePage.routeName: (context) => const HomePage(),
-    LoginPage.routeName: (context) => const LoginPage(),
+    LoginPage.routeName:
+        (context) => ChangeNotifierProvider(
+          create: (_) => LoginViewModel(),
+          child: const LoginPage(),
+        ),
     RecoveryPasswordPage.routeName: (context) => const RecoveryPasswordPage(),
-    RegisterPage.routeName: (context) => const RegisterPage(),
+    RegisterPage.routeName:
+        (context) => ChangeNotifierProvider(
+          create: (_) => RegisterViewModel(),
+          child: const RegisterPage(),
+        ),
     ValidationDatas.routeName: (context) => const ValidationDatas(),
     RulesPage.routeName: (context) => const RulesPage(),
     LoadingPage.routeName: (context) => const LoadingPage(),

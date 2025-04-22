@@ -35,6 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   firebase_core: ^3.13.0
+  firebase_messaging: ^15.2.5
   carousel_slider: ^5.0.0
   vertical_card_pager: ^1.6.3
   share_plus: ^10.1.4
@@ -48,7 +49,7 @@ dependencies:
   flex_color_picker: ^3.7.0
   animate_do: ^4.2.0
   provider: ^6.1.4
-  permission_handler: ^11.4.0
+  permission_handler: ^12.0.0+1
   cached_network_image: ^3.4.1
   image_picker: ^1.1.2
   blur: ^4.0.2
@@ -67,6 +68,7 @@ dependencies:
   google_sign_in: ^6.3.0
   firebase_auth: ^5.5.2
   connectivity_plus: ^6.1.3
+  email_validator: ^3.0.0
 
 dev_dependencies:
   flutter_test:
