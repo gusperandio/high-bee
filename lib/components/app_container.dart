@@ -12,8 +12,8 @@ class AppContainer extends StatelessWidget {
   final Brightness? statusBarBrightness;
   final Color? systemNavigationBarColor;
   final Brightness? systemNavigationBarIconBrightness;
-  final FloatingActionButton ? floatingActionButton;
-  final FloatingActionButtonLocation ? floatingActionButtonLocation;
+  final FloatingActionButton? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   const AppContainer({
     super.key,
@@ -44,10 +44,13 @@ class AppContainer extends StatelessWidget {
         resizeToAvoidBottomInset: true,
         backgroundColor: backgroundColor ?? PrimaryColors.highBeeColor,
         appBar: appBar,
-        body: SafeArea(child: body!),
+        body:
+            Theme.of(context).platform == TargetPlatform.android
+                ? SafeArea(child: body!)
+                : body!,
         bottomNavigationBar: bottomNavigationBar,
-        floatingActionButton : floatingActionButton,
-        floatingActionButtonLocation : floatingActionButtonLocation,
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: floatingActionButtonLocation,
       ),
     );
   }
