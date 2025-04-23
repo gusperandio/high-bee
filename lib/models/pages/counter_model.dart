@@ -4,4 +4,8 @@ class CounterModel {
   void increment() {
     count++;
   }
+
+  void zera() {
+    count = 0;
+  }
 }

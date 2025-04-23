@@ -4,10 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/bullet_point/bullet_point.dart';
-import 'package:high_bee/components/widgets/buttons/button.dart';
 import 'package:high_bee/components/widgets/buttons/button_circle.dart';
 import 'package:high_bee/components/widgets/separator/separator.dart';
-import 'package:high_bee/components/widgets/watermaker/watermaker.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?auto=format&fit=crop&w=1951&q=80',

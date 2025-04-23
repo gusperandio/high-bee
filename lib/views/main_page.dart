@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/util/navigate.dart';
-import 'package:high_bee/views/competition/competition.dart';
 import 'package:high_bee/views/home/home.dart';
 import 'package:high_bee/views/post/title_post.dart';
 import 'package:high_bee/views/profile/profile.dart';

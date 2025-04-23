@@ -1,9 +1,5 @@
-import 'dart:ui';
-
 import 'package:blur/blur.dart';
-import 'package:flutter/material.dart';
-import 'package:high_bee/components/app_container.dart';
-import 'package:high_bee/components/styles/colors.dart';
+import 'package:flutter/material.dart'; 
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class HomePage extends StatefulWidget {

@@ -6,10 +6,12 @@ import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
 import 'package:high_bee/components/widgets/separator/separator.dart';
 import 'package:high_bee/components/widgets/toasts/toast.dart';
+import 'package:high_bee/components/widgets/topbar/topbar.dart';
 import 'package:high_bee/components/widgets/watermaker/watermaker.dart';
 import 'package:high_bee/util/navigate.dart';
-import 'package:high_bee/viewmodel/register_view_model.dart';
-import 'package:high_bee/views/register/validation_datas.dart';
+import 'package:high_bee/util/field_validator.dart';
+import 'package:high_bee/viewmodel/register/register_view_model.dart';
+import 'package:high_bee/views/validation/validation.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -28,42 +30,29 @@ class _RegisterPageState extends State<RegisterPage> {
     return Consumer<RegisterViewModel>(
       builder: (context, vm, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.isLogged) {
-            MSNavigate.toName(context, ValidationDatas.routeName);
+          if (vm.isRegistered) {
+            MSNavigate.replaceWithName(context, ValidationDatas.routeName);
           }
+
           if (vm.errorMessage != null) {
-            Toast.show(context, vm.errorMessage!, SecondaryColors.danger);
+            Toast.show(context, vm.errorMessage!, variant: Variant.danger);
             vm.errorMessage = null;
           }
         });
 
         return AppContainer(
+          appBar: TopBar(),
           body: KeyboardDismissOnTap(
             child: Column(
               children: [
                 Container(
-                  height: 300,
+                  height: 220,
                   width: double.infinity,
                   color: PrimaryColors.highBeeColor,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: GestureDetector(
-                          onTap: () => {MSNavigate.toRoot(context)},
-                          child: SvgPicture.asset(
-                            'assets/svg/arrow-left.svg',
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(
-                              Colors.black,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                        ),
-                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Cadastrar",
+                                  "Cadastro",
                                   style: TextStyle(
                                     fontSize: 32,
                                     fontFamily: 'Urbanist',
@@ -150,7 +139,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                   keyboardType: TextInputType.emailAddress,
                                   validator:
-                                      (value) => viewModel.validateEmail(value),
+                                      (value) =>
+                                          FieldValidator.validateEmail(value),
                                 ),
                                 SizedBox(height: 16),
                                 TextFormField(
@@ -196,7 +186,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                   obscureText: viewModel.obscurePass,
                                   validator:
                                       (value) =>
-                                          viewModel.validatePassword(value),
+                                          FieldValidator.validatePassword(
+                                            value,
+                                          ),
                                 ),
                                 SizedBox(height: 16),
                                 TextFormField(
@@ -241,14 +233,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                   ),
                                   obscureText: viewModel.obscureConfirm,
                                   validator:
-                                      (value) => viewModel
-                                          .validateConfirmPassword(value),
+                                      (value) =>
+                                          viewModel.validateConfirmPassword(),
                                 ),
                                 SizedBox(height: 24),
                                 SizedBox(
                                   width: double.infinity,
                                   child: Button.def(
-                                    title: viewModel.isLoading ? "" : "Acessar",
+                                    title:
+                                        viewModel.isLoading ? "" : "Cadastrar",
                                     startContent:
                                         viewModel.isLoading
                                             ? SizedBox(

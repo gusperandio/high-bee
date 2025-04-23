@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:high_bee/services/auth/auth_service.dart';
 import 'package:high_bee/util/cache.dart';
 
 class AuthenticationState extends ChangeNotifier {
@@ -28,7 +29,10 @@ class AuthenticationState extends ChangeNotifier {
 
   void logout() async {
     bool? authenticatedState = Cache().getAuth();
-
+    
+    final auth = AuthService();
+    auth.logoutFirebase();
+    
     if (authenticatedState == null) {
       await Cache().setAuth(false);
       _isAuthenticated = false;

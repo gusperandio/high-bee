@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
-import 'package:high_bee/util/navigate.dart';
-import 'package:high_bee/views/counter/counter.dart';
+import 'package:high_bee/util/navigate.dart'; 
 import 'package:high_bee/views/login/login.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -29,6 +28,7 @@ class WelcomePage extends StatelessWidget {
               child: Column(
                 spacing: 18,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
                     'Bem-vindo a \nnossa causa!',
@@ -49,7 +49,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     child: Button.def(

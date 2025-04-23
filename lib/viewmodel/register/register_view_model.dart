@@ -2,54 +2,44 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:high_bee/services/auth/auth_service.dart';
+import 'package:high_bee/util/field_validator.dart';
 import 'package:high_bee/util/internet_check.dart';
 
-class LoginViewModel extends ChangeNotifier {
+class RegisterViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
 
-  bool obscurePass = false;
+  String get email => emailController.text;
+  String get password => passwordController.text;
+  String get confirm => confirmController.text;
+
+  bool obscurePass = true;
+  bool obscureConfirm = true;
   bool isLoading = false;
-  bool isLogged = false;
-  bool hasNavigated = false;
+  bool isRegistered = false;
   String? errorMessage;
 
-  void togglePasswordVisibility() {
-    obscurePass = !obscurePass;
+  void togglePasswordVisibility({required bool isPassword}) {
+    if (isPassword) {
+      obscurePass = !obscurePass;
+    } else {
+      obscureConfirm = !obscureConfirm;
+    }
     notifyListeners();
   }
 
-  String? validateField({
-    required String? value,
-    required String emptyMessage,
-    String? Function(String)? additionalValidation,
-  }) {
-    if (value == null || value.isEmpty) {
-      return emptyMessage;
-    }
-    return additionalValidation?.call(value);
-  }
-
-  String? validateEmail(String? value) {
-    return validateField(
-      value: value,
-      emptyMessage: 'Por favor, insira seu e-mail',
-      additionalValidation:
-          (email) => EmailValidator.validate(email) ? null : 'Email incoerente',
-    );
-  }
-
-  String? validatePassword(String? value) {
-    return validateField(value: value, emptyMessage: 'Informe a senha');
+  String? validateConfirmPassword() {
+    return FieldValidator.validateConfirmPassword(confirm, password);
   }
 
   Future<void> signUpWithGoogle() async {
     try {
       final userCredential = await AuthService().signInWithGoogle();
-      isLogged = userCredential.user != null;
+      isRegistered = userCredential.user != null;
       errorMessage =
-          isLogged ? null : "Erro ao entrar com Google. Tente novamente.";
+          isRegistered ? null : "Erro ao entrar com Google. Tente novamente.";
     } catch (e) {
       errorMessage = "Erro ao entrar com Google. Tente novamente.";
     } finally {
@@ -57,7 +47,7 @@ class LoginViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> signInUser() async {
+  Future<void> signUpUser() async {
     if (await ConnectivityStatusChecker.isOffline()) {
       errorMessage = "Sem conexão com a internet!";
       notifyListeners();
@@ -69,13 +59,11 @@ class LoginViewModel extends ChangeNotifier {
     _setLoadingState(true);
 
     try {
-      await Future.delayed(const Duration(seconds: 3));
-      await AuthService().signInWithEmailAndPassword(
-        email: emailController.text.trim(),
+      await AuthService().signUpWithEmailAndPassword(
+        email: email.trim(),
         password: passwordController.text,
       );
-      isLogged = true;
-      
+      isRegistered = true;
     } on FirebaseAuthException catch (e) {
       errorMessage = _getFirebaseAuthErrorMessage(e.code);
     } finally {
@@ -84,7 +72,18 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   String _getFirebaseAuthErrorMessage(String errorCode) {
-    return 'Usuário ou senha incorretos!';
+    switch (errorCode) {
+      case 'email-already-in-use':
+        return 'Esse e-mail já está sendo usado.';
+      case 'invalid-email':
+        return 'E-mail inválido.';
+      case 'weak-password':
+        return 'Senha fraca. Use no mínimo 6 caracteres.';
+      case 'user-disabled':
+        return 'Você foi banido!';
+      default:
+        return 'Ocorreu um erro inesperado.';
+    }
   }
 
   void _setLoadingState(bool state) {
@@ -96,6 +95,7 @@ class LoginViewModel extends ChangeNotifier {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    confirmController.dispose();
     super.dispose();
   }
 }

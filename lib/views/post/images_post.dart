@@ -7,7 +7,7 @@ import 'package:high_bee/components/widgets/accordions/accordion.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
 import 'package:high_bee/components/widgets/dotted_card/dotted_card.dart';
 import 'package:high_bee/util/navigate.dart';
-import 'package:high_bee/views/register/validation_datas.dart';
+import 'package:high_bee/views/validation/validation.dart';
 //TECNOLOGIA OU ANTIGO
 class ImagePostPage extends StatelessWidget {
   static const routeName = 'image_post';

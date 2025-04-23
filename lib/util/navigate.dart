@@ -13,8 +13,15 @@ class MSNavigate {
     Navigator.of(context).pushNamedAndRemoveUntil('/', (_) => false);
   }
 
- static void replaceWithName(BuildContext context, String nameRoute,
-      {Object? arguments}) {
+  static void toSpecific(context, String nameRoute) {
+    Navigator.of(context).pushNamedAndRemoveUntil(nameRoute, (_) => false);
+  }
+
+  static void replaceWithName(
+    BuildContext context,
+    String nameRoute, {
+    Object? arguments,
+  }) {
     Navigator.pushReplacementNamed(context, nameRoute, arguments: arguments);
   }
 

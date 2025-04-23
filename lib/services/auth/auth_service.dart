@@ -2,10 +2,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
+  static final AuthService _instance = AuthService._internal();
+
+  factory AuthService() {
+    return _instance;
+  }
+
+  AuthService._internal();
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   User? getCurrentUser() {
     return _firebaseAuth.currentUser;
+  }
+
+  String? getCurrentUIDUser() {
+    return _firebaseAuth.currentUser!.uid;
   }
 
   Future<void> signOut() async {
@@ -35,7 +47,6 @@ class AuthService {
     );
   }
 
-
   Future<UserCredential> signUpWithEmailAndPassword({
     required String email,
     required String password,
@@ -46,4 +57,11 @@ class AuthService {
     return userCredential;
   }
 
+  Future<void> passwordReset(String email) async {
+    return await _firebaseAuth.sendPasswordResetEmail(email: email.trim());
+  }
+
+  Future<void> logoutFirebase() async {
+    await _firebaseAuth.signOut();
+  }
 }
