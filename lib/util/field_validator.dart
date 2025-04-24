@@ -48,4 +48,11 @@ class FieldValidator {
                   : 'As senhas não coincidem',
     );
   }
+
+  static String? validateName(String? value) {
+    return validateField(
+      value: value,
+      emptyMessage: 'Informe seu nome',
+    );
+  }
 }

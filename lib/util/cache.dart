@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:high_bee/models/datas/news.dart';
 import 'package:high_bee/models/datas/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,9 +17,9 @@ class Cache {
   Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
- 
+
   bool? getAuth() {
-    return _prefs?.getBool('AuthenticationState'); 
+    return _prefs?.getBool('AuthenticationState');
   }
 
   Future<void> setAuth(bool value) async {
@@ -36,6 +37,19 @@ class Cache {
 
     final userMap = jsonDecode(userJson);
     return UserModel.fromJson(userMap);
+  }
+
+  Future<void> setNews(List<NewsModel> news) async {
+    final newsJson = jsonEncode(news.map((e) => e.toJson()).toList());
+    await _prefs?.setString('news', newsJson);
+  }
+
+  Future<NewsModel?> getNews() async {
+    final newsJson = _prefs?.getString('news');
+    if (newsJson == null) return null;
+
+    final newsMap = jsonDecode(newsJson);
+    return NewsModel.fromJson(newsMap);
   }
 
   Future<void> clear() async {

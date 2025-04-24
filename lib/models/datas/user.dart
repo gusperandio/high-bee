@@ -1,11 +1,11 @@
 class UserModel {
-  final String? id;
-  final String? name;
-  final String? age;
-  final String? country;
-  final String? intention;
-  final String? avatar;
-  final bool? termsAgree;
+  String? id;
+  String? name;
+  String? age;
+  String? country;
+  String? intention;
+  String? avatar;
+  bool? termsAgree;
 
   UserModel({
     this.id,

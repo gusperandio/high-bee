@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/handler_authenticate.dart';
 import 'package:high_bee/viewmodel/counter.dart';
+import 'package:high_bee/viewmodel/loading/loading_view_model.dart';
 import 'package:high_bee/viewmodel/login/login_view_model.dart';
 import 'package:high_bee/viewmodel/recovery/recovery_view_model.dart';
 import 'package:high_bee/viewmodel/register/register_view_model.dart';
@@ -8,7 +9,7 @@ import 'package:high_bee/viewmodel/rules/rules_view_model.dart';
 import 'package:high_bee/viewmodel/validation/validation_view_model.dart';
 import 'package:high_bee/views/counter/counter.dart';
 import 'package:high_bee/views/home/home.dart';
-import 'package:high_bee/views/loading/loading_page.dart';
+import 'package:high_bee/views/loading/loading.dart';
 import 'package:high_bee/views/login/login.dart';
 import 'package:high_bee/views/recovery/recovery.dart';
 import 'package:high_bee/views/wecolme/welcome.dart';
@@ -50,7 +51,11 @@ class MSRouter {
           create: (_) => RulesViewModel(),
           child: const RulesPage(),
         ),
-    LoadingPage.routeName: (context) => const LoadingPage(),
+    LoadingPage.routeName:
+        (context) => ChangeNotifierProvider(
+          create: (_) => LoadingViewModel(),
+          child: const LoadingPage(),
+        ),
     TitlePostPage.routeName: (context) => const TitlePostPage(),
     ImagePostPage.routeName: (context) => const ImagePostPage(),
     PostEditPage.routeName: (context) => const PostEditPage(),

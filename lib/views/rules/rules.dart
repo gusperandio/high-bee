@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
-import 'package:high_bee/components/widgets/build/build_row_rules.dart';
+import 'package:high_bee/util/field_validator.dart';
+import 'package:high_bee/views/rules/widgets/build_row_rules.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
 import 'package:high_bee/components/widgets/separator/separator.dart';
 import 'package:high_bee/components/widgets/watermaker/watermaker.dart';
-import 'package:high_bee/models/datas/user.dart';
 import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/rules/rules_view_model.dart';
-import 'package:high_bee/views/loading/loading_page.dart';
-import 'package:high_bee/util/cache.dart' as highbeecache;
+import 'package:high_bee/views/loading/loading.dart';
+import 'package:high_bee/views/rules/widgets/privacy_policy.dart';
+import 'package:high_bee/views/rules/widgets/rdc_cards.dart';
+import 'package:high_bee/views/rules/widgets/terms_of_use.dart';
 import 'package:provider/provider.dart';
 
 class RulesPage extends StatefulWidget {
@@ -22,22 +24,27 @@ class RulesPage extends StatefulWidget {
 }
 
 class _RulesPageState extends State<RulesPage> {
-  Future<UserModel?> returnUser() async {
-    return await highbeecache.Cache().getUser();
-  }
-
   @override
   Widget build(BuildContext context) {
-    bool isChecked = false;
     final viewModel = context.watch<RulesViewModel>();
 
     return Consumer<RulesViewModel>(
       builder: (context, vm, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          // if (vm.errorMessage != null) {
-          //   Toast.show(context, vm.errorMessage!, variant: Variant.danger);
-          //   vm.errorMessage = null;
-          // }
+          if (vm.errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: PrimaryColors.carvaoColor,
+                content: Text(vm.errorMessage!),
+              ),
+            );
+            vm.errorMessage = null;
+            return;
+          }
+
+          if (vm.isComplete) {
+            MSNavigate.toName(context, LoadingPage.routeName);
+          }
         });
 
         return AppContainer(
@@ -107,6 +114,7 @@ class _RulesPageState extends State<RulesPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        RDCards(),
                         Padding(
                           padding: const EdgeInsets.only(top: 12, bottom: 8),
                           child: Separator(
@@ -123,18 +131,21 @@ class _RulesPageState extends State<RulesPage> {
                             size: 2,
                           ),
                         ),
-                        ...viewModel.agreeRules.map((rule) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 24,
-                            ),
-                            child: BuildRowRules(
-                              text: rule['rule'],
-                              validRules: rule['ruleValid'],
-                            ),
-                          );
-                        }),
+                        ...viewModel.rules
+                            .where((rule) => rule['ruledValid'] == true)
+                            .map((rule) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 24,
+                                ),
+                                child: BuildRowRules(
+                                  title: rule['context'],
+                                  phrase: rule['phrase'],
+                                  validRules: rule['ruledValid'],
+                                ),
+                              );
+                            }),
                         // Image.asset(
                         //   "assets/images/smile.png",
                         //   fit: BoxFit.cover,
@@ -157,124 +168,300 @@ class _RulesPageState extends State<RulesPage> {
                             size: 2,
                           ),
                         ),
-                        ...viewModel.disagreeRules.map((rule) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 24,
+                        ...viewModel.rules
+                            .where((rule) => rule['ruledValid'] == false)
+                            .map((rule) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 24,
+                                ),
+                                child: BuildRowRules(
+                                  title: rule['context'],
+                                  phrase: rule['phrase'],
+                                  validRules: rule['ruledValid'],
+                                ),
+                              );
+                            }),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 24, bottom: 0),
+                          child: Separator(
+                            color: SecondaryColors.primary,
+                            content: Text(
+                              "Informações importantes!",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontFamily: 'Urbanist',
+                                fontWeight: FontWeight.bold,
+                                color: PrimaryColors.carvaoColor,
+                              ),
                             ),
-                            child: BuildRowRules(
-                              text: rule['rule'],
-                              validRules: rule['ruleValid'],
+                            size: 2,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: Card(
+                                      elevation: 0,
+                                      color: PrimaryColors.offWhiteColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        side: BorderSide(
+                                          color:
+                                              viewModel.warningPrivacy
+                                                  ? SecondaryColors.danger
+                                                  : Colors.grey.shade300,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(12),
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (context) => PrivacyPolicyModal(
+                                                  onTap:
+                                                      viewModel.acceptPrivacy,
+                                                ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              SvgPicture.asset(
+                                                !viewModel.acceptedPrivacy
+                                                    ? "assets/svg/book-open.svg"
+                                                    : "assets/svg/book-open-check.svg",
+                                                height: 32,
+                                                width: 32,
+                                                colorFilter: ColorFilter.mode(
+                                                  viewModel.warningPrivacy
+                                                      ? SecondaryColors.danger
+                                                      : !viewModel
+                                                          .acceptedPrivacy
+                                                      ? SecondaryColors
+                                                          .secondary
+                                                      : SecondaryColors.success,
+                                                  BlendMode.srcIn,
+                                                ),
+                                              ),
+                                              Text(
+                                                'Políticas de \nPrivacidade',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Urbanist',
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              SizedBox(height: 6),
+                                              Text(
+                                                'Visualizar políticas',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontFamily: 'Urbanist',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(width: 12),
+                                  Expanded(
+                                    child: Card(
+                                      elevation: 0,
+                                      color: PrimaryColors.offWhiteColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                        side: BorderSide(
+                                          color:
+                                              viewModel.warningTerms
+                                                  ? SecondaryColors.danger
+                                                  : Colors.grey.shade300,
+                                          width: 1,
+                                        ),
+                                      ),
+                                      child: InkWell(
+                                        borderRadius: BorderRadius.circular(12),
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder:
+                                                (context) => TermsOfUseModal(
+                                                  onTap: viewModel.acceptTerms,
+                                                ),
+                                          );
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12),
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              SvgPicture.asset(
+                                                !viewModel.acceptedTerms
+                                                    ? "assets/svg/book-open.svg"
+                                                    : "assets/svg/book-open-check.svg",
+                                                height: 32,
+                                                width: 32,
+                                                colorFilter: ColorFilter.mode(
+                                                  viewModel.warningTerms
+                                                      ? SecondaryColors.danger
+                                                      : !viewModel.acceptedTerms
+                                                      ? SecondaryColors
+                                                          .secondary
+                                                      : SecondaryColors.success,
+                                                  BlendMode.srcIn,
+                                                ),
+                                              ),
+                                              Text(
+                                                textAlign: TextAlign.center,
+                                                'Termos de \nuso',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Urbanist',
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                              SizedBox(height: 6),
+                                              Text(
+                                                'Visualizar Termos',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontFamily: 'Urbanist',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                          child: Form(
+                            key: viewModel.formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              spacing: 6,
+                              children: [
+                                TextFormField(
+                                  onChanged: (value) {
+                                    viewModel.updateText(value);
+                                  },
+                                  controller: viewModel.nameController,
+                                  cursorWidth: 1,
+                                  cursorColor: PrimaryColors.carvaoColor,
+                                  decoration: InputDecoration(
+                                    floatingLabelStyle: TextStyle(
+                                      color: PrimaryColors.carvaoColor,
+                                    ),
+                                    labelText: 'Nome e Sobrenome',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: PrimaryColors.carvaoColor,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: PrimaryColors.carvaoColor,
+                                      ),
+                                    ),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator:
+                                      (value) =>
+                                          FieldValidator.validateName(value),
+                                ),
+
+                                SizedBox(height: 6),
+                              ],
                             ),
-                          );
-                        }),
+                          ),
+                        ),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: 14,
                             horizontal: 24,
                           ),
-                          child: StatefulBuilder(
-                            builder: (
-                              BuildContext context,
-                              StateSetter setState,
-                            ) {
-                              return Column(
-                                spacing: 22,
+                          child: Column(
+                            spacing: 22,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Checkbox(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            4,
-                                          ),
-                                        ),
-                                        activeColor: PrimaryColors.highBeeColor,
-                                        checkColor: Colors.black,
-                                        value: isChecked,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            isChecked = value!;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              isChecked = !isChecked;
-                                            });
-                                          },
-                                          child: Text(
-                                            "Eu li e concordo com as regras e termos de uso. Em caso de descumprimento, \naceito que minha conta seja bloqueada.",
-                                            softWrap: true,
-                                            overflow: TextOverflow.visible,
-                                            maxLines: 6,
-                                            textAlign: TextAlign.justify,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'Urbanist',
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic,
-                                              color: PrimaryColors.carvaoColor,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  Checkbox(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    activeColor: PrimaryColors.highBeeColor,
+                                    checkColor: Colors.black,
+                                    value: viewModel.isChecked,
+                                    onChanged:
+                                        (bool? value) =>
+                                            viewModel.checkBox(value),
                                   ),
-                                  SizedBox(
-                                    width: 120,
-                                    child: Button.def(
-                                      title: "Continuar",
-                                      onPressed: () {
-                                        if (isChecked) {
-                                          MSNavigate.toName(
-                                            context,
-                                            LoadingPage.routeName,
-                                          );
-                                        } else {
-                                          // Show a message to the user
-                                          ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(
-                                              backgroundColor:
-                                                  PrimaryColors.carvaoColor,
-                                              content: const Text(
-                                                "Você precisa concordar com as regras.",
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 16,
+
+                                  Flexible(
+                                    child: GestureDetector(
+                                      onTap:
+                                          () => viewModel.checkBox(
+                                            !viewModel.isChecked,
+                                          ),
+                                      child: Text(
+                                        "Eu ${viewModel.name}, li e concordo com as regras e termos de uso. Em caso de descumprimento, \naceito que minha conta seja bloqueada.",
+                                        softWrap: true,
+                                        overflow: TextOverflow.visible,
+                                        maxLines: 6,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'Urbanist',
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic,
+                                          color: PrimaryColors.carvaoColor,
+                                        ),
                                       ),
-                                      fontColor: Colors.black,
                                     ),
                                   ),
-                                  
                                 ],
-                              );
-                            },
+                              ),
+                              SizedBox(
+                                width: 120,
+                                child: Button.def(
+                                  title: "Continuar",
+                                  onPressed: () {
+                                    viewModel.save();
+                                  },
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  fontColor: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 30),
+                            ],
                           ),
                         ),
                       ],
-
-                      // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      // SizedBox(
-                      //   width: 120,
-                      //   child: Button.def(
-                      //     title: "Continuar",
-                      //     onPressed: () {},
-                      //     padding: const EdgeInsets.symmetric(vertical: 16),
-                      //     fontColor: Colors.black,
-                      //   ),
-                      // ),
-                      // Loading(size: 120),
                     ),
                   ),
                 ),

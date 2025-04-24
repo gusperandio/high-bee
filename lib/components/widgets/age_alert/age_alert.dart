@@ -37,22 +37,22 @@ class AgeAlert extends StatelessWidget {
                   SizedBox(height: 8),
                   Text(
                     'Este aplicativo é voltado à divulgação de informações sobre o universo da cannabis. O acesso é restrito a maiores de idade pelos seguintes motivos:',
-                    style: TextStyle(fontFamily: 'Urbanist', fontSize: 14),
+                    style: TextStyle(fontFamily: 'Urbanist', fontSize: 13),
                   ),
                   SizedBox(height: 8),
                   Text(
                     '• Alinhamento com leis e regulamentações sobre o tema;\n'
                     '• Prevenção de acesso precoce a conteúdos sensíveis;\n'
-                    '• Compromisso com a educação, a ciência e o uso consciente;\n'
+                    '• Compromisso com a educação e a ciência;\n'
                     '• Responsabilidade com o debate público e a formação de opinião.',
-                    style: TextStyle(fontFamily: 'Urbanist', fontSize: 14),
+                    style: TextStyle(fontFamily: 'Urbanist', fontSize: 13),
                   ),
                   SizedBox(height: 12),
                   Text(
                     'Se você ainda não completou 18 anos, pedimos que aguarde até atingir a maioridade para acessar este conteúdo de forma segura e legal.',
                     style: TextStyle(
                       fontFamily: 'Urbanist',
-                      fontSize: 14,
+                      fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

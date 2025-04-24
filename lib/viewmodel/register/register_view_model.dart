@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:high_bee/models/datas/user.dart';
 import 'package:high_bee/services/auth/auth_service.dart';
+import 'package:high_bee/util/cache.dart';
 import 'package:high_bee/util/field_validator.dart';
 import 'package:high_bee/util/internet_check.dart';
 
@@ -40,6 +42,11 @@ class RegisterViewModel extends ChangeNotifier {
       isRegistered = userCredential.user != null;
       errorMessage =
           isRegistered ? null : "Erro ao entrar com Google. Tente novamente.";
+      UserModel? user = await Cache().getUser();
+      if (user != null) {
+        user.avatar = userCredential.user!.photoURL;
+        await Cache().setUser(user);
+      }
     } catch (e) {
       errorMessage = "Erro ao entrar com Google. Tente novamente.";
     } finally {

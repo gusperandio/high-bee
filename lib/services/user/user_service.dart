@@ -11,6 +11,7 @@ class UserService {
   }
 
   UserService._internal();
+
   final _db = FirebaseDatabase.instance;
 
   String? get uid => AuthService().getCurrentUIDUser();
@@ -27,13 +28,6 @@ class UserService {
     return false;
   }
 
-  Future<void> saveUser(int idade) async {
-    final userId = uid;
-    if (userId == null) return;
-
-    await _db.ref('users/$userId').set({'isRegistered': false});
-  }
-
   Future<void> saveUserRegistes(UserModel user) async {
     final userId = uid;
     if (userId == null) return;
@@ -45,13 +39,14 @@ class UserService {
       'intention': user.intention,
       'avatar': user.avatar,
       'isRegistered': true,
+      'termsAgree': true,
+      'premium': false,
       'news': [],
       'stickers': [],
       'publicity': [],
       'reportNews': [],
       'reportPublicity': [],
       'competition': [],
-      'termsAgree': false,
       'premiumTime': '',
       'role': 'USER',
     });

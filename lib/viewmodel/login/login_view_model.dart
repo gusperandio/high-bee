@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:high_bee/models/datas/user.dart';
 import 'package:high_bee/services/auth/auth_service.dart';
 import 'package:high_bee/services/user/user_service.dart';
+import 'package:high_bee/util/cache.dart';
 import 'package:high_bee/util/internet_check.dart';
 
 class LoginViewModel extends ChangeNotifier {
@@ -31,6 +33,12 @@ class LoginViewModel extends ChangeNotifier {
       isRegistered = await UserService().isUserRegistered();
       errorMessage =
           isLogged ? null : "Erro ao entrar com Google. Tente novamente.";
+          
+      UserModel? user = await Cache().getUser();
+      if (user != null) {
+        user.avatar = userCredential.user!.photoURL;
+        await Cache().setUser(user);
+      } 
     } catch (e) {
       errorMessage = "Erro ao entrar com Google. Tente novamente.";
     } finally {
