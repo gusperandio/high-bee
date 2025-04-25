@@ -150,7 +150,7 @@ class _ValidationDatasState extends State<ValidationDatas> {
                             children: [
                               Text(
                                 "Vamos lá",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 32,
                                   fontFamily: 'Urbanist',
                                   fontWeight: FontWeight.bold,
@@ -159,7 +159,7 @@ class _ValidationDatasState extends State<ValidationDatas> {
                               ),
                               Text(
                                 "Que tal a gente se conhecer \nmelhor?",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: 'Urbanist',
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w400,
@@ -306,7 +306,9 @@ class _ValidationDatasState extends State<ValidationDatas> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: PrimaryColors.carvaoColor),
+                            border: Border.all(
+                              color: PrimaryColors.carvaoColor,
+                            ),
                           ),
                           child: ListTile(
                             leading: SvgPicture.asset(
@@ -320,20 +322,20 @@ class _ValidationDatasState extends State<ValidationDatas> {
                             ),
                             title: Text(
                               'Nacionalidade',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w600,
-                                color: PrimaryColors.carvaoColor
+                                color: PrimaryColors.carvaoColor,
                               ),
                             ),
                             subtitle: Text(
                               viewModel.country == null
                                   ? 'Em qual pais você vive?'
                                   : viewModel.country!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w400,
-                                color: PrimaryColors.carvaoColor
+                                color: PrimaryColors.carvaoColor,
                               ),
                             ),
                             trailing: SvgPicture.asset(
@@ -363,7 +365,9 @@ class _ValidationDatasState extends State<ValidationDatas> {
                         Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: PrimaryColors.carvaoColor),
+                            border: Border.all(
+                              color: PrimaryColors.carvaoColor,
+                            ),
                           ),
                           child: ListTile(
                             leading: SvgPicture.asset(
@@ -377,20 +381,20 @@ class _ValidationDatasState extends State<ValidationDatas> {
                             ),
                             title: Text(
                               'Intenção',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w600,
-                                color: PrimaryColors.carvaoColor
+                                color: PrimaryColors.carvaoColor,
                               ),
                             ),
                             subtitle: Text(
                               viewModel.intention == null
                                   ? 'Qual area você atua no mercado de cannabis?'
                                   : viewModel.intention!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.w400,
-                                color: PrimaryColors.carvaoColor
+                                color: PrimaryColors.carvaoColor,
                               ),
                             ),
                             trailing: SvgPicture.asset(
@@ -424,8 +428,8 @@ class _ValidationDatasState extends State<ValidationDatas> {
                             child: Button.def(
                               title: "Continuar",
                               onPressed: () async {
-                                 await viewModel.saveDatas();
-                                 MSNavigate.toName(context, RulesPage.routeName);
+                                await viewModel.saveDatas();
+                                MSNavigate.toName(context, RulesPage.routeName);
                               },
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               fontColor: Colors.black,

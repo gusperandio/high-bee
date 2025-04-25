@@ -173,14 +173,14 @@ class ButtonOutlineState extends State<ButtonOutline> {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: ButtonStyle(
-        backgroundColor:
-            WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
-          return widget.hasBackground
-              ? widget.hoverColor
-              : Colors.transparent;  
+        backgroundColor: WidgetStateProperty.resolveWith<Color>((
+          Set<WidgetState> states,
+        ) {
+          return widget.hasBackground ? widget.hoverColor : Colors.transparent;
         }),
-        side: WidgetStateProperty.resolveWith<BorderSide>(
-            (Set<WidgetState> states) {
+        side: WidgetStateProperty.resolveWith<BorderSide>((
+          Set<WidgetState> states,
+        ) {
           if (states.contains(WidgetState.pressed) ||
               states.contains(WidgetState.hovered)) {
             return BorderSide(color: widget.hoverColor);
@@ -197,22 +197,25 @@ class ButtonOutlineState extends State<ButtonOutline> {
         spacing: 6,
         children: [
           Visibility(
-              visible: widget.startContent != null,
-              child: widget.startContent ?? SizedBox.shrink()),
+            visible: widget.startContent != null,
+            child: widget.startContent ?? SizedBox.shrink(),
+          ),
           Visibility(
             visible: widget.title != null,
             child: Text(
               widget.title!.toUpperCase(),
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: widget.borderColor),
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: widget.borderColor,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
           Visibility(
-              visible: widget.endContent != null,
-              child: widget.endContent ?? SizedBox.shrink()),
+            visible: widget.endContent != null,
+            child: widget.endContent ?? SizedBox.shrink(),
+          ),
         ],
       ),
     );

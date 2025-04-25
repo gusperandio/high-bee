@@ -21,9 +21,10 @@ class BulletPoint extends StatelessWidget {
             child: Text(
               text,
               style: TextStyle(
-                  fontSize: sizeFont,
-                  color: PrimaryColors.carvaoColor,
-                  fontFamily: 'Urbanist'),
+                fontSize: sizeFont,
+                color: PrimaryColors.carvaoColor,
+                fontFamily: 'Urbanist',
+              ),
             ),
           ),
         ],

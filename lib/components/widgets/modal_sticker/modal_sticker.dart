@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
 
-class PrivacyPolicyModal extends StatelessWidget {
+class StickerModal extends StatelessWidget {
   final VoidCallback onTap;
 
-  const PrivacyPolicyModal({super.key, required this.onTap});
+  const StickerModal({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

@@ -58,21 +58,22 @@ class _AccordionState extends State<Accordion> {
                         children: [
                           Text(
                             widget.title,
-                            style: TextStyle(
-                                color: PrimaryColors.carvaoColor,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              color: PrimaryColors.carvaoColor,
+                              fontFamily: 'Urbanist',
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           widget.description != null
                               ? Text(
-                                  widget.description!,
-                                  style: TextStyle(
-                                    color: PrimaryColors.carvaoColor,
-                                    fontFamily: 'Urbanist',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                )
+                                widget.description!,
+                                style: const TextStyle(
+                                  color: PrimaryColors.carvaoColor,
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              )
                               : const SizedBox.shrink(),
                         ],
                       ),
@@ -86,7 +87,7 @@ class _AccordionState extends State<Accordion> {
                           },
                           child: Text(
                             "DETALHES",
-                            style: TextStyle(
+                            style: const TextStyle(
                               decoration: TextDecoration.underline,
                               decorationColor: Colors.white,
                               color: Colors.white,
@@ -101,7 +102,12 @@ class _AccordionState extends State<Accordion> {
                   ),
                 );
               },
-              body: widget.content,
+              body: AnimatedSize(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                alignment: Alignment.topCenter,
+                child: widget.content,
+              ),
               isExpanded: _isExpanded,
             ),
           ],

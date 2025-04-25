@@ -19,7 +19,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Text(
                       title!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
                         color: PrimaryColors.carvaoColor,
@@ -33,7 +33,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
           toolbarHeight: 120,
           backgroundColor: PrimaryColors.highBeeColor,
           automaticallyImplyLeading: false,
-        ), 
+        ),
         Padding(
           padding: const EdgeInsets.only(top: 68, left: 22),
           child: GestureDetector(

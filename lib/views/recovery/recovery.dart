@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart'; 
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
 import 'package:high_bee/components/widgets/toasts/toast.dart';
 import 'package:high_bee/components/widgets/topbar/topbar.dart';
 import 'package:high_bee/components/widgets/watermaker/watermaker.dart';
-import 'package:high_bee/util/field_validator.dart'; 
+import 'package:high_bee/util/field_validator.dart';
 import 'package:high_bee/viewmodel/recovery/recovery_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -62,7 +62,7 @@ class RecoveryPage extends StatelessWidget {
                               children: [
                                 Text(
                                   "Recuperar \nminha conta",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 32,
                                     fontFamily: 'Urbanist',
                                     fontWeight: FontWeight.bold,
@@ -108,7 +108,7 @@ class RecoveryPage extends StatelessWidget {
                                   cursorWidth: 1,
                                   cursorColor: PrimaryColors.carvaoColor,
                                   decoration: InputDecoration(
-                                    floatingLabelStyle: TextStyle(
+                                    floatingLabelStyle: const TextStyle(
                                       color: PrimaryColors.carvaoColor,
                                     ),
                                     labelText: 'E-mail',

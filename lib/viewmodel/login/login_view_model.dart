@@ -29,20 +29,21 @@ class LoginViewModel extends ChangeNotifier {
   Future<void> signUpWithGoogle() async {
     try {
       final userCredential = await AuthService().signInWithGoogle();
+      _setLoadingState(true);
       isLogged = userCredential.user != null;
       isRegistered = await UserService().isUserRegistered();
       errorMessage =
           isLogged ? null : "Erro ao entrar com Google. Tente novamente.";
-          
+
       UserModel? user = await Cache().getUser();
       if (user != null) {
         user.avatar = userCredential.user!.photoURL;
         await Cache().setUser(user);
-      } 
+      }
     } catch (e) {
       errorMessage = "Erro ao entrar com Google. Tente novamente.";
     } finally {
-      notifyListeners();
+      _setLoadingState(false);
     }
   }
 

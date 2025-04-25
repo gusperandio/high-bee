@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
             child: VerticalCardPager(
               titles: generateTitles(myContent.length),
               images: myContent,
-              textStyle: TextStyle(
+              textStyle: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

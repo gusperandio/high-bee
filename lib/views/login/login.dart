@@ -95,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                               children: [
                                 Text(
                                   "Acesse sua \nconta",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 32,
                                     fontFamily: 'Urbanist',
                                     fontWeight: FontWeight.bold,
@@ -126,14 +126,15 @@ class _LoginPageState extends State<LoginPage> {
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.all(5),
                       child: Column(
-                        spacing: 16,
+                        spacing: 18,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Form(
                             key: viewModel.formKey,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               spacing: 6,
                               children: [
                                 TextFormField(
@@ -141,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
                                   cursorWidth: 1,
                                   cursorColor: PrimaryColors.carvaoColor,
                                   decoration: InputDecoration(
-                                    floatingLabelStyle: TextStyle(
+                                    floatingLabelStyle: const TextStyle(
                                       color: PrimaryColors.carvaoColor,
                                     ),
                                     labelText: 'E-mail',
@@ -169,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                                   cursorWidth: 1,
                                   cursorColor: PrimaryColors.carvaoColor,
                                   decoration: InputDecoration(
-                                    floatingLabelStyle: TextStyle(
+                                    floatingLabelStyle: const TextStyle(
                                       color: PrimaryColors.carvaoColor,
                                     ),
                                     labelText: 'Senha',
@@ -225,7 +226,7 @@ class _LoginPageState extends State<LoginPage> {
                                       child: RichText(
                                         text: TextSpan(
                                           text: 'Esqueceu a senha? ',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 15,
                                             fontFamily: 'Urbanist',
                                             fontWeight: FontWeight.w500,
@@ -234,7 +235,7 @@ class _LoginPageState extends State<LoginPage> {
                                           children: [
                                             TextSpan(
                                               text: 'Recuperar',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 decoration:
                                                     TextDecoration.underline,
                                                 fontSize: 15,
@@ -313,7 +314,7 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     Text(
                                       "Entrar com Google",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 17,
                                         fontFamily: 'Urbanist',
                                         fontWeight: FontWeight.w500,

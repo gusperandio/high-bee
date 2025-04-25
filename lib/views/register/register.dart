@@ -67,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               children: [
                                 Text(
                                   "Cadastro",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 32,
                                     fontFamily: 'Urbanist',
                                     fontWeight: FontWeight.bold,
@@ -76,7 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 Text(
                                   "Crie uma conta para acessar",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: 'Urbanist',
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.w400,
@@ -107,20 +107,21 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Column(
                         spacing: 16,
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Form(
                             key: viewModel.formKey,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              spacing: 6,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              spacing: 2,
                               children: [
                                 TextFormField(
                                   controller: viewModel.emailController,
                                   cursorWidth: 1,
                                   cursorColor: PrimaryColors.carvaoColor,
                                   decoration: InputDecoration(
-                                    floatingLabelStyle: TextStyle(
+                                    floatingLabelStyle: const TextStyle(
                                       color: PrimaryColors.carvaoColor,
                                     ),
                                     labelText: 'E-mail',
@@ -148,7 +149,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   cursorWidth: 1,
                                   cursorColor: PrimaryColors.carvaoColor,
                                   decoration: InputDecoration(
-                                    floatingLabelStyle: TextStyle(
+                                    floatingLabelStyle: const TextStyle(
                                       color: PrimaryColors.carvaoColor,
                                     ),
                                     labelText: 'Senha',
@@ -196,7 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   cursorWidth: 1,
                                   cursorColor: PrimaryColors.carvaoColor,
                                   decoration: InputDecoration(
-                                    floatingLabelStyle: TextStyle(
+                                    floatingLabelStyle: const TextStyle(
                                       color: PrimaryColors.carvaoColor,
                                     ),
                                     labelText: 'Confirme a senha',
@@ -309,7 +310,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     ),
                                     Text(
                                       "Entrar com Google",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 17,
                                         fontFamily: 'Urbanist',
                                         fontWeight: FontWeight.w500,

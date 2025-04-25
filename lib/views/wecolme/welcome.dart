@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
-import 'package:high_bee/util/navigate.dart'; 
+import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/views/login/login.dart';
 
 class WelcomePage extends StatelessWidget {

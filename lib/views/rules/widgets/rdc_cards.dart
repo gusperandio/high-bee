@@ -47,7 +47,7 @@ class RDCards extends StatelessWidget {
                       SizedBox(height: 8),
                       Text(
                         'RDC 96/2008',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Urbanist',
                           fontSize: 15,
@@ -55,7 +55,10 @@ class RDCards extends StatelessWidget {
                       ),
                       Text(
                         'Ver documento',
-                        style: TextStyle(fontSize: 13, fontFamily: 'Urbanist'),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontFamily: 'Urbanist',
+                        ),
                       ),
                     ],
                   ),
@@ -97,7 +100,7 @@ class RDCards extends StatelessWidget {
                       SizedBox(height: 8),
                       Text(
                         'RDC 327/2019',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Urbanist',
                           fontSize: 15,
@@ -105,7 +108,10 @@ class RDCards extends StatelessWidget {
                       ),
                       Text(
                         'Ver documento',
-                        style: TextStyle(fontSize: 13, fontFamily: 'Urbanist'),
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontFamily: 'Urbanist',
+                        ),
                       ),
                     ],
                   ),

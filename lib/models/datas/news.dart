@@ -1,7 +1,7 @@
 import 'package:uuid/uuid.dart';
 
 class NewsModel {
-  final String id;
+  final String? id;
   final String title;
   final String argument;
   final List<String> tags;
@@ -17,10 +17,12 @@ class NewsModel {
   final String? photo3;
   final String? photo3desc;
   final DateTime createdAt;
-  final DateTime updatedAt; 
+  final DateTime updatedAt;
+  final int likes;
+  final String font; // New attribute
 
   NewsModel({
-    String? id,
+    this.id,
     required this.title,
     required this.argument,
     required this.tags,
@@ -36,8 +38,10 @@ class NewsModel {
     this.photo3,
     this.photo3desc,
     required this.createdAt,
-    required this.updatedAt, 
-  }) : id = id ?? Uuid().v4(); 
+    required this.updatedAt,
+    this.likes = 0, 
+    required this.font, 
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -57,7 +61,9 @@ class NewsModel {
       'photo3': photo3,
       'photo3desc': photo3desc,
       'createdAt': createdAt.toIso8601String(),
-      'updatedAt': updatedAt.toIso8601String(), 
+      'updatedAt': updatedAt.toIso8601String(),
+      'likes': likes, // Include likes in toJson
+      'font': font, // Include font in toJson
     };
   }
 
@@ -80,8 +86,8 @@ class NewsModel {
       photo3desc: json['photo3desc'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
+      likes: json['likes'] ?? 0, 
+      font: json['font'], 
     );
   }
 }
-
-

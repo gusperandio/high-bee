@@ -42,7 +42,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Vamos começar seu treinamento!",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 28,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -52,7 +52,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Aqui você compartilha, aprende e se conecta com conteúdos confiáveis sobre cannabis.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -62,7 +62,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Vamos aprender sobre postar conteúdos!",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -93,7 +93,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Título da publicação",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -104,7 +104,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Formato de como é exibido o título da sua publicação",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -135,7 +135,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Fotos e Imagens",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -146,7 +146,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Formato de como é exibido as imagens de \ncapa e cada publicação",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -181,7 +181,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Fornecendo conteúdo",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -192,7 +192,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Você pode utilizar o botão de colar o paragráfo",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -243,7 +243,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Escolha seu estilo",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -254,7 +254,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Escolha o tipo de fonte para trazer aquele AR",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -265,7 +265,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "MAIS SÉRIO",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Georgia',
@@ -292,7 +292,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "MAIS DIVERTIDO",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Nunito',
@@ -322,7 +322,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "Seu conteúdo final",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 26,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -333,7 +333,7 @@ class _TrainingPageState extends State<TrainingPage> {
               Text(
                 "A ordem como é exibido também segue no mesmo formato na qual é preenchido",
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: PrimaryColors.carvaoColor,
                   fontFamily: 'Urbanist',
@@ -435,7 +435,7 @@ class _TrainingPageState extends State<TrainingPage> {
                         onPressed: () => _carouselController.nextPage(),
                         content: Text(
                           "Feito",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.white,
                             fontFamily: 'Urbanist',

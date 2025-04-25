@@ -72,7 +72,7 @@ class _RulesPageState extends State<RulesPage> {
                             children: [
                               Text(
                                 "REGRAS!!!",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 32,
                                   fontFamily: 'Urbanist',
                                   fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class _RulesPageState extends State<RulesPage> {
                               ),
                               Text(
                                 "Leia nossas regras com muita \natenção antes de continuar!",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: 'Urbanist',
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w400,
@@ -121,7 +121,7 @@ class _RulesPageState extends State<RulesPage> {
                             color: SecondaryColors.success,
                             content: Text(
                               "Você pode",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.bold,
@@ -158,7 +158,7 @@ class _RulesPageState extends State<RulesPage> {
                             color: SecondaryColors.danger,
                             content: Text(
                               "Você NÃO pode",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.bold,
@@ -189,7 +189,7 @@ class _RulesPageState extends State<RulesPage> {
                             color: SecondaryColors.primary,
                             content: Text(
                               "Informações importantes!",
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontFamily: 'Urbanist',
                                 fontWeight: FontWeight.bold,
@@ -257,7 +257,7 @@ class _RulesPageState extends State<RulesPage> {
                                               ),
                                               Text(
                                                 'Políticas de \nPrivacidade',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontFamily: 'Urbanist',
                                                   fontSize: 15,
@@ -266,7 +266,7 @@ class _RulesPageState extends State<RulesPage> {
                                               SizedBox(height: 6),
                                               Text(
                                                 'Visualizar políticas',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 13,
                                                   fontFamily: 'Urbanist',
                                                 ),
@@ -327,7 +327,7 @@ class _RulesPageState extends State<RulesPage> {
                                               Text(
                                                 textAlign: TextAlign.center,
                                                 'Termos de \nuso',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontFamily: 'Urbanist',
                                                   fontSize: 15,
@@ -336,7 +336,7 @@ class _RulesPageState extends State<RulesPage> {
                                               SizedBox(height: 6),
                                               Text(
                                                 'Visualizar Termos',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   fontSize: 13,
                                                   fontFamily: 'Urbanist',
                                                 ),
@@ -368,7 +368,7 @@ class _RulesPageState extends State<RulesPage> {
                                   cursorWidth: 1,
                                   cursorColor: PrimaryColors.carvaoColor,
                                   decoration: InputDecoration(
-                                    floatingLabelStyle: TextStyle(
+                                    floatingLabelStyle: const TextStyle(
                                       color: PrimaryColors.carvaoColor,
                                     ),
                                     labelText: 'Nome e Sobrenome',
@@ -432,7 +432,7 @@ class _RulesPageState extends State<RulesPage> {
                                         overflow: TextOverflow.visible,
                                         maxLines: 6,
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontFamily: 'Urbanist',
                                           fontWeight: FontWeight.bold,

@@ -31,22 +31,21 @@ class DottedCard extends StatelessWidget {
           height: height,
           width: double.infinity,
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(12)),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Padding(
             padding: const EdgeInsets.only(top: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: icon,
-                ),
+                Padding(padding: const EdgeInsets.only(left: 8.0), child: icon),
                 Padding(
                   padding: const EdgeInsets.only(left: 12, bottom: 6),
                   child: Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Urbanist',
                       fontSize: 17,
                       color: PrimaryColors.carvaoColor,
@@ -56,17 +55,17 @@ class DottedCard extends StatelessWidget {
                 ),
                 description != null
                     ? Padding(
-                        padding: const EdgeInsets.only(left: 12, bottom: 6),
-                        child: Text(
-                          description!,
-                          style: TextStyle(
-                            fontFamily: 'Urbanist',
-                            fontSize: 12,
-                            color: SecondaryColors.secondary,
-                            fontWeight: FontWeight.w300,
-                          ),
+                      padding: const EdgeInsets.only(left: 12, bottom: 6),
+                      child: Text(
+                        description!,
+                        style: const TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 12,
+                          color: SecondaryColors.secondary,
+                          fontWeight: FontWeight.w300,
                         ),
-                      )
+                      ),
+                    )
                     : const SizedBox.shrink(),
               ],
             ),

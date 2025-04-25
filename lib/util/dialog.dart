@@ -8,7 +8,10 @@ class DialogHelper {
     required Widget content,
     String? title,
     TextStyle titleStyle = const TextStyle(
-        fontFamily: 'Urbanist', fontSize: 24, fontWeight: FontWeight.bold),
+      fontFamily: 'Urbanist',
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+    ),
     double? width,
     Color? closeColor,
   }) {
@@ -17,11 +20,11 @@ class DialogHelper {
       builder: (BuildContext context) {
         return Dialog(
           backgroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
           child: SizedBox(
-            width: width ??
-                MediaQuery.of(context).size.width * 0.8,
+            width: width ?? MediaQuery.of(context).size.width * 0.8,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -37,8 +40,9 @@ class DialogHelper {
                           width: 22,
                           height: 22,
                           colorFilter: ColorFilter.mode(
-                              closeColor ?? SecondaryColors.danger,
-                              BlendMode.srcIn),
+                            closeColor ?? SecondaryColors.danger,
+                            BlendMode.srcIn,
+                          ),
                         ),
                       ),
                     ],

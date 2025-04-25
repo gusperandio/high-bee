@@ -21,7 +21,11 @@ Future<dynamic> modalBottom({
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: 32, right: 32, top: 26, bottom: 20),
+                left: 32,
+                right: 32,
+                top: 26,
+                bottom: 20,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -42,8 +46,9 @@ Future<dynamic> modalBottom({
                         width: 32,
                         height: 32,
                         colorFilter: ColorFilter.mode(
-                            closeColor ?? SecondaryColors.danger,
-                            BlendMode.srcIn),
+                          closeColor ?? SecondaryColors.danger,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                 ],

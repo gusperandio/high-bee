@@ -56,7 +56,7 @@ class BuildRowRules extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontFamily: 'Urbanist',
                         fontWeight: FontWeight.bold,
@@ -65,7 +65,7 @@ class BuildRowRules extends StatelessWidget {
                     ),
                     TextSpan(
                       text: ' $phrase',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontFamily: 'Urbanist',
                         fontWeight: FontWeight.normal,

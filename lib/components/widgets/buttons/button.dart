@@ -184,10 +184,10 @@ class ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      
       style: ButtonStyle(
-        backgroundColor:
-            WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+        backgroundColor: WidgetStateProperty.resolveWith<Color>((
+          Set<WidgetState> states,
+        ) {
           if (states.contains(WidgetState.pressed) ||
               states.contains(WidgetState.hovered)) {
             return widget.hoverColor;
@@ -207,9 +207,10 @@ class ButtonState extends State<Button> {
             Text(
               widget.title!.toUpperCase(),
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: widget.fontColor ?? Colors.white),
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: widget.fontColor ?? Colors.white,
+              ),
               textAlign: TextAlign.center,
             ),
           if (widget.endContent != null) widget.endContent!,

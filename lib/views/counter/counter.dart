@@ -35,7 +35,10 @@ class _CounterViewState extends State<CounterView> {
             Consumer<CounterViewModel>(
               // Observa o ViewModel
               builder: (context, viewModel, child) {
-                return Text('Counter: $myNum', style: TextStyle(fontSize: 30));
+                return Text(
+                  'Counter: $myNum',
+                  style: const TextStyle(fontSize: 30),
+                );
               },
             ),
             SizedBox(height: 20),
