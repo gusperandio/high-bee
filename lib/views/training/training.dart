@@ -6,7 +6,7 @@ import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/buttons/button_circle.dart';
 import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/training/training_view_model.dart';
-import 'package:high_bee/views/post/title_post.dart';
+import 'package:high_bee/views/post/post.dart';
 import 'package:provider/provider.dart';
 
 class TrainingPage extends StatelessWidget {
@@ -101,7 +101,7 @@ class TrainingPage extends StatelessWidget {
                               await viewModel.youAreTrained();
                               MSNavigate.toSpecific(
                                 context,
-                                TitlePostPage.routeName,
+                                PostPage.routeName,
                               );
                             },
                             content: Text(
