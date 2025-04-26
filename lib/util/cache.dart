@@ -52,6 +52,17 @@ class Cache {
     return NewsModel.fromJson(newsMap);
   }
 
+  Future<bool> getTrained() async {
+    final trained = _prefs?.getBool('trained');
+    if (trained == null) return false;
+    return trained;
+  }
+
+  Future<void> setTrained() async {
+    _prefs?.setBool('trained', true);
+    return;
+  }
+
   Future<void> clear() async {
     await _prefs?.clear();
   }

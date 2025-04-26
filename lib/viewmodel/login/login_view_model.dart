@@ -66,6 +66,12 @@ class LoginViewModel extends ChangeNotifier {
       );
       isRegistered = await UserService().isUserRegistered();
       isLogged = true;
+
+      UserModel? user = await Cache().getUser();
+      if (user == null && isRegistered) {
+        user = await UserService().getUserDatas();
+        await Cache().setUser(user!);
+      }
     } on FirebaseAuthException catch (e) {
       errorMessage = _getFirebaseAuthErrorMessage(e.code);
     } finally {

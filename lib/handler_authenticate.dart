@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/providers/authentication_state.dart';
 import 'package:high_bee/util/provider.dart';
+import 'package:high_bee/viewmodel/main_page/main_page_view_model.dart';
 import 'package:high_bee/views/main_page.dart';
 import 'package:high_bee/views/wecolme/welcome.dart';
+import 'package:provider/provider.dart';
 
 class HandlerAuthenticate extends StatelessWidget {
   static const routeName = '/';
@@ -25,7 +27,12 @@ class HandlerAuthenticate extends StatelessWidget {
 
         final authState = MSProvider.get<AuthenticationState>(context);
 
-        if (authState.isAuthenticated) return MainPage();
+        if (authState.isAuthenticated) {
+          return ChangeNotifierProvider(
+            create: (_) => MainPageViewModel(),
+            child: const MainPage(),
+          );
+        }
 
         return const WelcomePage();
       },

@@ -102,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 6,
-                        vertical: 16,
+                        vertical: 40,
                       ),
                       child: Column(
                         spacing: 16,

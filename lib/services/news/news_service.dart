@@ -41,7 +41,7 @@ class NewsService {
 
   Future<void> updateNews(NewsModel news) async {
     final snapshot = await _db.ref('news/${news.id}/userId').get();
-    if (snapshot.exists && snapshot.value == UserService().uid) {
+    if (snapshot.exists && snapshot.value == UserService().userId) {
       await _db.ref('news/${news.id}').update(news.toJson());
     } else {
       throw Exception('Acesso negado: você não é o autor.');
@@ -50,7 +50,7 @@ class NewsService {
 
   Future<void> deleteNews(String newsId) async {
     final snapshot = await _db.ref('news/$newsId/userId').get();
-    if (snapshot.exists && snapshot.value == UserService().uid) {
+    if (snapshot.exists && snapshot.value == UserService().userId) {
       await _db.ref('news/$newsId').remove();
     } else {
       throw Exception('Acesso negado: você não é o autor.');

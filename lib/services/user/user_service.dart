@@ -14,22 +14,30 @@ class UserService {
 
   final _db = FirebaseDatabase.instance;
 
-  String? get uid => AuthService().getCurrentUIDUser();
+  String? get userId => AuthService().getCurrentUIDUser();
 
   Future<bool> isUserRegistered() async {
-    final userId = uid;
     if (userId == null) return false;
 
-    final snapshot = await _db.ref('users/$userId').get();
+    final snapshot = await _db.ref('users/$userId/isRegistered').get();
     if (snapshot.exists) {
-      final data = snapshot.value as Map<dynamic, dynamic>;
-      return data['isRegistered'] == true;
+      return snapshot.value as bool;
     }
     return false;
   }
 
+  Future<UserModel?> getUserDatas() async {
+    if (userId == null) return null;
+    final snapshot = await _db.ref('users/$userId').get();
+    if (snapshot.exists && snapshot.value is Map) {
+      return UserModel.fromJson(
+        Map<String, dynamic>.from(snapshot.value as Map),
+      );
+    }
+    return null;
+  }
+
   Future<void> saveUserRegistes(UserModel user) async {
-    final userId = uid;
     if (userId == null) return;
 
     await _db.ref('users/$userId').set({
