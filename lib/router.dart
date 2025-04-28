@@ -4,6 +4,7 @@ import 'package:high_bee/viewmodel/counter.dart';
 import 'package:high_bee/viewmodel/home/home_view_model.dart';
 import 'package:high_bee/viewmodel/loading/loading_view_model.dart';
 import 'package:high_bee/viewmodel/login/login_view_model.dart';
+import 'package:high_bee/viewmodel/post/image_post_view_model.dart';
 import 'package:high_bee/viewmodel/post/post_view_model.dart';
 import 'package:high_bee/viewmodel/profile/profile_view_model.dart';
 import 'package:high_bee/viewmodel/recovery/recovery_view_model.dart';
@@ -39,7 +40,11 @@ class MSRouter {
           create: (_) => HomeViewModel(),
           child: const HomePage(),
         ),
-    ImagePostPage.routeName: (context) => const ImagePostPage(),
+    ImagePostPage.routeName:
+        (context) => ChangeNotifierProvider(
+          create: (_) => ImagePostViewModel(),
+          child: const ImagePostPage(),
+        ),
     LoadingPage.routeName:
         (context) => ChangeNotifierProvider(
           create: (_) => LoadingViewModel(),

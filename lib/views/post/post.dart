@@ -3,8 +3,14 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
+import 'package:high_bee/components/widgets/buttons/button.dart';
+import 'package:high_bee/components/widgets/dropdown/dropdown.dart';
+import 'package:high_bee/components/widgets/topbar/topbar.dart';
+import 'package:high_bee/util/field_validator.dart';
 import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/post/post_view_model.dart';
+import 'package:high_bee/views/post/images_post.dart';
+import 'package:high_bee/views/post/widgets/discard.dart';
 import 'package:provider/provider.dart';
 
 class PostPage extends StatelessWidget {
@@ -17,97 +23,361 @@ class PostPage extends StatelessWidget {
 
     return Consumer<PostViewModel>(
       builder: (context, vm, child) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {});
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!viewModel.isFocused) {
+            FocusScope.of(context).requestFocus(viewModel.focusNode);
+            viewModel.isFocused = true;
+          }
 
-        return AppContainer(
-          body: KeyboardDismissOnTap(
-            child: Column(
-              children: [
-                Container(
-                  height: 72,
-                  width: double.infinity,
-                  color: PrimaryColors.highBeeColor,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          if (viewModel.isValid) {
+            viewModel.isValid = false;
+            FocusScope.of(context).unfocus();
+            MSNavigate.toName(context, ImagePostPage.routeName);
+          }
+        });
+
+        return PopScope<Object?>(
+          canPop: false,
+          onPopInvokedWithResult: (bool didPop, Object? result) async {
+            if (didPop) {
+              return;
+            }
+
+            FocusScope.of(context).unfocus();
+
+            if (viewModel.controllerTextReady.text.isNotEmpty) {
+              showDialog(
+                context: context,
+                builder:
+                    (context) => DiscardDialog(
+                      onTapDiscard: () {
+                        viewModel.cache.remove("post");
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          MSNavigate.toRoot(context);
+                        });
+                      },
+                      onTap: viewModel.saveContent,
+                    ),
+              );
+            }
+
+            if (viewModel.controllerTextReady.text.isEmpty) {
+              Future.delayed(const Duration(milliseconds: 300), () {
+                MSNavigate.toRoot(context);
+              });
+            }
+          },
+          child: AppContainer(
+            appBar: TopBar(
+              title: "Conteúdo",
+              onTap: () {
+                FocusScope.of(context).unfocus();
+
+                if (viewModel.controllerTextReady.text.isNotEmpty) {
+                  showDialog(
+                    context: context,
+                    builder:
+                        (context) => DiscardDialog(
+                          onTapDiscard: () {
+                            viewModel.cache.remove("post");
+                            Future.delayed(
+                              const Duration(milliseconds: 100),
+                              () {
+                                MSNavigate.toRoot(context);
+                              },
+                            );
+                          },
+                          onTap: viewModel.saveContent,
+                        ),
+                  );
+                }
+
+                if (viewModel.controllerTextReady.text.isEmpty) {
+                  Future.delayed(const Duration(milliseconds: 300), () {
+                    MSNavigate.toRoot(context);
+                  });
+                }
+              },
+            ),
+            body: KeyboardDismissOnTap(
+              child: Stack(
+                children: [
+                  Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: GestureDetector(
-                          onTap: () => {MSNavigate.toRoot(context)},
-                          child: SvgPicture.asset(
-                            'assets/svg/arrow-left.svg',
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(
-                              Colors.black,
-                              BlendMode.srcIn,
-                            ),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(0),
+                          color: PrimaryColors.claudeColor,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            spacing: 20,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12),
+                                    child: DropdownCustom.def(
+                                      selected: viewModel.font,
+                                      items: ["Georgia", "Nunito"],
+                                      size: 140,
+                                      onChanged: (value) {
+                                        viewModel.setFont(value!);
+                                      },
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(14),
+                                    child: SizedBox(
+                                      child: Button.black(
+                                        onPressed: () {
+                                          viewModel.saveContent();
+                                        },
+                                        title: "Próximo",
+                                        endContent: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 8.0,
+                                          ),
+                                          child: SvgPicture.asset(
+                                            "assets/svg/chevron-right.svg",
+                                            height: 12,
+                                            width: 12,
+                                            colorFilter: const ColorFilter.mode(
+                                              Colors.white,
+                                              BlendMode.srcIn,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 24,
+                                ),
+                                child: Form(
+                                  key: viewModel.formKey,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    spacing: 24,
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: TextFormField(
+                                              maxLength:
+                                                  viewModel.maxNumCharacters,
+                                              focusNode: viewModel.focusNode,
+                                              textInputAction:
+                                                  TextInputAction.done,
+                                              onChanged: (value) {
+                                                viewModel
+                                                    .atualizarLinhasDoParagrafo(
+                                                      value
+                                                          .trim()
+                                                          .split(RegExp(r'\s+'))
+                                                          .length,
+                                                    );
+                                                viewModel.setNumCharacters(
+                                                  value.length,
+                                                );
+                                              },
+                                              style: TextStyle(
+                                                color:
+                                                    PrimaryColors.carvaoColor,
+                                                fontFamily: viewModel.font,
+                                                fontSize: 18,
+                                              ),
+                                              minLines: viewModel.linhas,
+                                              maxLines: viewModel.linhas + 3,
+                                              controller:
+                                                  viewModel.controllerTextReady,
+                                              cursorWidth: 1,
+                                              cursorColor:
+                                                  PrimaryColors.carvaoColor,
+                                              textAlign: TextAlign.start,
+                                              textAlignVertical:
+                                                  TextAlignVertical.top,
+                                              decoration: InputDecoration(
+                                                floatingLabelStyle: TextStyle(
+                                                  color: Colors.black26,
+                                                  fontFamily: viewModel.font,
+                                                  fontSize: 18,
+                                                ),
+                                                labelText:
+                                                    'O que irá publicar hoje?',
+                                                labelStyle: TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: viewModel.font,
+                                                  fontSize: 20,
+                                                ),
+                                                alignLabelWithHint: true,
+                                                border:
+                                                    InputBorder
+                                                        .none, // Sem borda normal
+                                                enabledBorder:
+                                                    InputBorder
+                                                        .none, // Sem borda quando desabilitado
+                                                focusedBorder:
+                                                    InputBorder
+                                                        .none, // Sem borda quando focado
+                                                disabledBorder:
+                                                    InputBorder.none,
+                                              ),
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
+                                              validator:
+                                                  (value) =>
+                                                      FieldValidator.validateArgumentNews(
+                                                        value,
+                                                      ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      left: 15,
-                      right: 15,
-                      top: 35,
-                      bottom: 15,
-                    ),
-                    color: PrimaryColors.claudeColor,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        spacing: 20,
-                        children: [
-                          const SizedBox(height: 100),
-                          Form(
-                            key: viewModel.formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              spacing: 6,
-                              children: [
-                                TextFormField(
-                                  controller: viewModel.titleController,
-                                  cursorWidth: 1,
-                                  cursorColor: PrimaryColors.carvaoColor,
-                                  decoration: InputDecoration(
-                                    floatingLabelStyle: const TextStyle(
-                                      color: PrimaryColors.carvaoColor,
-                                    ),
-                                    labelText: 'Título',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: PrimaryColors.carvaoColor,
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: Column(
+                      children: [
+                        const Divider(
+                          height: 1,
+                          color: PrimaryColors.carvaoColor,
+                        ),
+
+                        Container(
+                          color: PrimaryColors.highBeeColor,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  spacing: 8,
+                                  children: [
+                                    Text(
+                                      "${viewModel.numCharacters} / 6000",
+                                      style: const TextStyle(
+                                        fontFamily: 'Urbanist',
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: PrimaryColors.carvaoColor,
+                                    SizedBox(
+                                      height: 42,
+                                      width: 42,
+                                      child: CircularProgressIndicator(
+                                        padding: EdgeInsets.all(10),
+                                        value: viewModel.progress,
+                                        strokeWidth: 4,
+                                        backgroundColor: Colors.grey.shade300,
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                              viewModel.progress < 1.0
+                                                  ? PrimaryColors.carvaoColor
+                                                  : SecondaryColors.danger,
+                                            ),
                                       ),
                                     ),
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  // validator:
-                                  //     (value) =>
-                                  //         FieldValidator.validateEmail(value),
+                                  ],
                                 ),
-                                SizedBox(height: 16),
-                              ],
-                            ),
+                              ),
+
+                              SizedBox(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  spacing: 4,
+                                  children: [
+                                    Button.black(
+                                      onPressed: () {
+                                        viewModel.adicionarParagrafo();
+                                        FocusScope.of(
+                                          context,
+                                        ).requestFocus(viewModel.focusNode);
+                                      },
+                                      title: "Parágrafo",
+                                      endContent: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 8.0,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "assets/svg/pilcrow.svg",
+                                          height: 12,
+                                          width: 12,
+                                          colorFilter: const ColorFilter.mode(
+                                            Colors.white,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Button.danger(
+                                      onPressed: viewModel.limpar,
+                                      title: "Limpar",
+                                      endContent: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 8.0,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "assets/svg/eraser.svg",
+                                          height: 14,
+                                          width: 14,
+                                          colorFilter: const ColorFilter.mode(
+                                            Colors.white,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Button.success(
+                                      onPressed: () {
+                                        viewModel.colarTexto(true);
+                                      },
+                                      title: "Colar",
+                                      endContent: Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 8.0,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          "assets/svg/copy.svg",
+                                          height: 12,
+                                          width: 12,
+                                          colorFilter: const ColorFilter.mode(
+                                            Colors.white,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -115,70 +385,3 @@ class PostPage extends StatelessWidget {
     );
   }
 }
-
-// class ParagrafosScreen extends StatefulWidget {
-//   @override
-//   _ParagrafosScreenState createState() => _ParagrafosScreenState();
-// }
-
-// class _ParagrafosScreenState extends State<ParagrafosScreen> {
-//   List<TextEditingController> controllers = [TextEditingController()];
-//   static const int maxParagrafos = 5;
-
-//   void _adicionarParagrafo() {
-//     if (controllers.length < maxParagrafos) {
-//       setState(() {
-//         controllers.add(TextEditingController());
-//       });
-//     }
-//   }
-
-//   @override
-//   void dispose() {
-//     for (var controller in controllers) {
-//       controller.dispose();
-//     }
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('Parágrafos')),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: ListView.builder(
-//           shrinkWrap: true,
-//           itemCount: controllers.length,
-//           itemBuilder: (context, index) {
-//             return Padding(
-//               padding: const EdgeInsets.only(bottom: 16.0),
-//               child: Row(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Expanded(
-//                     child: TextField(
-//                       controller: controllers[index],
-//                       minLines: 4,
-//                       maxLines: 6,
-//                       decoration: InputDecoration(
-//                         labelText: 'Parágrafo ${index + 1}',
-//                         border: OutlineInputBorder(),
-//                       ),
-//                     ),
-//                   ),
-//                   if (index == controllers.length - 1 &&
-//                       controllers.length < maxParagrafos)
-//                     IconButton(
-//                       icon: Icon(Icons.add),
-//                       onPressed: _adicionarParagrafo,
-//                     ),
-//                 ],
-//               ),
-//             );
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }

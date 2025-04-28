@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
-import 'package:high_bee/util/navigate.dart'; 
-import 'package:high_bee/viewmodel/main_page/main_page_view_model.dart'; 
+import 'package:high_bee/util/navigate.dart';
+import 'package:high_bee/viewmodel/main_page/main_page_view_model.dart';
+import 'package:high_bee/views/post/post.dart';
 import 'package:high_bee/views/training/training.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -38,12 +39,12 @@ class _MainPageState extends State<MainPage> {
                   ? FloatingActionButton(
                     mini: true,
                     onPressed: () async {
-                      // if (!await viewModel.isTrained()) {
-                      MSNavigate.toName(context, TrainingPage.routeName);
-                      //   return;
-                      // }
-                      // MSNavigate.toName(context, TitlePostPage.routeName);
-                      // return;
+                      if (!await viewModel.isTrained()) {
+                        MSNavigate.toName(context, TrainingPage.routeName);
+                        return;
+                      }
+                      MSNavigate.toName(context, PostPage.routeName);
+                      return;
                     },
                     backgroundColor: PrimaryColors.highBeeColor,
                     child: SvgPicture.asset(

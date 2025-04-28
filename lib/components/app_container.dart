@@ -14,6 +14,7 @@ class AppContainer extends StatelessWidget {
   final Brightness? systemNavigationBarIconBrightness;
   final FloatingActionButton? floatingActionButton;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
+  final bool? resizeToAvoidBottomInset;
 
   const AppContainer({
     super.key,
@@ -28,6 +29,7 @@ class AppContainer extends StatelessWidget {
     this.systemNavigationBarIconBrightness,
     this.floatingActionButton,
     this.floatingActionButtonLocation,
+    this.resizeToAvoidBottomInset,
   });
 
   @override
@@ -41,7 +43,7 @@ class AppContainer extends StatelessWidget {
             systemNavigationBarIconBrightness ?? Brightness.light,
       ),
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset ?? true,
         backgroundColor: backgroundColor ?? PrimaryColors.highBeeColor,
         appBar: appBar,
         body:

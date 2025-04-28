@@ -298,7 +298,7 @@ class _RulesPageState extends State<RulesPage> {
                                           showDialog(
                                             context: context,
                                             builder:
-                                                (context) => TermsOfUseModal(
+                                                (context) => TermsOfUseDialog(
                                                   onTap: viewModel.acceptTerms,
                                                 ),
                                           );

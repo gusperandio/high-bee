@@ -39,17 +39,30 @@ class Cache {
     return UserModel.fromJson(userMap);
   }
 
-  Future<void> setNews(List<NewsModel> news) async {
-    final newsJson = jsonEncode(news.map((e) => e.toJson()).toList());
-    await _prefs?.setString('news', newsJson);
+  Future<void> setNews(NewsModel news) async {
+    final newsJson = jsonEncode(news.toJson());
+    await _prefs?.setString('post', newsJson);
   }
 
   Future<NewsModel?> getNews() async {
-    final newsJson = _prefs?.getString('news');
+    final newsJson = _prefs?.getString('post');
     if (newsJson == null) return null;
 
     final newsMap = jsonDecode(newsJson);
     return NewsModel.fromJson(newsMap);
+  }
+
+  Future<void> setListNews(List<NewsModel> news) async {
+    final newsJson = jsonEncode(news.map((e) => e.toJson()).toList());
+    await _prefs?.setString('news', newsJson);
+  }
+
+  Future<List<NewsModel>?> getListNews() async {
+    final newsJson = _prefs?.getString('news');
+    if (newsJson == null) return null;
+
+    final newsMap = jsonDecode(newsJson);
+    return (newsMap as List).map((e) => NewsModel.fromJson(e)).toList();
   }
 
   Future<bool> getTrained() async {
@@ -65,5 +78,9 @@ class Cache {
 
   Future<void> clear() async {
     await _prefs?.clear();
+  }
+
+  Future<void> remove(String key) async{
+    await _prefs?.remove(key);
   }
 }

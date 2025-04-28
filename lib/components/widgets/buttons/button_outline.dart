@@ -200,22 +200,20 @@ class ButtonOutlineState extends State<ButtonOutline> {
             visible: widget.startContent != null,
             child: widget.startContent ?? SizedBox.shrink(),
           ),
-          Visibility(
-            visible: widget.title != null,
-            child: Text(
-              widget.title!.toUpperCase(),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: widget.borderColor,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Visibility(
-            visible: widget.endContent != null,
-            child: widget.endContent ?? SizedBox.shrink(),
-          ),
+          widget.title != null
+              ? Text(
+                widget.title!.toUpperCase(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: widget.borderColor,
+                ),
+                textAlign: TextAlign.center,
+              )
+              : SizedBox.shrink(),
+
+           widget.endContent ?? SizedBox.shrink(),
+        
         ],
       ),
     );

@@ -50,9 +50,18 @@ class FieldValidator {
   }
 
   static String? validateName(String? value) {
+    return validateField(value: value, emptyMessage: 'Informe seu nome');
+  }
+
+  static String? validateArgumentNews(String? value) {
     return validateField(
       value: value,
-      emptyMessage: 'Informe seu nome',
+      emptyMessage: 'Este campo não pode ser vazio',
+      additionalValidation:
+          (val) =>
+              val.length >= 50
+                  ? null
+                  : 'Sua publicação precisa ter mais de 50 caracteres',
     );
   }
 }

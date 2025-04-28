@@ -7,19 +7,20 @@ class DottedCard extends StatelessWidget {
   final String? description;
   final Widget icon;
   final double height;
-
+  final VoidCallback? onTap;
   const DottedCard({
     super.key,
     required this.title,
     this.description,
     required this.icon,
     required this.height,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {},
+      onTap: onTap,
       child: DottedBorder(
         color: const Color(0xFF8f9bba),
         borderType: BorderType.RRect,

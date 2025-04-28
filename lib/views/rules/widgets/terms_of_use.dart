@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
 
-class TermsOfUseModal extends StatelessWidget {
+class TermsOfUseDialog extends StatelessWidget {
   final VoidCallback onTap;
-  const TermsOfUseModal({super.key, required this.onTap});
+  const TermsOfUseDialog({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {

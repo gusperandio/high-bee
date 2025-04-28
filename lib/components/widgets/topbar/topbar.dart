@@ -5,9 +5,9 @@ import 'package:high_bee/util/navigate.dart';
 
 class TopBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
+  final VoidCallback? onTap;
 
-  const TopBar({super.key, this.title});
-
+  const TopBar({super.key, this.title, this.onTap});
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -37,7 +37,7 @@ class TopBar extends StatelessWidget implements PreferredSizeWidget {
         Padding(
           padding: const EdgeInsets.only(top: 68, left: 22),
           child: GestureDetector(
-            onTap: () => {MSNavigate.back(context)},
+            onTap: onTap ?? () => MSNavigate.back(context),
             child: SvgPicture.asset(
               'assets/svg/arrow-left.svg',
               width: 24,

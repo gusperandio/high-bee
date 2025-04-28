@@ -36,6 +36,7 @@ class RecoveryPage extends StatelessWidget {
         });
 
         return AppContainer(
+          resizeToAvoidBottomInset: false,
           appBar: TopBar(),
           body: KeyboardDismissOnTap(
             child: Column(
@@ -83,21 +84,20 @@ class RecoveryPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.only(
-                      left: 15,
-                      right: 15,
-                      top: 35,
-                      bottom: 15,
-                    ),
                     color: Colors.white,
-                    child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(5),
-                      child: Column(
-                        spacing: 16,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Form(
+                    child: Column(
+                      spacing: 16,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 15,
+                            right: 15,
+                            top: 35,
+                            bottom: 15,
+                          ),
+                          child: Form(
                             key: viewModel.formKey,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -165,8 +165,20 @@ class RecoveryPage extends StatelessWidget {
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: 150,
+                              child: Image.asset(
+                                'assets/lottie/satisfy.gif',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
