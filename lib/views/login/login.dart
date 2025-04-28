@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
 
           if (!vm.isLoading && isDialogVisible) {
             isDialogVisible = false;
-            Navigator.of(context, rootNavigator: true).pop(); // fecha o loading
+            Navigator.of(context, rootNavigator: true).pop(); 
           }
 
           if (vm.errorMessage != null) {

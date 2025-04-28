@@ -2,7 +2,7 @@ class NewsModel {
   String? id;
   String? title;
   String? argument;
-  List<String>? tags;
+  String? tag;
   String? userId;
   int? minReads;
   bool? aiValidate;
@@ -20,7 +20,7 @@ class NewsModel {
     this.id,
     this.title,
     this.argument,
-    this.tags,
+    this.tag,
     this.userId,
     this.minReads,
     this.aiValidate = false,
@@ -40,7 +40,7 @@ class NewsModel {
       'id': id,
       'title': title,
       'argument': argument,
-      'tags': tags,
+      'tag': tag,
       'userId': userId,
       'minReads': minReads,
       'aiValidate': aiValidate,
@@ -61,7 +61,7 @@ class NewsModel {
       id: json['id'] ?? "",
       title: json['title'] ?? "",
       argument: json['argument'] ?? "",
-      tags: json['tags'] != null ? List<String>.from(json['tags']) : [],
+      tag: json['tag'] ?? "",
       userId: json['userId'] ?? "",
       minReads: json['minReads'] ?? 0,
       aiValidate: json['aiValidate'] ?? false,

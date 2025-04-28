@@ -4,10 +4,11 @@ import 'package:high_bee/models/datas/news.dart';
 import 'package:high_bee/util/cache.dart';
 
 class PostViewModel extends ChangeNotifier {
-  final formKey = GlobalKey<FormState>();
   final cache = Cache();
+  final formKey = GlobalKey<FormState>();
   List<TextEditingController> controllers = [TextEditingController()];
   TextEditingController controllerTextReady = TextEditingController();
+  final ScrollController scrollController = ScrollController();
   FocusNode focusNode = FocusNode();
   bool isFocused = false;
   bool isValid = false;
@@ -52,12 +53,9 @@ class PostViewModel extends ChangeNotifier {
   void adicionarParagrafo() {
     final textoAtual = controllerTextReady.text;
 
-    final novoTexto = textoAtual.isEmpty ? '\n' : '$textoAtual\n     ';
+    final novoTexto = textoAtual.isEmpty ? '\n' : '$textoAtual\n<parágrafo>';
 
     controllerTextReady.text = novoTexto;
-    controllerTextReady.selection = TextSelection.fromPosition(
-      TextPosition(offset: controllerTextReady.text.length),
-    );
     atualizarLinhasDoParagrafo(
       controllerTextReady.text.trim().split(RegExp(r'\s+')).length,
     );
@@ -75,6 +73,20 @@ class PostViewModel extends ChangeNotifier {
   }
 
   void atualizarLinhasDoParagrafo(int quantidadePalavras) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controllerTextReady.selection = TextSelection.fromPosition(
+        TextPosition(offset: controllerTextReady.text.length),
+      );
+
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+
     if (quantidadePalavras == 0 && linhas != 1) {
       linhas = 1;
       notifyListeners();

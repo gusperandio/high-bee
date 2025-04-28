@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
@@ -85,7 +86,20 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                       onSelectedItem: (index) {
-                        print("Selected Item: $index");
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            transitionDuration: Duration(milliseconds: 200),
+                            pageBuilder:
+                                (_, animation, secondaryAnimation) =>
+                                    CardDetailsPage(index: index),
+                            transitionsBuilder: (_, animation, __, child) {
+                              return FadeTransition(
+                                opacity: animation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
                       },
                       initialPage: 0,
                       align: ALIGN.LEFT,
@@ -98,6 +112,62 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CardDetailsPage extends StatelessWidget {
+  final int index;
+
+  const CardDetailsPage({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Detalhes do Card $index')),
+      body: Center(
+        child: Text('Conteúdo do card $index', style: TextStyle(fontSize: 24)),
+      ),
+    );
+  }
+}
+
+class OpenContainerWrapper extends StatelessWidget {
+  final int index;
+
+  const OpenContainerWrapper({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return OpenContainer(
+      transitionDuration: const Duration(milliseconds: 1000),
+      openBuilder: (context, _) => CardDetailsPage(index: index),
+      closedBuilder:
+          (context, openContainer) => GestureDetector(
+            onTap: openContainer,
+            child: Center(
+              child: Container(
+                margin: const EdgeInsets.all(32),
+                width: double.infinity,
+                height: 250,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Center(
+                  child: Text(
+                    'Abrir detalhes do card $index',
+                    style: const TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      closedElevation: 0,
+      closedShape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      closedColor: Colors.blueAccent,
     );
   }
 }

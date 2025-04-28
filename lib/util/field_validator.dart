@@ -64,4 +64,16 @@ class FieldValidator {
                   : 'Sua publicação precisa ter mais de 50 caracteres',
     );
   }
+
+  static String? validateTitleNews(String? value) {
+    return validateField(
+      value: value,
+      emptyMessage: 'Informe o título da sua publicação',
+      additionalValidation:
+          (val) =>
+              val.length <= 100
+                  ? null
+                  : 'Sua publicação precisa ter no máximo 100 caracteres',
+    );
+  }
 }

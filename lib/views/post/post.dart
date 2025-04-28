@@ -68,6 +68,22 @@ class PostPage extends StatelessWidget {
             }
           },
           child: AppContainer(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                viewModel.saveContent();
+              },
+              backgroundColor: const Color(0xFF000000),
+              child: SvgPicture.asset(
+                "assets/svg/chevron-right.svg",
+                height: 32,
+                width: 32,
+                colorFilter: const ColorFilter.mode(
+                  Colors.white,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
             appBar: TopBar(
               title: "Conteúdo",
               onTap: () {
@@ -108,145 +124,130 @@ class PostPage extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(0),
                           color: PrimaryColors.claudeColor,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            spacing: 20,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 12),
-                                    child: DropdownCustom.def(
-                                      selected: viewModel.font,
-                                      items: ["Georgia", "Nunito"],
-                                      size: 140,
-                                      onChanged: (value) {
-                                        viewModel.setFont(value!);
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(14),
-                                    child: SizedBox(
-                                      child: Button.black(
-                                        onPressed: () {
-                                          viewModel.saveContent();
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              spacing: 20,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 12,
+                                        top: 24,
+                                      ),
+                                      child: DropdownCustom.def(
+                                        selected: viewModel.font,
+                                        items: ["Georgia", "Nunito"],
+                                        size: 140,
+                                        onChanged: (value) {
+                                          viewModel.setFont(value!);
                                         },
-                                        title: "Próximo",
-                                        endContent: Padding(
-                                          padding: const EdgeInsets.only(
-                                            left: 8.0,
-                                          ),
-                                          child: SvgPicture.asset(
-                                            "assets/svg/chevron-right.svg",
-                                            height: 12,
-                                            width: 12,
-                                            colorFilter: const ColorFilter.mode(
-                                              Colors.white,
-                                              BlendMode.srcIn,
-                                            ),
-                                          ),
-                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 24,
+                                  ],
                                 ),
-                                child: Form(
-                                  key: viewModel.formKey,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    spacing: 24,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: TextFormField(
-                                              maxLength:
-                                                  viewModel.maxNumCharacters,
-                                              focusNode: viewModel.focusNode,
-                                              textInputAction:
-                                                  TextInputAction.done,
-                                              onChanged: (value) {
-                                                viewModel
-                                                    .atualizarLinhasDoParagrafo(
-                                                      value
-                                                          .trim()
-                                                          .split(RegExp(r'\s+'))
-                                                          .length,
-                                                    );
-                                                viewModel.setNumCharacters(
-                                                  value.length,
-                                                );
-                                              },
-                                              style: TextStyle(
-                                                color:
-                                                    PrimaryColors.carvaoColor,
-                                                fontFamily: viewModel.font,
-                                                fontSize: 18,
-                                              ),
-                                              minLines: viewModel.linhas,
-                                              maxLines: viewModel.linhas + 3,
-                                              controller:
-                                                  viewModel.controllerTextReady,
-                                              cursorWidth: 1,
-                                              cursorColor:
-                                                  PrimaryColors.carvaoColor,
-                                              textAlign: TextAlign.start,
-                                              textAlignVertical:
-                                                  TextAlignVertical.top,
-                                              decoration: InputDecoration(
-                                                floatingLabelStyle: TextStyle(
-                                                  color: Colors.black26,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 24,
+                                  ),
+                                  child: Form(
+                                    key: viewModel.formKey,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      spacing: 0,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: TextFormField(
+                                                scrollController:
+                                                    viewModel.scrollController,
+                                                maxLength:
+                                                    viewModel.maxNumCharacters,
+                                                focusNode: viewModel.focusNode,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                onChanged: (value) {
+                                                  viewModel
+                                                      .atualizarLinhasDoParagrafo(
+                                                        value
+                                                            .trim()
+                                                            .split(
+                                                              RegExp(r'\s+'),
+                                                            )
+                                                            .length,
+                                                      );
+                                                  viewModel.setNumCharacters(
+                                                    value.length,
+                                                  );
+                                                },
+                                                style: TextStyle(
+                                                  color:
+                                                      PrimaryColors.carvaoColor,
                                                   fontFamily: viewModel.font,
                                                   fontSize: 18,
                                                 ),
-                                                labelText:
-                                                    'O que irá publicar hoje?',
-                                                labelStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontFamily: viewModel.font,
-                                                  fontSize: 20,
+                                                minLines: viewModel.linhas,
+                                                maxLines: viewModel.linhas,
+                                                controller:
+                                                    viewModel
+                                                        .controllerTextReady,
+                                                cursorWidth: 1,
+                                                cursorColor:
+                                                    PrimaryColors.carvaoColor,
+                                                textAlign: TextAlign.start,
+                                                textAlignVertical:
+                                                    TextAlignVertical.top,
+                                                decoration: InputDecoration(
+                                                  floatingLabelStyle: TextStyle(
+                                                    color: Colors.black26,
+                                                    fontFamily: viewModel.font,
+                                                    fontSize: 18,
+                                                  ),
+                                                  labelText:
+                                                      'O que irá publicar hoje?',
+                                                  labelStyle: TextStyle(
+                                                    color: Colors.black,
+                                                    fontFamily: viewModel.font,
+                                                    fontSize: 20,
+                                                  ),
+                                                  alignLabelWithHint: true,
+                                                  border:
+                                                      InputBorder
+                                                          .none, // Sem borda normal
+                                                  enabledBorder:
+                                                      InputBorder
+                                                          .none, // Sem borda quando desabilitado
+                                                  focusedBorder:
+                                                      InputBorder
+                                                          .none, // Sem borda quando focado
+                                                  disabledBorder:
+                                                      InputBorder.none,
                                                 ),
-                                                alignLabelWithHint: true,
-                                                border:
-                                                    InputBorder
-                                                        .none, // Sem borda normal
-                                                enabledBorder:
-                                                    InputBorder
-                                                        .none, // Sem borda quando desabilitado
-                                                focusedBorder:
-                                                    InputBorder
-                                                        .none, // Sem borda quando focado
-                                                disabledBorder:
-                                                    InputBorder.none,
+                                                keyboardType:
+                                                    TextInputType.emailAddress,
+                                                validator:
+                                                    (value) =>
+                                                        FieldValidator.validateArgumentNews(
+                                                          value,
+                                                        ),
                                               ),
-                                              keyboardType:
-                                                  TextInputType.emailAddress,
-                                              validator:
-                                                  (value) =>
-                                                      FieldValidator.validateArgumentNews(
-                                                        value,
-                                                      ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

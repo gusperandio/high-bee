@@ -65,7 +65,7 @@ class _MainPageState extends State<MainPage> {
             children: List.generate(5, (index) {
               return viewModel.initialized[index]
                   ? viewModel.pages[index]!
-                  : const SizedBox(); // vazio se ainda não acessou
+                  : const SizedBox();
             }),
           ),
           bottomNavigationBar: Theme(

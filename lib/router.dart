@@ -4,6 +4,7 @@ import 'package:high_bee/viewmodel/counter.dart';
 import 'package:high_bee/viewmodel/home/home_view_model.dart';
 import 'package:high_bee/viewmodel/loading/loading_view_model.dart';
 import 'package:high_bee/viewmodel/login/login_view_model.dart';
+import 'package:high_bee/viewmodel/post/demonstration_view_model.dart';
 import 'package:high_bee/viewmodel/post/image_post_view_model.dart';
 import 'package:high_bee/viewmodel/post/post_view_model.dart';
 import 'package:high_bee/viewmodel/profile/profile_view_model.dart';
@@ -16,6 +17,7 @@ import 'package:high_bee/views/counter/counter.dart';
 import 'package:high_bee/views/home/home.dart';
 import 'package:high_bee/views/loading/loading.dart';
 import 'package:high_bee/views/login/login.dart';
+import 'package:high_bee/views/post/demonstration_post.dart';
 import 'package:high_bee/views/post/post.dart';
 import 'package:high_bee/views/profile/profile.dart';
 import 'package:high_bee/views/recovery/recovery.dart';
@@ -33,6 +35,11 @@ class MSRouter {
         (context) => ChangeNotifierProvider(
           create: (_) => CounterViewModel(),
           child: const CounterView(),
+        ),
+    DemonstrationPostPage.routeName:
+        (context) => ChangeNotifierProvider(
+          create: (_) => DemonstrationViewModel(),
+          child: const DemonstrationPostPage(),
         ),
     HandlerAuthenticate.routeName: (context) => const HandlerAuthenticate(),
     HomePage.routeName:

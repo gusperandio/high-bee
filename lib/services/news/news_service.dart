@@ -36,7 +36,7 @@ class NewsService {
   }
 
   Future<void> createNews(NewsModel news) async {
-    await _db.ref('news/${news.id}').set(news.toJson());
+    await _db.ref('news/${news.id}').push().set(news.toJson());
   }
 
   Future<void> updateNews(NewsModel news) async {
