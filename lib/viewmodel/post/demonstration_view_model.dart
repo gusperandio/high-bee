@@ -1,47 +1,56 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:high_bee/models/datas/news.dart';
 import 'package:high_bee/util/cache.dart';
 import 'package:high_bee/util/firebase_storage.dart';
 
 class DemonstrationViewModel extends ChangeNotifier {
-  final storageService = FirebaseStorageService();
   final cache = Cache();
-  File? selectedCape;
-  File? selectedImage1;
-  String? errorMessage;
+  NewsModel? _news;
+  List<String> paragraphs = [];
+  bool isLoading = true;
   bool isDialogVisible = false;
-  bool isLoading = false;
+  String? errorMessage;
+
+  NewsModel? get news => _news;
+
+  DemonstrationViewModel() {
+    loadNews();
+  }
+
+  Future<void> loadNews() async {
+    try {
+      _setLoadingState(true);
+      final cachedNews = await cache.getNews();
+      if (cachedNews != null) {
+        _news = cachedNews;
+        _splitParagraphs(cachedNews.argument ?? '');
+      } else {
+        errorMessage = "Nenhuma notícia encontrada no cache.";
+      }
+    } catch (e) {
+      errorMessage = "Erro ao carregar dados.";
+    } finally {
+      _setLoadingState(false);
+    }
+  }
+
   void _setLoadingState(bool state) {
     isLoading = state;
     notifyListeners();
   }
 
-  late final Object arguments;
-
-  void setArguments(Object args) {
-    if (_argumentsWasSet) return;
-    arguments = args;
-    _argumentsWasSet = true;
-  }
-
-  bool _argumentsWasSet = false;
-
-  NewsModel? _news;
-  NewsModel? get news => _news;
-  void setNews(NewsModel? value) {
-    if (value == null) return;
-    _news = value;
-    notifyListeners();
-  }
-
-  DemonstrationViewModel() {
-    initialize();
-  }
-
-  Future<void> initialize() async {
-    setNews(await cache.getNews());
+  void _splitParagraphs(String argument) {
+    // Primeiro, tentamos dividir pelo token <paragrafo>
+    if (argument.contains('<paragrafo>')) {
+      paragraphs = argument.split('<paragrafo>').map((e) => e.trim()).toList();
+    } else {
+      // Se não houver, tentamos quebrar pelo padrão de espaçamentos (dois \n seguidos)
+      paragraphs =
+          argument.split(RegExp(r'\n\s*\n')).map((e) => e.trim()).toList();
+    }
   }
 
   void saveMyNews() {

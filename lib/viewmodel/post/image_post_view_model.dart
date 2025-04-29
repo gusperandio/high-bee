@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/widgets.dart';
 import 'package:high_bee/models/datas/news.dart';
 
-import 'package:high_bee/util/cache.dart'; 
+import 'package:high_bee/util/cache.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -14,6 +14,7 @@ class ImagePostViewModel extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
   TextEditingController controllerTitle = TextEditingController();
   TextEditingController controllerSubtitleImg = TextEditingController();
+  ValueNotifier<String?> tagNotifier = ValueNotifier(null);
   final List<Map<String, String>> tags = [
     {"name": "Cannabis"},
     {"name": "Maconha"},
@@ -70,8 +71,10 @@ class ImagePostViewModel extends ChangeNotifier {
   String? get tag => _tag;
   void setTag(String value) {
     _tag = value;
+    tagNotifier.value = tag;
     notifyListeners();
   }
+
   NewsModel? _news;
   NewsModel? get news => _news;
   void setNews(NewsModel? value) {
@@ -94,6 +97,31 @@ class ImagePostViewModel extends ChangeNotifier {
 
   Future<void> initialize() async {
     await Permission.storage.request();
+
+    setNews(await cache.getNews());
+    if (news == null) {
+      return;
+    }
+
+    if (news!.title != null && news!.title != "") {
+      controllerTitle.text = news!.title!;
+    }
+
+    if (news!.photo1desc != null && news!.photo1desc != "") {
+      controllerSubtitleImg.text = news!.photo1desc!;
+    }
+
+    if (news!.cape != null && news!.cape != "") {
+      selectedCape = File(news!.cape!);
+    }
+
+    if (news!.photo1 != null && news!.photo1 != "") {
+      selectedImage1 = File(news!.photo1!);
+    }
+
+    if (news!.tag != null && news!.tag != "") {
+      setTag(news!.tag!);
+    }
   }
 
   Future<void> pickCape() async {
@@ -156,8 +184,16 @@ class ImagePostViewModel extends ChangeNotifier {
     }
     news.tag = tag;
     await cache.setNews(news);
-    
+
     isValid = true;
     setNews(news);
+  }
+
+  @override
+  void dispose() {
+    tagNotifier.dispose();
+    controllerTitle.dispose();
+    controllerSubtitleImg.dispose();
+    super.dispose();
   }
 }

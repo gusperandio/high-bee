@@ -13,6 +13,8 @@ class PostViewModel extends ChangeNotifier {
   bool isFocused = false;
   bool isValid = false;
   int linhas = 1;
+  final int maxNumCharacters = 6000;
+
   int maxParagraph = 5;
   int _numParagraph = 0;
   int get numParagraph => _numParagraph;
@@ -21,7 +23,6 @@ class PostViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  final int maxNumCharacters = 6000;
   int _numCharacters = 0;
   int get numCharacters => _numCharacters;
   void setNumCharacters(int value) {
@@ -46,14 +47,22 @@ class PostViewModel extends ChangeNotifier {
     _progress = value / maxNumCharacters;
   }
 
+  NewsModel? _news;
+  NewsModel? get news => _news;
+  void setNews(NewsModel? value) {
+    if (value == null) return;
+    _news = value;
+    notifyListeners();
+  }
+
   PostViewModel() {
-    loadContent();
+    initialize();
   }
 
   void adicionarParagrafo() {
     final textoAtual = controllerTextReady.text;
 
-    final novoTexto = textoAtual.isEmpty ? '\n' : '$textoAtual\n<parágrafo>';
+    final novoTexto = textoAtual.isEmpty ? '\n' : '$textoAtual\n<paragrafo>';
 
     controllerTextReady.text = novoTexto;
     atualizarLinhasDoParagrafo(
@@ -115,17 +124,29 @@ class PostViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadContent() async {
-    NewsModel? news = await cache.getNews();
+  Future<void> initialize() async {
+    setNews(await cache.getNews());
     if (news == null) return;
 
-    controllerTextReady.text = news.argument!;
-    _font = news.font;
+    controllerTextReady.text = news!.argument!;
+    _font = news!.font;
     setNumCharacters(controllerTextReady.text.length);
+
+    atualizarLinhasDoParagrafo(numCharacters);
   }
 
   Future<void> saveContent() async {
     if (!formKey.currentState!.validate()) return;
+    final newsCache = await cache.getNews();
+
+    if (newsCache != null) {
+      newsCache.argument = controllerTextReady.text;
+      newsCache.font = font;
+      await cache.setNews(newsCache);
+      isValid = true;
+      notifyListeners();
+      return;
+    }
 
     NewsModel myPost = NewsModel(
       argument: controllerTextReady.text,

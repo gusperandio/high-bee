@@ -5,11 +5,13 @@ import 'package:high_bee/components/widgets/tags/tag.dart';
 class TagSelector extends StatefulWidget {
   final Function(String) onTagSelected;
   final List<Map<String, String>> tags;
+  final String? initialValue; 
 
   const TagSelector({
     super.key,
     required this.onTagSelected,
     required this.tags,
+    this.initialValue,  
   });
 
   @override
@@ -18,6 +20,15 @@ class TagSelector extends StatefulWidget {
 
 class TagSelectorState extends State<TagSelector> {
   String? selectedTag;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null &&
+        widget.tags.any((tag) => tag['name'] == widget.initialValue)) {
+      selectedTag = widget.initialValue;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

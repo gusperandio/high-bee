@@ -17,8 +17,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<ProfileViewModel>();
     final authState = MSProvider.get<AuthenticationState>(context);
+    final viewModel = context.watch<ProfileViewModel>();
 
     return Consumer<ProfileViewModel>(
       builder: (context, vm, child) {

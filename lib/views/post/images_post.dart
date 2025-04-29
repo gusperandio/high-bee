@@ -33,10 +33,10 @@ class ImagePostPage extends StatelessWidget {
 
           if (vm.isValid) {
             FocusScope.of(context).unfocus();
+            vm.isValid = false;
             MSNavigate.toName(
               context,
               DemonstrationPostPage.routeName,
-              arguments: vm.news,
             );
           }
         });
@@ -152,14 +152,14 @@ class ImagePostPage extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             8,
-                                          ), // Bordas arredondadas
+                                          ),  
                                           image: DecorationImage(
                                             image: FileImage(
                                               viewModel.selectedCape!,
                                             ),
                                             fit:
                                                 BoxFit
-                                                    .cover, // Preenche o container mantendo o aspecto
+                                                    .cover,  
                                           ),
                                         ),
                                       ),
@@ -275,10 +275,20 @@ class ImagePostPage extends StatelessWidget {
                                   ),
                                 ),
                                 const SizedBox(height: 32),
-                                TagSelector(
-                                  tags: viewModel.tags,
-                                  onTagSelected: (selectedTag) {
-                                    viewModel.setTag(selectedTag);
+
+                                ValueListenableBuilder<String?>(
+                                  valueListenable: viewModel.tagNotifier,
+                                  builder: (context, tag, child) {
+                                    return TagSelector(
+                                      initialValue: tag,
+                                      tags: viewModel.tags,
+                                      onTagSelected: (selectedTag) {
+                                        if (FocusScope.of(context).hasFocus) {
+                                          FocusScope.of(context).unfocus();
+                                        }
+                                        viewModel.setTag(selectedTag);
+                                      },
+                                    );
                                   },
                                 ),
                               ],

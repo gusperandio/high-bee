@@ -30,8 +30,8 @@ class PostPage extends StatelessWidget {
           }
 
           if (viewModel.isValid) {
-            viewModel.isValid = false;
             FocusScope.of(context).unfocus();
+            viewModel.isValid = false;
             MSNavigate.toName(context, ImagePostPage.routeName);
           }
         });
@@ -331,7 +331,7 @@ class PostPage extends StatelessWidget {
                                       ),
                                     ),
                                     Button.danger(
-                                      onPressed: viewModel.limpar,
+                                      onPressed: () => viewModel.limpar(),
                                       title: "Limpar",
                                       endContent: Padding(
                                         padding: const EdgeInsets.only(
