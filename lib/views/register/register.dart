@@ -25,18 +25,20 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<RegisterViewModel>();
-
     return Consumer<RegisterViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.isRegistered) {
+          if (viewModel.isRegistered) {
             MSNavigate.replaceWithName(context, ValidationDatas.routeName);
           }
 
-          if (vm.errorMessage != null) {
-            Toast.show(context, vm.errorMessage!, variant: Variant.danger);
-            vm.errorMessage = null;
+          if (viewModel.errorMessage != null) {
+            Toast.show(
+              context,
+              viewModel.errorMessage!,
+              variant: Variant.danger,
+            );
+            viewModel.errorMessage = null;
           }
         });
 

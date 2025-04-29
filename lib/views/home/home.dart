@@ -1,6 +1,17 @@
 import 'package:animations/animations.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:high_bee/components/app_container.dart';
+import 'package:high_bee/components/styles/colors.dart';
+import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
+import 'package:high_bee/components/widgets/tags/tag.dart';
+import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/viewmodel/home/home_view_model.dart';
+import 'package:high_bee/viewmodel/news/news_view_model.dart';
+import 'package:high_bee/viewmodel/post/image_post_view_model.dart';
+import 'package:high_bee/views/news/news.dart';
+import 'package:high_bee/views/post/images_post.dart';
+import 'package:provider/provider.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,162 +23,184 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String myBackground = 'assets/images/Screenshot_0.png';
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() { 
+      final viewModel = context.read<HomeViewModel>();
+      viewModel.fetchNews();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<String> generateTitles(int count) {
-      return List<String>.generate(count, (index) => "");
-    }
+    return Consumer<HomeViewModel>(
+      builder: (context, viewModel, child) {
+        final newsList = viewModel.news;
+        final isLoading = viewModel.isLoading;
 
-    List<Widget> generateWidgets(int count) {
-      return List<Widget>.generate(count, (index) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 10, right: 25),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: Colors.white,
-              width: 250,
-              height: 400,
-              child: Center(
-                child: Image.asset(
-                  'assets/images/Screenshot_$index.png',
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-        );
-      });
-    }
+        if (isLoading) {
+          return const Center(child: Loading(size: 140));
+        }
 
-    final List<Widget> myContent = generateWidgets(6);
-
-    return Column(
-      children: [
-        Expanded(
-          child: Stack(
-            children: [
-              Image.asset(
-                myBackground,
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-                filterQuality: FilterQuality.low,
-              ).blurred(
-                blur: 10,
-                colorOpacity: 0.1,
-                overlay: Container(
-                  color: Colors.black12, // camada escura semi-transparente
-                ),
-              ),
-              Column(
-                children: [
-                  Expanded(
-                    child: VerticalCardPager(
-                      titles: generateTitles(myContent.length),
-                      images: myContent,
-                      textStyle: const TextStyle(
+        final myContent =
+            newsList
+                .map(
+                  (news) => Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 25),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Container(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        width: 250,
+                        height: 400,
+                        child: Stack(
+                          children: [ 
+                            Positioned.fill(
+                              child: Image.network(
+                                news.cape ?? '',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Positioned.fill(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Colors.black87,
+                                      Colors.transparent,
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 10,
+                              right: 15,
+                              bottom: 15,
+                              child: Text(
+                                "Cannabis e reumatismo: uma nova perspectiva para o tratamento",
+                                style: const TextStyle(
+                                  fontFamily: 'Urbanist',
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                                maxLines: 3,
+                                overflow: TextOverflow.visible,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      onPageChanged: (page) async {
-                        if (page! % 1 == 0) {
-                          final int index = page.toInt();
-                          final newBg = 'assets/images/Screenshot_$index.png';
-
-                          await precacheImage(AssetImage(newBg), context);
-
-                          setState(() {
-                            myBackground = newBg;
-                          });
-                        }
-                      },
-                      onSelectedItem: (index) {
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            transitionDuration: Duration(milliseconds: 200),
-                            pageBuilder:
-                                (_, animation, secondaryAnimation) =>
-                                    CardDetailsPage(index: index),
-                            transitionsBuilder: (_, animation, __, child) {
-                              return FadeTransition(
-                                opacity: animation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
-                      },
-                      initialPage: 0,
-                      align: ALIGN.LEFT,
-                      physics: ClampingScrollPhysics(),
                     ),
                   ),
-                ],
+                )
+                .toList();
+
+        return AppContainer(
+          body: Column(
+            children: [
+              Expanded(
+                child: Stack(
+                  children: [
+                    if (viewModel.myBackground != null)
+                      viewModel.myBackground!.contains("assets/images")
+                          ? Image.asset(
+                            viewModel.myBackground!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                            filterQuality: FilterQuality.low,
+                          ).blurred(
+                            blur: 10,
+                            colorOpacity: 0.1,
+                            overlay: Container(color: Colors.black12),
+                          )
+                          : Image.network(
+                            viewModel.myBackground!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                            filterQuality: FilterQuality.low,
+                          ).blurred(
+                            blur: 10,
+                            colorOpacity: 0.1,
+                            overlay: Container(color: Colors.black12),
+                          ),
+                    Column(
+                      children: [
+                        Expanded(
+                          child:
+                              newsList.isNotEmpty
+                                  ? VerticalCardPager(
+                                    titles: List.generate(
+                                      myContent.length,
+                                      (_) => "",
+                                    ),
+                                    images: myContent,
+                                    textStyle: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    onPageChanged: (page) async {
+                                      if (page! % 1 == 0) {
+                                        final index = page.toInt();
+                                        final newBg = newsList[index].cape!;
+                                        await precacheImage(
+                                          NetworkImage(newBg),
+                                          context,
+                                        );
+                                        setState(
+                                          () => viewModel.myBackground = newBg,
+                                        );
+                                      }
+                                    },
+                                    onSelectedItem: (index) {
+                                      final news = newsList[index];
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder:
+                                              (_) => ChangeNotifierProvider(
+                                                create: (_) => NewsViewModel(),
+                                                child: NewsPage(news: news),
+                                              ),
+                                        ),
+                                      );
+                                    },
+                                    initialPage: 0,
+                                    align: ALIGN.LEFT,
+                                    physics: const ClampingScrollPhysics(),
+                                  )
+                                  : Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 22,
+                                      ),
+                                      child: Text(
+                                        "Estamos sem contéudo hoje!",
+                                        style: const TextStyle(
+                                          fontFamily: 'Urbanist',
+                                          fontSize: 32,
+                                          fontWeight: FontWeight.bold,
+                                          color: PrimaryColors.claudeColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class CardDetailsPage extends StatelessWidget {
-  final int index;
-
-  const CardDetailsPage({super.key, required this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Detalhes do Card $index')),
-      body: Center(
-        child: Text('Conteúdo do card $index', style: TextStyle(fontSize: 24)),
-      ),
-    );
-  }
-}
-
-class OpenContainerWrapper extends StatelessWidget {
-  final int index;
-
-  const OpenContainerWrapper({super.key, required this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return OpenContainer(
-      transitionDuration: const Duration(milliseconds: 1000),
-      openBuilder: (context, _) => CardDetailsPage(index: index),
-      closedBuilder:
-          (context, openContainer) => GestureDetector(
-            onTap: openContainer,
-            child: Center(
-              child: Container(
-                margin: const EdgeInsets.all(32),
-                width: double.infinity,
-                height: 250,
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Center(
-                  child: Text(
-                    'Abrir detalhes do card $index',
-                    style: const TextStyle(color: Colors.white, fontSize: 24),
-                  ),
-                ),
-              ),
-            ),
-          ),
-      closedElevation: 0,
-      closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      closedColor: Colors.blueAccent,
+        );
+      },
     );
   }
 }

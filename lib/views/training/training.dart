@@ -15,10 +15,8 @@ class TrainingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<TrainingViewModel>();
-
     return Consumer<TrainingViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {});
 
         return AppContainer(

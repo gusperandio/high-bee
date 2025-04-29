@@ -13,7 +13,6 @@ import 'package:high_bee/viewmodel/register/register_view_model.dart';
 import 'package:high_bee/viewmodel/rules/rules_view_model.dart';
 import 'package:high_bee/viewmodel/training/training_view_model.dart';
 import 'package:high_bee/viewmodel/validation/validation_view_model.dart';
-import 'package:high_bee/views/counter/counter.dart';
 import 'package:high_bee/views/home/home.dart';
 import 'package:high_bee/views/loading/loading.dart';
 import 'package:high_bee/views/login/login.dart';
@@ -31,11 +30,6 @@ import 'package:provider/provider.dart';
 
 class MSRouter {
   static Map<String, Widget Function(BuildContext)> routes() => {
-    CounterView.routeName:
-        (context) => ChangeNotifierProvider(
-          create: (_) => CounterViewModel(),
-          child: const CounterView(),
-        ),
     DemonstrationPostPage.routeName:
         (context) => ChangeNotifierProvider(
           create: (_) => DemonstrationViewModel(),

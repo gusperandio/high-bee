@@ -11,6 +11,7 @@ import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/validation/validation_view_model.dart';
 import 'package:high_bee/views/rules/rules.dart';
 import 'package:board_datetime_picker/board_datetime_picker.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:provider/provider.dart';
 
 class ValidationDatas extends StatefulWidget {
@@ -114,14 +115,16 @@ class _ValidationDatasState extends State<ValidationDatas> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<ValidationViewModel>();
-
     return Consumer<ValidationViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.errorMessage != null) {
-            Toast.show(context, vm.errorMessage!, variant: Variant.danger);
-            vm.errorMessage = null;
+          if (viewModel.errorMessage != null) {
+            Toast.show(
+              context,
+              viewModel.errorMessage!,
+              variant: Variant.danger,
+            );
+            viewModel.errorMessage = null;
           }
         });
 
@@ -252,52 +255,57 @@ class _ValidationDatasState extends State<ValidationDatas> {
                               ),
                             ),
                             onTap: () async {
-                              viewModel.age = await showBoardDateTimePicker(
-                                radius: 12,
-                                enableDrag: false,
-                                headerWidget: AgeAlert(),
-                                controller: viewModel.controller,
-                                context: context,
-                                pickerType: DateTimePickerType.date,
-                                initialDate:
-                                    viewModel.age ??
-                                    viewModel.now.subtract(
-                                      const Duration(days: 365 * 18),
-                                    ),
-                                minimumDate: DateTime(1950),
-                                maximumDate: viewModel.now,
-                                options: BoardDateTimeOptions(
-                                  boardTitle:
-                                      'Selecione sua data de nascimento',
-                                  pickerSubTitles: BoardDateTimeItemTitles(
-                                    day: 'Dia',
-                                    month: 'Mês',
-                                    year: 'Ano',
-                                  ),
-                                  pickerFormat: PickerFormat.dmy,
-                                  languages: BoardPickerLanguages.en(),
+                              viewModel.age = await showOmniDateTimePicker(
+                                title: AgeAlert(),
+                                insetPadding: EdgeInsets.symmetric(
+                                  horizontal: 20,
                                 ),
+                                padding: EdgeInsets.all(0),
                                 barrierColor: PrimaryColors.highBeeColor,
-                                customCloseButtonBuilder: (
-                                  BuildContext context,
-                                  isValid,
-                                  onValidationComplete,
+                                barrierDismissible: true,
+                                context: context,
+                                type: OmniDateTimePickerType.date,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(
+                                  1600,
+                                ).subtract(const Duration(days: 3652)),
+                                lastDate: DateTime.now().add(
+                                  const Duration(days: 3652),
+                                ),
+                                is24HourMode: false,
+                                isShowSeconds: false,
+                                minutesInterval: 1,
+                                secondsInterval: 1,
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(16),
+                                ),
+                                constraints: const BoxConstraints(
+                                  maxWidth: double.infinity,
+                                  maxHeight: 800,
+                                ),
+                                transitionBuilder: (
+                                  context,
+                                  anim1,
+                                  anim2,
+                                  child,
                                 ) {
-                                  return GestureDetector(
-                                    onTap: onValidationComplete,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SvgPicture.asset(
-                                        'assets/svg/check-check.svg',
-                                        width: 30,
-                                        height: 30,
-                                        colorFilter: ColorFilter.mode(
-                                          SecondaryColors.success,
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
+                                  return FadeTransition(
+                                    opacity: anim1.drive(
+                                      Tween(begin: 0, end: 1),
                                     ),
+                                    child: child,
                                   );
+                                },
+                                transitionDuration: const Duration(
+                                  milliseconds: 200,
+                                ),
+                                selectableDayPredicate: (dateTime) {
+                                  // Disable 25th Feb 2023
+                                  if (dateTime == DateTime(2023, 2, 25)) {
+                                    return false;
+                                  } else {
+                                    return true;
+                                  }
                                 },
                               );
                             },
@@ -352,7 +360,7 @@ class _ValidationDatasState extends State<ValidationDatas> {
                                 context: context,
                                 content: selectionContent(
                                   context: context,
-                                  titleKey: "country", // ou "area"
+                                  titleKey: "country",
                                   items: viewModel.southAmericanCountries,
                                   initialValue: viewModel.country,
                                 ),

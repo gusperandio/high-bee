@@ -6,9 +6,11 @@ import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart'
     show Loading;
+import 'package:high_bee/components/widgets/tags/tag.dart';
 import 'package:high_bee/components/widgets/toasts/toast.dart';
 import 'package:high_bee/components/widgets/topbar/topbar.dart';
 import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/post/demonstration_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -24,10 +26,10 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DemonstrationViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.isLoading && !vm.isDialogVisible) {
-            vm.isDialogVisible = true;
+          if (viewModel.isLoading && !viewModel.isDialogVisible) {
+            viewModel.isDialogVisible = true;
             showDialog(
               context: context,
               barrierDismissible: false,
@@ -35,23 +37,31 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
             );
           }
 
-          if (!vm.isLoading && vm.isDialogVisible) {
-            vm.isDialogVisible = false;
+          if (!viewModel.isLoading && viewModel.isDialogVisible) {
+            viewModel.isDialogVisible = false;
             Navigator.of(context, rootNavigator: true).pop();
           }
 
-          if (vm.errorMessage != null) {
-            Toast.show(context, vm.errorMessage!, variant: Variant.danger);
-            vm.errorMessage = null;
+          if (viewModel.errorMessage != null) {
+            Toast.show(
+              context,
+              viewModel.errorMessage!,
+              variant: Variant.danger,
+            );
+            viewModel.errorMessage = null;
+          }
+
+          if (viewModel.isValid) {
+            MSNavigate.toRoot(context);
           }
         });
 
-        if (vm.isLoading || vm.news == null) {
+        if (viewModel.isLoading || viewModel.news == null) {
           return const SizedBox.shrink();
         }
 
-        final news = vm.news!;
-        final paragraphs = vm.paragraphs;
+        final news = viewModel.news!;
+        final paragraphs = viewModel.paragraphs;
 
         int breakPoint = (paragraphs.length / 2).ceil();
 
@@ -59,7 +69,7 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
           backgroundColor: PrimaryColors.claudeColor,
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              FocusScope.of(context).unfocus();
+              viewModel.saveMyNews();
             },
             backgroundColor: SecondaryColors.success,
             child: SvgPicture.asset(
@@ -76,12 +86,14 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
           appBar: TopBar(title: "Demonstração"),
           body: SingleChildScrollView(
             child: Column(
+              spacing: 12,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                    vertical: 32,
+                  padding: const EdgeInsets.only(
+                    left: 24.0,
+                    top: 32,
+                    bottom: 12,
                   ),
                   child: Text(
                     news.title ?? '',
@@ -94,6 +106,11 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
                     ),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: Tag.blackHigh(title: news.tag!),
+                ),
+
                 Container(
                   height: 160,
                   width: double.infinity,
@@ -142,7 +159,7 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
                       ),
                     ),
                   ),
-                  if (news.photo1desc != null)
+                  if (news.photo1desc != null && news.photo1desc != "")
                     Padding(
                       padding: const EdgeInsets.only(right: 24.0, top: 8.0),
                       child: Align(
@@ -162,8 +179,7 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
                 ],
 
                 const SizedBox(height: 24),
-
-                // Mostra os parágrafos da segunda metade
+ 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(

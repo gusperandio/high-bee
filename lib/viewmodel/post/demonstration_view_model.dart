@@ -3,17 +3,19 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/services/news/news_service.dart';
 import 'package:high_bee/util/cache.dart';
 import 'package:high_bee/util/firebase_storage.dart';
 
 class DemonstrationViewModel extends ChangeNotifier {
   final cache = Cache();
-  NewsModel? _news;
   List<String> paragraphs = [];
-  bool isLoading = true;
+  bool isLoading = false;
   bool isDialogVisible = false;
+  bool isValid = false;
   String? errorMessage;
-
+  FirebaseStorageService storageService = FirebaseStorageService();
+  NewsModel? _news;
   NewsModel? get news => _news;
 
   DemonstrationViewModel() {
@@ -43,35 +45,50 @@ class DemonstrationViewModel extends ChangeNotifier {
   }
 
   void _splitParagraphs(String argument) {
-    // Primeiro, tentamos dividir pelo token <paragrafo>
+   
     if (argument.contains('<paragrafo>')) {
       paragraphs = argument.split('<paragrafo>').map((e) => e.trim()).toList();
-    } else {
-      // Se não houver, tentamos quebrar pelo padrão de espaçamentos (dois \n seguidos)
+    } else { 
       paragraphs =
           argument.split(RegExp(r'\n\s*\n')).map((e) => e.trim()).toList();
     }
   }
 
-  void saveMyNews() {
-    // _setLoadingState(true);
+  void saveMyNews() async {
+    _setLoadingState(true);
 
-    // List<File> imagens =
-    //     selectedImage1 != null
-    //         ? [selectedCape!, selectedImage1!]
-    //         : [selectedCape!];
+    try {
+      NewsModel newsDatas = news!;
 
-    // List<String> urls = await storageService.uploadImages(
-    //   images: imagens,
-    //   folderName: pasta,
-    // );
+      List<File> imagens =
+          newsDatas.photo1 != null
+              ? [File(newsDatas.cape!), File(newsDatas.photo1!)]
+              : [File(newsDatas.cape!)];
 
-    //   final userService = AuthService().getCurrentUIDUser();
-    //   final newsService = NewsService();
+      List<String> urls = await storageService.uploadImages(
+        images: imagens,
+        folderName: "news",
+      );
 
-    // } catch (e) {
-    //   _setErrorMessageState("Erro inesperado, tente novamente mais tarde!");
-    // } finally {
-    //   // _setLoadingState(false);
+      final userDatas = await cache.getUser();
+      final newsService = NewsService();
+      newsDatas.user!.userId = userDatas!.id!;
+      newsDatas.user!.name = userDatas.name!;
+      newsDatas.user!.intention = userDatas.intention!;
+
+      newsDatas.cape = urls[0];
+      if (urls.length > 1) {
+        newsDatas.photo1 = urls[1];
+      }
+
+      await newsService.createNews(newsDatas, newsDatas.user!.userId);
+
+      await cache.remove('post');
+      isValid = true;
+    } catch (e) {
+      errorMessage = "Erro inesperado, tente novamente mais tarde!";
+    } finally {
+      _setLoadingState(false);
+    }
   }
 }

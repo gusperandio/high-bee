@@ -34,7 +34,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Título
                     const Text(
                       "Política de Privacidade",
                       style: TextStyle(
@@ -45,7 +44,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
 
-                    // 1. Introdução
                     const Text(
                       "1. Introdução",
                       style: TextStyle(
@@ -61,7 +59,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 2. Dados Coletados
                     const Text(
                       "2. Dados Coletados",
                       style: TextStyle(
@@ -121,7 +118,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 3. Uso dos Dados
                     const Text(
                       "3. Uso dos Dados",
                       style: TextStyle(
@@ -197,7 +193,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 4. Compartilhamento de Dados
                     const Text(
                       "4. Compartilhamento de Dados",
                       style: TextStyle(
@@ -249,7 +244,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 5. Armazenamento e Segurança
                     const Text(
                       "5. Armazenamento e Segurança",
                       style: TextStyle(
@@ -265,7 +259,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 6. Cookies e Tecnologias Similares
                     const Text(
                       "6. Cookies e Tecnologias Similares",
                       style: TextStyle(
@@ -281,7 +274,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 7. Direitos do Usuário
                     const Text(
                       "7. Direitos do Usuário",
                       style: TextStyle(
@@ -349,7 +341,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // 8. Retenção de Dados
                     const Text(
                       "8. Retenção de Dados",
                       style: TextStyle(
@@ -364,8 +355,6 @@ class PrivacyPolicyModal extends StatelessWidget {
                       style: TextStyle(fontFamily: 'Urbanist', fontSize: 14),
                     ),
                     const SizedBox(height: 16),
-
-                    // 9. Atualizações da Política
                     const Text(
                       "9. Atualizações da Política",
                       style: TextStyle(
@@ -379,9 +368,7 @@ class PrivacyPolicyModal extends StatelessWidget {
                       "Esta Política de Privacidade pode ser atualizada periodicamente. Notificaremos os usuários em caso de alterações significativas.",
                       style: TextStyle(fontFamily: 'Urbanist', fontSize: 14),
                     ),
-                    const SizedBox(height: 16),
-
-                    // 10. Contato
+                    const SizedBox(height: 16), 
                     const Text(
                       "10. Contato",
                       style: TextStyle(
@@ -396,8 +383,7 @@ class PrivacyPolicyModal extends StatelessWidget {
                       style: TextStyle(fontFamily: 'Urbanist', fontSize: 14),
                     ),
                     const SizedBox(height: 20),
-
-                    // Versão
+ 
                     const Center(
                       child: Text(
                         "Versão: 1.0 | Atualizado em: abril de 2025",

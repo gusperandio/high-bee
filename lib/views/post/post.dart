@@ -19,10 +19,8 @@ class PostPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<PostViewModel>();
-
     return Consumer<PostViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (!viewModel.isFocused) {
             FocusScope.of(context).requestFocus(viewModel.focusNode);
@@ -221,13 +219,13 @@ class PostPage extends StatelessWidget {
                                                   alignLabelWithHint: true,
                                                   border:
                                                       InputBorder
-                                                          .none, // Sem borda normal
+                                                          .none, 
                                                   enabledBorder:
                                                       InputBorder
-                                                          .none, // Sem borda quando desabilitado
+                                                          .none,  
                                                   focusedBorder:
                                                       InputBorder
-                                                          .none, // Sem borda quando focado
+                                                          .none,  
                                                   disabledBorder:
                                                       InputBorder.none,
                                                 ),

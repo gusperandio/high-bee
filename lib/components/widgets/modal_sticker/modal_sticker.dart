@@ -34,7 +34,7 @@ class StickerModal extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Título
+                    
                     const Text(
                       "Política de Privacidade",
                       style: TextStyle(
@@ -44,8 +44,7 @@ class StickerModal extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 24),
-
-                    // 1. Introdução
+ 
                     const Text(
                       "1. Introdução",
                       style: TextStyle(
@@ -60,8 +59,7 @@ class StickerModal extends StatelessWidget {
                       style: TextStyle(fontFamily: 'Urbanist', fontSize: 14),
                     ),
                     const SizedBox(height: 16),
-
-                    // 2. Dados Coletados
+ 
                     const Text(
                       "2. Dados Coletados",
                       style: TextStyle(

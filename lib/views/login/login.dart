@@ -32,11 +32,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final authState = MSProvider.get<AuthenticationState>(context);
-    final viewModel = context.watch<LoginViewModel>();
     return Consumer<LoginViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.isLoading && !isDialogVisible) {
+          if (viewModel.isLoading && !isDialogVisible) {
             isDialogVisible = true;
             showDialog(
               context: context,
@@ -45,20 +44,24 @@ class _LoginPageState extends State<LoginPage> {
             );
           }
 
-          if (!vm.isLoading && isDialogVisible) {
+          if (!viewModel.isLoading && isDialogVisible) {
             isDialogVisible = false;
-            Navigator.of(context, rootNavigator: true).pop(); 
+            Navigator.of(context, rootNavigator: true).pop();
           }
 
-          if (vm.errorMessage != null) {
-            Toast.show(context, vm.errorMessage!, variant: Variant.danger);
-            vm.errorMessage = null;
+          if (viewModel.errorMessage != null) {
+            Toast.show(
+              context,
+              viewModel.errorMessage!,
+              variant: Variant.danger,
+            );
+            viewModel.errorMessage = null;
           }
 
-          if (vm.isLogged && !vm.hasNavigated) {
-            vm.hasNavigated = true;
+          if (viewModel.isLogged && !viewModel.hasNavigated) {
+            viewModel.hasNavigated = true;
 
-            if (!vm.isRegistered) {
+            if (!viewModel.isRegistered) {
               MSNavigate.toSpecific(context, ValidationDatas.routeName);
               return;
             }

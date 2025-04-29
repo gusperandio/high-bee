@@ -1,5 +1,5 @@
 class UserModel {
-  String? id; // Added id field
+  String? id;  
   String? name;
   String? age;
   String? country;
@@ -8,7 +8,7 @@ class UserModel {
   bool? isRegistered;
   bool? termsAgree;
   bool? premium;
-  List<dynamic>? news;
+  List<String>? news;
   List<dynamic>? stickers;
   List<dynamic>? publicity;
   List<dynamic>? reportNews;
@@ -16,9 +16,10 @@ class UserModel {
   List<dynamic>? competition;
   String? premiumTime;
   String? role;
+  String? createdAt;
 
   UserModel({
-    this.id, // Added id to the constructor
+    this.id, 
     this.name,
     this.age,
     this.country,
@@ -35,33 +36,35 @@ class UserModel {
     this.competition,
     this.premiumTime,
     this.role,
+    this.createdAt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'], // Added id to fromJson
-      name: map['name'],
-      age: map['age'],
-      country: map['country'],
-      intention: map['intention'],
-      avatar: map['avatar'],
-      isRegistered: map['isRegistered'],
-      termsAgree: map['termsAgree'],
-      premium: map['premium'],
-      news: List<dynamic>.from(map['news'] ?? []),
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      age: map['age'] ?? 0,
+      country: map['country'] ?? '',
+      intention: map['intention'] ?? '',
+      avatar: map['avatar'] ?? '',
+      isRegistered: map['isRegistered'] ?? false,
+      termsAgree: map['termsAgree'] ?? false,
+      premium: map['premium'] ?? false,
+      news: List<String>.from(map['news'] ?? []),
       stickers: List<dynamic>.from(map['stickers'] ?? []),
       publicity: List<dynamic>.from(map['publicity'] ?? []),
       reportNews: List<dynamic>.from(map['reportNews'] ?? []),
       reportPublicity: List<dynamic>.from(map['reportPublicity'] ?? []),
       competition: List<dynamic>.from(map['competition'] ?? []),
-      premiumTime: map['premiumTime'],
-      role: map['role'],
+      premiumTime: map['premiumTime'] ?? '',
+      role: map['role'] ?? 'user',
+      createdAt: map['createdAt'] ?? DateTime.now().toIso8601String(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id, // Added id to toJson
+      'id': id,  
       'name': name,
       'age': age,
       'country': country,
@@ -78,6 +81,7 @@ class UserModel {
       'competition': competition ?? [],
       'premiumTime': premiumTime,
       'role': role,
+      'createdAt': createdAt,
     };
   }
 }

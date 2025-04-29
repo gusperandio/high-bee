@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/accordions/accordion.dart';
 import 'package:high_bee/components/widgets/buttons/button.dart';
+import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/components/widgets/sticker/sticker.dart';
 import 'package:high_bee/components/widgets/tags/tag.dart';
 import 'package:high_bee/providers/authentication_state.dart';
@@ -11,17 +12,30 @@ import 'package:high_bee/util/provider.dart';
 import 'package:high_bee/viewmodel/profile/profile_view_model.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   static const routeName = 'profile';
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      final viewModel = context.read<ProfileViewModel>();
+      viewModel.fetchUserDatas();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final authState = MSProvider.get<AuthenticationState>(context);
-    final viewModel = context.watch<ProfileViewModel>();
 
     return Consumer<ProfileViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {});
         return Container(
           height: MediaQuery.of(context).size.height,
@@ -29,7 +43,7 @@ class ProfilePage extends StatelessWidget {
             image: DecorationImage(
               image: AssetImage(
                 'assets/images/background_profile.png',
-              ), // Replace with your image path
+              ),  
               fit: BoxFit.cover,
             ),
           ),
@@ -60,16 +74,20 @@ class ProfilePage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(20),
+                              if (viewModel.isLoading)
+                                Loading(size: 100)
+                              else
+                                ClipRRect(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(20),
+                                  ),
+                                  child: Image.asset(
+                                    viewModel.user.avatar!,
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
-                                child: SvgPicture.network(
-                                  "https://api.dicebear.com/9.x/thumbs/svg?seed=Jack",
-                                  height: 100,
-                                  width: 100,
-                                ),
-                              ),
                               const SizedBox(width: 16),
                               Tag.defLow(title: "Semente 🌱"),
                               Spacer(),
@@ -77,18 +95,29 @@ class ProfilePage extends StatelessWidget {
                                 onTap: () {
                                   authState.logout();
                                 },
-                                child: SvgPicture.asset(
-                                  "assets/svg/log-out.svg",
-                                  colorFilter: ColorFilter.mode(
-                                    SecondaryColors.danger,
-                                    BlendMode.srcIn,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    SvgPicture.asset(
+                                      "assets/svg/log-out.svg",
+                                      colorFilter: ColorFilter.mode(
+                                        SecondaryColors.danger,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Sair",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: SecondaryColors.danger,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
                           Text(
-                            'Gustavo Sperandio',
+                            viewModel.user.name ?? "",
                             style: const TextStyle(
                               color: PrimaryColors.carvaoColor,
                               fontSize: 24,
@@ -102,7 +131,7 @@ class ProfilePage extends StatelessWidget {
                             color: PrimaryColors.carvaoColor,
                           ),
                           Text(
-                            'Tecnologia - Desenvolvedor(a) de software',
+                            viewModel.user.intention ?? "",
                             style: const TextStyle(
                               color: PrimaryColors.carvaoColor,
                               fontSize: 18,
@@ -115,9 +144,18 @@ class ProfilePage extends StatelessWidget {
                             runSpacing: 6,
                             spacing: 8,
                             children: [
-                              Tag.infoHigh(title: "Publicações: 15"),
-                              Tag.successHigh(title: "Sticker: 6"),
-                              Tag.dangerHigh(title: "Denúncias: 1"),
+                              Tag.infoHigh(
+                                title:
+                                    "Publicações: ${viewModel.isLoading ? 0 : viewModel.pubsNum}",
+                              ),
+                              Tag.successHigh(
+                                title:
+                                    "Sticker: ${viewModel.isLoading ? 0 : viewModel.stickersNum}",
+                              ),
+                              Tag.dangerHigh(
+                                title:
+                                    "Denúncias: ${viewModel.isLoading ? 0 : viewModel.reportsNum}",
+                              ),
                             ],
                           ),
                         ],
@@ -222,24 +260,6 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Button.def(
-                        title: "+ Sticker",
-                        onPressed: () {
-                          // Add your edit profile logic here
-                        },
-                        fontColor: PrimaryColors.carvaoColor,
-                      ),
-                      Button.success(
-                        title: "+ Competição",
-                        onPressed: () {
-                          // Add your logout logic here
-                        },
-                      ),
-                    ],
                   ),
                 ],
               ),

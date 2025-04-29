@@ -1,4 +1,3 @@
-// viewmodel/counter_viewmodel.dart
 import 'package:flutter/material.dart';
 import 'package:high_bee/models/pages/counter_model.dart';
 

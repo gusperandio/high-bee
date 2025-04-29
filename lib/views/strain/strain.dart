@@ -27,8 +27,6 @@ class StrainPageState extends State<StrainPage> {
   }
 
   Future<List<StrainModel>> fetchStrains() async {
-    await Future.delayed(Duration(seconds: 2)); // simula carregamento
-
     return List.generate(
       10,
       (index) => StrainModel(
@@ -73,8 +71,7 @@ class StrainPageState extends State<StrainPage> {
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Primeira coluna
+                  children: [ 
                     Expanded(
                       child: Column(
                         children: List.generate(strains.length, (index) {

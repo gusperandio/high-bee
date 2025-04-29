@@ -23,6 +23,6 @@ class FirebaseStorageService {
       downloadUrls.add(downloadUrl);
     }
 
-    return downloadUrls; // Retorna as URLs públicas das imagens enviadas
+    return downloadUrls;  
   }
 }

@@ -38,13 +38,8 @@ class _MainPageState extends State<MainPage> {
               viewModel.selectedIndex == 0
                   ? FloatingActionButton(
                     mini: true,
-                    onPressed: () async {
-                      if (!await viewModel.isTrained()) {
-                        MSNavigate.toName(context, TrainingPage.routeName);
-                        return;
-                      }
+                    onPressed: () async { 
                       MSNavigate.toName(context, PostPage.routeName);
-                      return;
                     },
                     backgroundColor: PrimaryColors.highBeeColor,
                     child: SvgPicture.asset(

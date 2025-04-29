@@ -74,7 +74,7 @@ class MainPageViewModel extends ChangeNotifier {
 
   Widget getIcon(String path, {bool isSelected = false}) {
     final colorFolder =
-        isSelected ? PrimaryColors.highBeeColor : const Color(0xFF8f9bba); 
+        isSelected ? PrimaryColors.highBeeColor : const Color(0xFF8f9bba);
     if (path == 'cannabis') {
       final colorSpecific = isSelected ? Colors.lightGreenAccent : Colors.green;
       return SvgPicture.asset(

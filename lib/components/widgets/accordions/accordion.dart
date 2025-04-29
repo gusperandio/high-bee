@@ -29,9 +29,9 @@ class _AccordionState extends State<Accordion> {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: PrimaryColors.carvaoColor, // Border color
+          color: PrimaryColors.carvaoColor,  
         ),
-        borderRadius: BorderRadius.circular(8.0), // Border radius
+        borderRadius: BorderRadius.circular(8.0),  
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),

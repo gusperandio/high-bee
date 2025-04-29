@@ -2,24 +2,11 @@ import 'dart:math';
 
 class AvatarUtil {
   final List<String> _names = [
-    'Amaya',
-    'Sophia',
-    'Mason',
-    'Adrian',
-    'Jack',
-    'Alexander',
-    'Avery',
-    'Kingston',
-    'Jade',
-    'Nolan',
-    'Destiny',
-    'Robert',
-    'Oliver',
-    'Leah',
-    'Sara',
-    'Aiden',
-    'Riley',
-    'Caleb',
+    'profile1',
+    'profile2',
+    'profile3',
+    'profile4',
+    'profile5',
   ];
 
   String getRandomName() {
@@ -27,8 +14,8 @@ class AvatarUtil {
     return _names[random.nextInt(_names.length)];
   }
 
-  String getAvatarUrl() {
+  String getAvatarAsset() {
     String name = getRandomName();
-    return 'https://api.dicebear.com/9.x/thumbs/svg?seed=$name';
+    return 'assets/lottie/$name.gif';
   }
 }

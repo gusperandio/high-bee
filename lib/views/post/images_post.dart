@@ -20,20 +20,18 @@ class ImagePostPage extends StatelessWidget {
   const ImagePostPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final viewModel = context.watch<ImagePostViewModel>();
-
+  Widget build(BuildContext context) {  
     return Consumer<ImagePostViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.errorMessage != null) {
-            Toast.show(context, vm.errorMessage!, variant: Variant.danger);
-            vm.errorMessage = null;
+          if (viewModel.errorMessage != null) {
+            Toast.show(context, viewModel.errorMessage!, variant: Variant.danger);
+            viewModel.errorMessage = null;
           }
 
-          if (vm.isValid) {
+          if (viewModel.isValid) {
             FocusScope.of(context).unfocus();
-            vm.isValid = false;
+            viewModel.isValid = false;
             MSNavigate.toName(
               context,
               DemonstrationPostPage.routeName,
@@ -216,14 +214,14 @@ class ImagePostPage extends StatelessWidget {
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(
                                             8,
-                                          ), // Bordas arredondadas
+                                          ),  
                                           image: DecorationImage(
                                             image: FileImage(
                                               viewModel.selectedImage1!,
                                             ),
                                             fit:
                                                 BoxFit
-                                                    .cover, // Preenche o container mantendo o aspecto
+                                                    .cover,  
                                           ),
                                         ),
                                       ),

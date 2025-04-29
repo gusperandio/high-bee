@@ -16,16 +16,19 @@ class RecoveryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<RecoveryViewModel>();
     return Consumer<RecoveryViewModel>(
-      builder: (context, vm, child) {
+      builder: (context, viewModel, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (vm.errorMessage != null) {
-            Toast.show(context, vm.errorMessage!, variant: Variant.danger);
-            vm.errorMessage = null;
+          if (viewModel.errorMessage != null) {
+            Toast.show(
+              context,
+              viewModel.errorMessage!,
+              variant: Variant.danger,
+            );
+            viewModel.errorMessage = null;
           }
 
-          if (vm.isRecovered) {
+          if (viewModel.isRecovered) {
             Toast.show(
               context,
               "Um e-mail de recuperação foi enviado",
