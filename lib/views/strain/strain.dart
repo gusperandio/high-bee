@@ -71,7 +71,7 @@ class StrainPageState extends State<StrainPage> {
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [ 
+                  children: [
                     Expanded(
                       child: Column(
                         children: List.generate(strains.length, (index) {
@@ -81,7 +81,7 @@ class StrainPageState extends State<StrainPage> {
                               duration: const Duration(milliseconds: 675),
                               child: SlideAnimation(
                                 verticalOffset: 50.0,
-                                child: FadeInAnimation(
+                                child: ScaleAnimation(
                                   child: _buildStrainCard(strains[index]),
                                 ),
                               ),
@@ -102,7 +102,7 @@ class StrainPageState extends State<StrainPage> {
                               duration: const Duration(milliseconds: 675),
                               child: SlideAnimation(
                                 verticalOffset: 50.0,
-                                child: FadeInAnimation(
+                                child: ScaleAnimation(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 20.0),
                                     child: _buildStrainCard(strains[index]),

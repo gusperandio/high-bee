@@ -1,10 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:high_bee/models/datas/news.dart';
-import 'package:high_bee/models/datas/user.dart';
-import 'package:high_bee/services/auth/auth_service.dart';
-import 'package:high_bee/services/user/user_service.dart';
-import 'package:uuid/uuid.dart';
+import 'package:high_bee/models/datas/news.dart'; 
+import 'package:high_bee/services/user/user_service.dart'; 
 
 class NewsService {
   static final NewsService _instance = NewsService._internal();
@@ -28,6 +24,7 @@ class NewsService {
     final data = snapshot.value as Map;
     for (var entry in data.entries) {
       final news = NewsModel.fromJson(Map<String, dynamic>.from(entry.value));
+      news.id = entry.key;
       newsList.add(news);
     }
 

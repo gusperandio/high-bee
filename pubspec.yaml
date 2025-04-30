@@ -116,6 +116,7 @@ flutter:
     - assets/svg/book-text.svg
     - assets/svg/book-up-2.svg
     - assets/svg/bookmark.svg
+    - assets/svg/bookmark-check.svg
     - assets/svg/calendar.svg
     - assets/svg/cannabis.svg
     - assets/svg/chevron-down.svg
@@ -136,7 +137,9 @@ flutter:
     - assets/svg/octagon-x.svg
     - assets/svg/person-standing.svg
     - assets/svg/pilcrow.svg
+    - assets/svg/skull.svg
     - assets/svg/speech.svg
+    - assets/svg/triangle-alert.svg
     - assets/svg/trophy.svg
     - assets/svg/user.svg
     - assets/svg/x.svg

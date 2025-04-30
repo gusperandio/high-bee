@@ -19,7 +19,7 @@ class MainPageViewModel extends ChangeNotifier {
   final List<Widget?> _pages = List.filled(5, null);
   int _selectedIndex = 0;
   int get selectedIndex => _selectedIndex;
-
+  final cache = highbeecache.Cache();
   List<Widget?> get pages => _pages;
   List<bool> get initialized => _isPageInitialized;
 
@@ -59,7 +59,7 @@ class MainPageViewModel extends ChangeNotifier {
         );
       case 3:
         return ChangeNotifierProvider(
-          create: (_) => SavedViewModel(),
+          create: (_) => SavedViewModel(cache),
           child: const SavedPage(),
         );
       case 4:

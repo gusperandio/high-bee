@@ -45,13 +45,38 @@ class DemonstrationViewModel extends ChangeNotifier {
   }
 
   void _splitParagraphs(String argument) {
-   
-    if (argument.contains('<paragrafo>')) {
-      paragraphs = argument.split('<paragrafo>').map((e) => e.trim()).toList();
-    } else { 
-      paragraphs =
-          argument.split(RegExp(r'\n\s*\n')).map((e) => e.trim()).toList();
+    const maxLength = 400;
+    argument = argument
+        .replaceAll('\r\n', '\n')
+        .replaceAll('<paragrafo>', '\n\n');
+
+    paragraphs =
+        argument
+            .split(RegExp(r'\n\s*\n'))
+            .expand((p) => _splitLongParagraph(p.trim(), maxLength))
+            .toList();
+  }
+
+  List<String> _splitLongParagraph(String paragraph, int maxLength) {
+    if (paragraph.length <= maxLength) return [paragraph];
+
+    List<String> parts = [];
+    var sentences = paragraph.split(
+      RegExp(r'(?<=[.!?]) '),
+    ); // Divide por frases
+
+    String current = '';
+    for (var sentence in sentences) {
+      if ((current + sentence).length > maxLength) {
+        parts.add(current.trim());
+        current = sentence;
+      } else {
+        current += '$sentence ';
+      }
     }
+    if (current.isNotEmpty) parts.add(current.trim());
+
+    return parts;
   }
 
   void saveMyNews() async {
@@ -80,7 +105,7 @@ class DemonstrationViewModel extends ChangeNotifier {
       if (urls.length > 1) {
         newsDatas.photo1 = urls[1];
       }
-
+      newsDatas.minReads = calcMinsRead(newsDatas.argument!);
       await newsService.createNews(newsDatas, newsDatas.user!.userId);
 
       await cache.remove('post');
@@ -90,5 +115,11 @@ class DemonstrationViewModel extends ChangeNotifier {
     } finally {
       _setLoadingState(false);
     }
+  }
+
+  int calcMinsRead(String content) {
+    const int wordsPerMinute = 250;
+    final int textLength = content.split(" ").length;
+    return (textLength / wordsPerMinute).ceil();
   }
 }

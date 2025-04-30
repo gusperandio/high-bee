@@ -1,16 +1,11 @@
-import 'package:animations/animations.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
-import 'package:high_bee/components/widgets/tags/tag.dart';
-import 'package:high_bee/models/datas/news.dart';
 import 'package:high_bee/viewmodel/home/home_view_model.dart';
 import 'package:high_bee/viewmodel/news/news_view_model.dart';
-import 'package:high_bee/viewmodel/post/image_post_view_model.dart';
 import 'package:high_bee/views/news/news.dart';
-import 'package:high_bee/views/post/images_post.dart';
 import 'package:provider/provider.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
 
@@ -26,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() { 
+    Future.microtask(() {
       final viewModel = context.read<HomeViewModel>();
       viewModel.fetchNews();
     });
@@ -55,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                         width: 250,
                         height: 400,
                         child: Stack(
-                          children: [ 
+                          children: [
                             Positioned.fill(
                               child: Image.network(
                                 news.cape ?? '',
@@ -160,14 +155,32 @@ class _HomePageState extends State<HomePage> {
                                     },
                                     onSelectedItem: (index) {
                                       final news = newsList[index];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder:
-                                              (_) => ChangeNotifierProvider(
-                                                create: (_) => NewsViewModel(),
+                                      Navigator.of(context).push(
+                                        PageRouteBuilder(
+                                          transitionDuration: Duration(
+                                            milliseconds: 200,
+                                          ),
+                                          pageBuilder:
+                                              (
+                                                _,
+                                                animation,
+                                                secondaryAnimation,
+                                              ) => ChangeNotifierProvider(
+                                                create:
+                                                    (_) => NewsViewModel(),
                                                 child: NewsPage(news: news),
                                               ),
+                                          transitionsBuilder: (
+                                            _,
+                                            animation,
+                                            __,
+                                            child,
+                                          ) {
+                                            return FadeTransition(
+                                              opacity: animation,
+                                              child: child,
+                                            );
+                                          },
                                         ),
                                       );
                                     },

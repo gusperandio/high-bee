@@ -28,18 +28,18 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<void> signUpWithGoogle() async {
     try {
-      final userCredential = await AuthService().signInWithGoogle();
       _setLoadingState(true);
-      isLogged = userCredential.user != null;
+      final userCredential = await AuthService().signInWithGoogle();
       isRegistered = await UserService().isUserRegistered();
-      errorMessage =
-          isLogged ? null : "Erro ao entrar com Google. Tente novamente.";
-
       UserModel? user = await Cache().getUser();
       if (user != null) {
         user.avatar = userCredential.user!.photoURL;
         await Cache().setUser(user);
       }
+
+      isLogged = userCredential.user != null;
+      errorMessage =
+          isLogged ? null : "Erro ao entrar com Google. Tente novamente.";
     } catch (e) {
       errorMessage = "Erro ao entrar com Google. Tente novamente.";
     } finally {
@@ -64,14 +64,14 @@ class LoginViewModel extends ChangeNotifier {
         email: email.trim(),
         password: password,
       );
-      isRegistered = await UserService().isUserRegistered();
-      isLogged = true;
-
       UserModel? user = await Cache().getUser();
       if (user == null && isRegistered) {
         user = await UserService().getUserDatas();
         await Cache().setUser(user!);
       }
+      isRegistered = await UserService().isUserRegistered();
+      isLogged = true;
+
     } on FirebaseAuthException catch (e) {
       errorMessage = _getFirebaseAuthErrorMessage(e.code);
     } finally {

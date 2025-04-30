@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
-import 'package:high_bee/components/widgets/loadings/loading_gif.dart'
-    show Loading;
+import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/components/widgets/tags/tag.dart';
 import 'package:high_bee/components/widgets/toasts/toast.dart';
-import 'package:high_bee/components/widgets/topbar/topbar.dart';
-import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/components/widgets/topbar/topbar.dart'; 
 import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/post/demonstration_view_model.dart';
 import 'package:provider/provider.dart';
@@ -179,7 +177,7 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
                 ],
 
                 const SizedBox(height: 24),
- 
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: Column(

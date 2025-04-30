@@ -68,6 +68,8 @@ class PostViewModel extends ChangeNotifier {
     atualizarLinhasDoParagrafo(
       controllerTextReady.text.trim().split(RegExp(r'\s+')).length,
     );
+
+    scrollToDown();
     notifyListeners();
   }
 
@@ -82,20 +84,6 @@ class PostViewModel extends ChangeNotifier {
   }
 
   void atualizarLinhasDoParagrafo(int quantidadePalavras) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controllerTextReady.selection = TextSelection.fromPosition(
-        TextPosition(offset: controllerTextReady.text.length),
-      );
-
-      if (scrollController.hasClients) {
-        scrollController.animateTo(
-          scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-
     if (quantidadePalavras == 0 && linhas != 1) {
       linhas = 1;
       notifyListeners();
@@ -120,7 +108,7 @@ class PostViewModel extends ChangeNotifier {
       );
       setNumCharacters(controllerTextReady.text.length);
     }
-
+    scrollToDown();
     notifyListeners();
   }
 
@@ -138,7 +126,7 @@ class PostViewModel extends ChangeNotifier {
   Future<void> saveContent() async {
     if (!formKey.currentState!.validate()) return;
     final newsCache = await cache.getNews();
-
+    print(controllerTextReady.text);
     if (newsCache != null) {
       newsCache.argument = controllerTextReady.text;
       newsCache.font = font;
@@ -155,6 +143,22 @@ class PostViewModel extends ChangeNotifier {
     await cache.setNews(myPost);
     isValid = true;
     notifyListeners();
+  }
+
+  void scrollToDown() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controllerTextReady.selection = TextSelection.fromPosition(
+        TextPosition(offset: controllerTextReady.text.length),
+      );
+
+      if (scrollController.hasClients) {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   @override

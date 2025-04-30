@@ -14,8 +14,10 @@ class ButtonCircle extends StatefulWidget {
     required this.hoverColor,
   });
 
-  factory ButtonCircle.info(
-      {required Widget content, required VoidCallback onPressed}) {
+  factory ButtonCircle.info({
+    required Widget content,
+    required VoidCallback onPressed,
+  }) {
     return ButtonCircle._internal(
       content: content,
       onPressed: onPressed,
@@ -24,8 +26,10 @@ class ButtonCircle extends StatefulWidget {
     );
   }
 
-  factory ButtonCircle.success(
-      {required Widget content, required VoidCallback onPressed}) {
+  factory ButtonCircle.success({
+    required Widget content,
+    required VoidCallback onPressed,
+  }) {
     return ButtonCircle._internal(
       content: content,
       onPressed: onPressed,
@@ -34,8 +38,10 @@ class ButtonCircle extends StatefulWidget {
     );
   }
 
-  factory ButtonCircle.warning(
-      {required Widget content, required VoidCallback onPressed}) {
+  factory ButtonCircle.warning({
+    required Widget content,
+    required VoidCallback onPressed,
+  }) {
     return ButtonCircle._internal(
       content: content,
       onPressed: onPressed,
@@ -44,8 +50,10 @@ class ButtonCircle extends StatefulWidget {
     );
   }
 
-  factory ButtonCircle.danger(
-      {required Widget content, required VoidCallback onPressed}) {
+  factory ButtonCircle.danger({
+    required Widget content,
+    required VoidCallback onPressed,
+  }) {
     return ButtonCircle._internal(
       content: content,
       onPressed: onPressed,
@@ -54,18 +62,22 @@ class ButtonCircle extends StatefulWidget {
     );
   }
 
-  factory ButtonCircle.def(
-      {required Widget content, required VoidCallback onPressed}) {
+  factory ButtonCircle.def({
+    required Widget content,
+    required VoidCallback onPressed,
+  }) {
     return ButtonCircle._internal(
       content: content,
       onPressed: onPressed,
-      backgroundColor: SecondaryColors.def,
-      hoverColor: PrimaryColors.highBeeColor,
+      backgroundColor: PrimaryColors.highBeeColor,
+      hoverColor: SecondaryColors.def,
     );
   }
 
-  factory ButtonCircle.black(
-      {required Widget content, required VoidCallback onPressed}) {
+  factory ButtonCircle.black({
+    required Widget content,
+    required VoidCallback onPressed,
+  }) {
     return ButtonCircle._internal(
       content: content,
       onPressed: onPressed,
@@ -85,9 +97,11 @@ class ButtonCircleState extends State<ButtonCircle> {
       style: ButtonStyle(
         shape: WidgetStateProperty.all<OutlinedBorder>(const CircleBorder()),
         padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-            const EdgeInsets.all(20)),
-        backgroundColor:
-            WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+          const EdgeInsets.all(12),
+        ),
+        backgroundColor: WidgetStateProperty.resolveWith<Color>((
+          Set<WidgetState> states,
+        ) {
           if (states.contains(WidgetState.pressed) ||
               states.contains(WidgetState.hovered)) {
             return widget.hoverColor;

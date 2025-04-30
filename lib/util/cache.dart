@@ -76,11 +76,42 @@ class Cache {
     return;
   }
 
+  Future<void> setListSavedNews(NewsModel news) async {
+    List<NewsModel> saved = await getListSavedNews();
+    if (!saved.any((item) => item.id == news.id)) {
+      saved.add(news);
+    }
+
+    final newsJson = jsonEncode(saved.map((e) => e.toJson()).toList());
+    await _prefs?.setString('saved', newsJson);
+  }
+
+  Future<List<NewsModel>> getListSavedNews() async {
+    final newsJson = _prefs?.getString('saved');
+    if (newsJson == null) return [];
+
+    final List<dynamic> decoded = jsonDecode(newsJson);
+    return decoded.map((e) => NewsModel.fromJson(e)).toList();
+  }
+
+  Future<bool> isNewsSaved(String id) async {
+    List<NewsModel> saved = await getListSavedNews();
+    return saved.any((news) => news.id == id);
+  }
+
+  Future<void> removeNewsById(String id) async {
+    List<NewsModel> saved = await getListSavedNews();
+    saved.removeWhere((news) => news.id == id);
+
+    final newsJson = jsonEncode(saved.map((e) => e.toJson()).toList());
+    await _prefs?.setString('saved', newsJson);
+  }
+
   Future<void> clear() async {
     await _prefs?.clear();
   }
 
-  Future<void> remove(String key) async{
+  Future<void> remove(String key) async {
     await _prefs?.remove(key);
   }
 }

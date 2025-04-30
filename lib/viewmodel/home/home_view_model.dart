@@ -9,16 +9,25 @@ class HomeViewModel extends ChangeNotifier {
   bool isLoading = false;
   bool isEmpty = true;
   String? myBackground;
-  Future<void> fetchNews() async {
-    isLoading = true;
+  void _setLoadingState(bool state) {
+    if (!hasListeners) return;
+    isLoading = state;
     notifyListeners();
+  }
 
-    final result = await _newsService.fetchAllNews();
-    news = result ?? [];
-    myBackground =
-        news.isNotEmpty ? news[0].cape : "assets/images/Screenshot_3.png";
-    isLoading = false;
-    isEmpty = news.isEmpty;
-    notifyListeners();
+  Future<void> fetchNews() async {
+    _setLoadingState(true);
+    try {
+      final result = await _newsService.fetchAllNews();
+      news = result ?? [];
+      myBackground =
+          news.isNotEmpty ? news[0].cape : "assets/images/Screenshot_3.png";
+      isLoading = false;
+      isEmpty = news.isEmpty;
+    } catch (e) {
+      isEmpty = true;
+    } finally {
+      _setLoadingState(false);
+    }
   }
 }
