@@ -160,6 +160,7 @@ flutter:
     - assets/lottie/profile3.gif
     - assets/lottie/profile4.gif
     - assets/lottie/profile5.gif
+    - assets/lottie/empty1.gif
     - assets/svg/rules/title_rule.svg
     - assets/svg/rules/cape_rule.svg
     - assets/svg/rules/all_content.svg

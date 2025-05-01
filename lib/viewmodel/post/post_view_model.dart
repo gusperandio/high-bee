@@ -126,7 +126,7 @@ class PostViewModel extends ChangeNotifier {
   Future<void> saveContent() async {
     if (!formKey.currentState!.validate()) return;
     final newsCache = await cache.getNews();
-    print(controllerTextReady.text);
+    
     if (newsCache != null) {
       newsCache.argument = controllerTextReady.text;
       newsCache.font = font;

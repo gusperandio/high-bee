@@ -7,7 +7,7 @@ import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/components/widgets/tags/tag.dart';
 import 'package:high_bee/components/widgets/toasts/toast.dart';
-import 'package:high_bee/components/widgets/topbar/topbar.dart'; 
+import 'package:high_bee/components/widgets/topbar/topbar.dart';
 import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/post/demonstration_view_model.dart';
 import 'package:provider/provider.dart';
@@ -31,6 +31,7 @@ class _DemonstrationPostPageState extends State<DemonstrationPostPage> {
             showDialog(
               context: context,
               barrierDismissible: false,
+              barrierColor: Colors.black12,
               builder: (context) => const Center(child: Loading(size: 120)),
             );
           }

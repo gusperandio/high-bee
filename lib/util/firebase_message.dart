@@ -12,12 +12,4 @@ void requestNotificationPermission() async {
     provisional: false,
     sound: true,
   );
-
-  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print('Usuário concedeu permissão para notificações.');
-  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    print('Permissão provisória concedida.');
-  } else {
-    print('Permissão negada para notificações.');
-  }
 }

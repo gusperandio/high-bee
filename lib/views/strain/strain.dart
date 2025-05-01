@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/models/datas/strain.dart';
+import 'package:high_bee/viewmodel/strain/strain_view_model.dart';
+import 'package:provider/provider.dart';
 
 class StrainPage extends StatefulWidget {
   const StrainPage({super.key});
@@ -13,59 +16,65 @@ class StrainPage extends StatefulWidget {
 }
 
 class StrainPageState extends State<StrainPage> {
-  late Future<List<StrainModel>> strainsFuture;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    DefaultTextStyle.of(context).style.copyWith(fontFamily: 'Nunito');
-  }
-
   @override
   void initState() {
     super.initState();
-    strainsFuture = fetchStrains();
-  }
-
-  Future<List<StrainModel>> fetchStrains() async {
-    return List.generate(
-      10,
-      (index) => StrainModel(
-        nome: 'Strain #$index',
-        desc: 'Descrição da strain número $index',
-        thc: 22.5,
-        combinacao: ['Amnesia', 'Blue Dream'],
-        rendIndoor: 400,
-        rendOutdoor: 600,
-        efeitos: ['Relaxamento', 'Euforia'],
-        photo:
-            'https://blog.drcannabis.com.br/wp-content/uploads/2024/04/1094.jpg',
-        hibrida: true,
-        sativa: false,
-        indica: true,
-        fotoperiodo: true,
-        automatica: false,
-      ),
-    );
+    Future.microtask(() {
+      context.read<StrainViewModel>().loadSavedStrains();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppContainer(
-      backgroundColor: PrimaryColors.claudeColor,
-      body: FutureBuilder<List<StrainModel>>(
-        future: strainsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: Loading(size: 140));
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Erro ao carregar'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('Nenhuma strain encontrada'));
-          }
+    return Consumer<StrainViewModel>(
+      builder: (context, viewModel, child) {
+        if (viewModel.isLoading) {
+          return Center(child: Loading(size: 140));
+        }
 
-          final strains = snapshot.data!;
+        if (viewModel.strains.isEmpty) {
+          return AppContainer(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: PrimaryColors.claudeColor,
+            body: Expanded(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 250),
+                      child: Text(
+                        "Não encontramos nenhuma strain",
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 16,
+                          color: PrimaryColors.carvaoColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          child: Image.asset(
+                            'assets/lottie/empty1.gif',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        }
 
-          return AnimationLimiter(
+        return AppContainer(
+          body: AnimationLimiter(
             child: ListView(
               padding: const EdgeInsets.all(8),
               children: [
@@ -74,7 +83,9 @@ class StrainPageState extends State<StrainPage> {
                   children: [
                     Expanded(
                       child: Column(
-                        children: List.generate(strains.length, (index) {
+                        children: List.generate(viewModel.strains.length, (
+                          index,
+                        ) {
                           if (index.isEven) {
                             return AnimationConfiguration.staggeredList(
                               position: index,
@@ -82,7 +93,9 @@ class StrainPageState extends State<StrainPage> {
                               child: SlideAnimation(
                                 verticalOffset: 50.0,
                                 child: ScaleAnimation(
-                                  child: _buildStrainCard(strains[index]),
+                                  child: _buildStrainCard(
+                                    viewModel.strains[index],
+                                  ),
                                 ),
                               ),
                             );
@@ -95,7 +108,9 @@ class StrainPageState extends State<StrainPage> {
                     SizedBox(width: 8),
                     Expanded(
                       child: Column(
-                        children: List.generate(strains.length, (index) {
+                        children: List.generate(viewModel.strains.length, (
+                          index,
+                        ) {
                           if (index.isOdd) {
                             return AnimationConfiguration.staggeredList(
                               position: index,
@@ -105,7 +120,9 @@ class StrainPageState extends State<StrainPage> {
                                 child: ScaleAnimation(
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 20.0),
-                                    child: _buildStrainCard(strains[index]),
+                                    child: _buildStrainCard(
+                                      viewModel.strains[index],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -120,9 +137,9 @@ class StrainPageState extends State<StrainPage> {
                 ),
               ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -133,14 +150,25 @@ class StrainPageState extends State<StrainPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.network(
-              strain.photo,
-              height: 150,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+          CachedNetworkImage(
+            imageUrl: strain.photo,
+            imageBuilder:
+                (context, imageProvider) => ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.network(
+                    strain.photo,
+                    height: 150,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+            placeholder:
+                (context, url) => Center(
+                  child: CircularProgressIndicator(
+                    color: PrimaryColors.carvaoColor,
+                  ),
+                ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
           Padding(
             padding: const EdgeInsets.all(12.0),

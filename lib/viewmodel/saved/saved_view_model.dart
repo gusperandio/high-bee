@@ -4,17 +4,14 @@ import 'package:high_bee/util/cache.dart';
 
 class SavedViewModel extends ChangeNotifier {
   final Cache cache;
-
-  SavedViewModel(this.cache) {
-    isLoading = true;
-    notifyListeners();
-    loadSavedNews();
-  }
-
   bool isLoading = true;
   List<NewsModel> savedNews = [];
 
+  SavedViewModel(this.cache);
+
   Future<void> loadSavedNews() async {
+    isLoading = true;
+    notifyListeners();
     savedNews = await cache.getListSavedNews();
     isLoading = false;
     notifyListeners();

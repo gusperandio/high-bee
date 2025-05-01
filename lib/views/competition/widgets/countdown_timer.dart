@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:high_bee/components/styles/colors.dart';
+
 class CountdownTimer extends StatefulWidget {
   final DateTime expiryTime;
 
@@ -43,7 +45,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
     final int minutes = _remainingTime.inMinutes.remainder(60);
     final int seconds = _remainingTime.inSeconds.remainder(60);
 
-    return 'You have ${days}d ${hours}h ${minutes}m ${seconds}s';
+    return 'Expira em: ${days}d ${hours}h ${minutes}m ${seconds}s';
   }
 
   @override
@@ -51,7 +53,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue.shade100,
+        color: PrimaryColors.carvaoColor,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -66,7 +68,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: Colors.black87,
+          color: Colors.white,
         ),
       ),
     );

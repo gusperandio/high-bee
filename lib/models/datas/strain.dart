@@ -28,4 +28,40 @@ class StrainModel {
     required this.fotoperiodo,
     required this.automatica,
   });
+ 
+  factory StrainModel.fromJson(Map<String, dynamic> json) {
+    return StrainModel(
+      nome: json['nome'],
+      desc: json['desc'],
+      thc: json['thc'].toDouble(),
+      combinacao: List<String>.from(json['combinacao']),
+      rendIndoor: json['rendIndoor'],
+      rendOutdoor: json['rendOutdoor'],
+      efeitos: List<String>.from(json['efeitos']),
+      photo: json['photo'],
+      hibrida: json['hibrida'],
+      sativa: json['sativa'],
+      indica: json['indica'],
+      fotoperiodo: json['fotoperiodo'],
+      automatica: json['automatica'],
+    );
+  }
+ 
+  Map<String, dynamic> toJson() {
+    return {
+      'nome': nome,
+      'desc': desc,
+      'thc': thc,
+      'combinacao': combinacao,
+      'rendIndoor': rendIndoor,
+      'rendOutdoor': rendOutdoor,
+      'efeitos': efeitos,
+      'photo': photo,
+      'hibrida': hibrida,
+      'sativa': sativa,
+      'indica': indica,
+      'fotoperiodo': fotoperiodo,
+      'automatica': automatica,
+    };
+  }
 }

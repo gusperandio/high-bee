@@ -1,28 +1,33 @@
-import 'package:uuid/uuid.dart';
-
 class ReportModel {
-  final String id;
-  final String idNews;
+  final String? id;
+  final String newsId;
   final String userId;
-  final String argument;
+  final String reason;
+  final String createdAt;
 
-  ReportModel({id, required this.idNews,
-    required this.userId, required this.argument})
-    : id = id ?? Uuid().v4();
+  ReportModel({
+    this.id,
+    required this.newsId,
+    required this.userId,
+    required this.reason,
+    required this.createdAt,
+  });
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'idNews': idNews,
+    'newsId': newsId,
     'userId': userId,
-    'argument': argument,
+    'reason': reason,
+    'createdAt': createdAt,
   };
 
   factory ReportModel.fromJson(Map<String, dynamic> json) {
     return ReportModel(
-      id: json['id'],
-      idNews: json['idNews'],
-      userId: json['userId'],
-      argument: json['argument'],
+      id: json['id'] ?? "",
+      newsId: json['newsId'] ?? "",
+      userId: json['userId'] ?? "",
+      reason: json['reason'] ?? "",
+      createdAt: json['createdAt'] ?? "",
     );
   }
 }

@@ -4,11 +4,26 @@ import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/viewmodel/news/news_view_model.dart';
 import 'package:high_bee/viewmodel/saved/saved_view_model.dart';
+import 'package:high_bee/views/news/news.dart';
 import 'package:provider/provider.dart';
 
-class SavedPage extends StatelessWidget {
+class SavedPage extends StatefulWidget {
   const SavedPage({super.key});
+
+  @override
+  State<SavedPage> createState() => _SavedPageState();
+}
+
+class _SavedPageState extends State<SavedPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<SavedViewModel>().loadSavedNews();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +34,44 @@ class SavedPage extends StatelessWidget {
         }
 
         if (viewModel.savedNews.isEmpty) {
-          return Center(child: Text('Nenhuma strain encontrada'));
+          return AppContainer(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: PrimaryColors.claudeColor,
+            body: Expanded(
+              child: Container(
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 250),
+                      child: Text(
+                        "Não encontramos nada salvo",
+                        style: TextStyle(
+                          fontFamily: 'Urbanist',
+                          fontSize: 16,
+                          color: PrimaryColors.carvaoColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          child: Image.asset(
+                            'assets/lottie/empty1.gif',
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
         }
 
         return AppContainer(
@@ -36,22 +88,19 @@ class SavedPage extends StatelessWidget {
                         children: List.generate(viewModel.savedNews.length, (
                           index,
                         ) {
-                          if (index.isEven) {
-                            return AnimationConfiguration.staggeredList(
-                              position: index,
-                              duration: const Duration(milliseconds: 675),
-                              child: SlideAnimation(
-                                verticalOffset: 50.0,
-                                child: FlipAnimation(
-                                  child: _buildSavedCard(
-                                    viewModel.savedNews[index],
-                                  ),
+                          return AnimationConfiguration.staggeredList(
+                            position: index,
+                            duration: const Duration(milliseconds: 675),
+                            child: SlideAnimation(
+                              verticalOffset: 50.0,
+                              child: FlipAnimation(
+                                child: _buildSavedCard(
+                                  viewModel.savedNews[index],
+                                  context,
                                 ),
                               ),
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                          }
+                            ),
+                          );
                         }),
                       ),
                     ),
@@ -67,7 +116,7 @@ class SavedPage extends StatelessWidget {
   }
 }
 
-Widget _buildSavedCard(NewsModel news) {
+Widget _buildSavedCard(NewsModel news, BuildContext context) {
   return Card(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     elevation: 3,
@@ -80,7 +129,27 @@ Widget _buildSavedCard(NewsModel news) {
       ),
       subtitle: Text(news.tag ?? 'Tipo desconhecido'),
       trailing: Icon(Icons.chevron_right),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context)
+            .push(
+              PageRouteBuilder(
+                transitionDuration: Duration(milliseconds: 200),
+                pageBuilder:
+                    (_, animation, secondaryAnimation) =>
+                        ChangeNotifierProvider(
+                          create: (_) => NewsViewModel(),
+                          child: NewsPage(news: news),
+                        ),
+                transitionsBuilder: (_, animation, __, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
+              ),
+            )
+            .then((_) {
+              final viewModel = context.read<SavedViewModel>();
+              viewModel.loadSavedNews();
+            });
+      },
     ),
   );
 }

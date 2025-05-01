@@ -11,7 +11,7 @@ class UserModel {
   List<String>? news;
   List<dynamic>? stickers;
   List<dynamic>? publicity;
-  List<dynamic>? reportNews;
+  List<String>? reports;
   List<dynamic>? reportPublicity;
   List<dynamic>? competition;
   String? premiumTime;
@@ -31,7 +31,7 @@ class UserModel {
     this.news,
     this.stickers,
     this.publicity,
-    this.reportNews,
+    this.reports,
     this.reportPublicity,
     this.competition,
     this.premiumTime,
@@ -53,7 +53,7 @@ class UserModel {
       news: List<String>.from(map['news'] ?? []),
       stickers: List<dynamic>.from(map['stickers'] ?? []),
       publicity: List<dynamic>.from(map['publicity'] ?? []),
-      reportNews: List<dynamic>.from(map['reportNews'] ?? []),
+      reports: List<String>.from(map['news'] ?? []),
       reportPublicity: List<dynamic>.from(map['reportPublicity'] ?? []),
       competition: List<dynamic>.from(map['competition'] ?? []),
       premiumTime: map['premiumTime'] ?? '',
@@ -76,7 +76,7 @@ class UserModel {
       'news': news ?? [],
       'stickers': stickers ?? [],
       'publicity': publicity ?? [],
-      'reportNews': reportNews ?? [],
+      'reports': reports ?? [],
       'reportPublicity': reportPublicity ?? [],
       'competition': competition ?? [],
       'premiumTime': premiumTime,

@@ -1,5 +1,7 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/models/datas/strain.dart';
 import 'package:high_bee/services/news/news_service.dart';
 
 class HomeViewModel extends ChangeNotifier {
@@ -22,12 +24,11 @@ class HomeViewModel extends ChangeNotifier {
       news = result ?? [];
       myBackground =
           news.isNotEmpty ? news[0].cape : "assets/images/Screenshot_3.png";
-      isLoading = false;
-      isEmpty = news.isEmpty;
+      isEmpty = news.isEmpty; 
     } catch (e) {
       isEmpty = true;
     } finally {
-      _setLoadingState(false);
+      _setLoadingState(false); // notifica uma vez só aqui
     }
-  }
+  } 
 }

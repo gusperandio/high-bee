@@ -14,7 +14,8 @@ class NewsModel {
   String? photo3;
   String? photo3desc;
   int likes;
-  String font;  
+  String font;
+  String? createdAt;
 
   NewsModel({
     this.id,
@@ -33,6 +34,7 @@ class NewsModel {
     this.photo3desc,
     this.likes = 0,
     this.font = 'Georgia',
+    this.createdAt,
   });
 
   Map<String, dynamic> toJson() {
@@ -51,8 +53,9 @@ class NewsModel {
       'photo2desc': photo2desc,
       'photo3': photo3,
       'photo3desc': photo3desc,
-      'likes': likes, 
-      'font': font,  
+      'likes': likes,
+      'font': font,
+      'createdAt': createdAt,
     };
   }
 
@@ -65,7 +68,7 @@ class NewsModel {
       user:
           json['user'] != null
               ? UserNews.fromJson(Map<String, dynamic>.from(json['user']))
-              : UserNews(name: "", intention: "", userId: ""),
+              : UserNews(name: "", intention: "", userId: "", createdAt: ""),
       minReads: json['minReads'] ?? 0,
       aiValidate: json['aiValidate'] ?? false,
       cape: json['cape'] ?? "",
@@ -77,6 +80,7 @@ class NewsModel {
       photo3desc: json['photo3desc'] ?? "",
       likes: json['likes'] ?? 0,
       font: json['font'] ?? "Georgia",
+      createdAt: json['createdAt'] ?? "",
     );
   }
 
@@ -97,6 +101,7 @@ class NewsModel {
     String? photo3desc,
     int? likes,
     String? font,
+    String? createdAt,
   }) {
     return NewsModel(
       id: id ?? this.id,
@@ -114,6 +119,7 @@ class NewsModel {
       photo3desc: photo3desc ?? this.photo3desc,
       likes: likes ?? this.likes,
       font: font ?? this.font,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }
@@ -122,11 +128,22 @@ class UserNews {
   String userId;
   String name;
   String intention;
+  String createdAt;
 
-  UserNews({required this.userId, required this.name, required this.intention});
+  UserNews({
+    required this.userId,
+    required this.name,
+    required this.intention,
+    required this.createdAt,
+  });
 
   Map<String, dynamic> toJson() {
-    return {'userId': userId, 'name': name, 'intention': intention};
+    return {
+      'userId': userId,
+      'name': name,
+      'intention': intention,
+      'createdAt': createdAt,
+    };
   }
 
   factory UserNews.fromJson(Map<String, dynamic> json) {
@@ -134,6 +151,7 @@ class UserNews {
       userId: json['userId'] ?? "",
       name: json['name'] ?? "",
       intention: json['intention'] ?? "",
+      createdAt: json['createdAt'] ?? "",
     );
   }
 }

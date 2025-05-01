@@ -30,7 +30,7 @@ class ButtonOutline extends StatefulWidget {
     Widget? startContent,
     Widget? endContent,
     required VoidCallback onPressed,
-    bool hasBackground = true,
+    bool hasBackground = false,
   }) {
     return ButtonOutline._internal(
       title: title,
@@ -50,7 +50,7 @@ class ButtonOutline extends StatefulWidget {
     Widget? startContent,
     Widget? endContent,
     required VoidCallback onPressed,
-    bool hasBackground = true,
+    bool hasBackground = false,
   }) {
     return ButtonOutline._internal(
       title: title,
@@ -70,7 +70,7 @@ class ButtonOutline extends StatefulWidget {
     Widget? startContent,
     Widget? endContent,
     required VoidCallback onPressed,
-    bool hasBackground = true,
+    bool hasBackground = false,
   }) {
     return ButtonOutline._internal(
       title: title,
@@ -90,7 +90,7 @@ class ButtonOutline extends StatefulWidget {
     Widget? startContent,
     Widget? endContent,
     required VoidCallback onPressed,
-    bool hasBackground = true,
+    bool hasBackground = false,
   }) {
     return ButtonOutline._internal(
       title: title,
@@ -110,7 +110,7 @@ class ButtonOutline extends StatefulWidget {
     Widget? startContent,
     Widget? endContent,
     required VoidCallback onPressed,
-    bool hasBackground = true,
+    bool hasBackground = false,
   }) {
     return ButtonOutline._internal(
       title: title,
@@ -118,7 +118,7 @@ class ButtonOutline extends StatefulWidget {
       endContent: endContent,
       onPressed: onPressed,
       hasBackground: hasBackground,
-      hoverColor: const Color(0x132A50DA),
+      hoverColor: const Color.fromARGB(26, 241, 184, 41),
       borderColor: PrimaryColors.highBeeColor,
       padding: _defaultPadding(title),
       shape: _defaultRadius(RadiusBtn.medium),
@@ -130,7 +130,7 @@ class ButtonOutline extends StatefulWidget {
     Widget? startContent,
     Widget? endContent,
     required VoidCallback onPressed,
-    bool hasBackground = true,
+    bool hasBackground = false,
   }) {
     return ButtonOutline._internal(
       title: title,
@@ -196,10 +196,7 @@ class ButtonOutlineState extends State<ButtonOutline> {
         mainAxisSize: MainAxisSize.min,
         spacing: 6,
         children: [
-          Visibility(
-            visible: widget.startContent != null,
-            child: widget.startContent ?? SizedBox.shrink(),
-          ),
+          widget.startContent ?? SizedBox.shrink(),
           widget.title != null
               ? Text(
                 widget.title!.toUpperCase(),
@@ -212,8 +209,7 @@ class ButtonOutlineState extends State<ButtonOutline> {
               )
               : SizedBox.shrink(),
 
-           widget.endContent ?? SizedBox.shrink(),
-        
+          widget.endContent ?? SizedBox.shrink(),
         ],
       ),
     );

@@ -49,12 +49,12 @@ class MainPageViewModel extends ChangeNotifier {
         );
       case 1:
         return ChangeNotifierProvider(
-          create: (_) => CompetitionViewModel(),
+          create: (_) => CompetitionViewModel(cache),
           child: const CompetitionPage(),
         );
       case 2:
         return ChangeNotifierProvider(
-          create: (_) => StrainViewModel(),
+          create: (_) => StrainViewModel(cache),
           child: const StrainPage(),
         );
       case 3:

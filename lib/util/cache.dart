@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/models/datas/strain.dart';
 import 'package:high_bee/models/datas/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,6 +64,19 @@ class Cache {
 
     final newsMap = jsonDecode(newsJson);
     return (newsMap as List).map((e) => NewsModel.fromJson(e)).toList();
+  }
+
+  Future<void> setListStrain(List<StrainModel> strain) async {
+    final strainJson = jsonEncode(strain.map((e) => e.toJson()).toList());
+    await _prefs?.setString('strains', strainJson);
+  }
+
+  Future<List<StrainModel>> getListStrains() async {
+    final strainJson = _prefs?.getString('strains');
+   if (strainJson == null) return [];
+
+    final newsMap = jsonDecode(strainJson);
+    return (newsMap as List).map((e) => StrainModel.fromJson(e)).toList();
   }
 
   Future<bool> getTrained() async {

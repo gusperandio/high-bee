@@ -3,10 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/buttons/button_circle.dart';
+import 'package:high_bee/components/widgets/buttons/button_outline.dart';
 import 'package:high_bee/components/widgets/tags/tag.dart';
+import 'package:high_bee/components/widgets/toasts/toast.dart';
 import 'package:high_bee/components/widgets/topbar/topbar.dart';
 import 'package:high_bee/models/datas/news.dart';
 import 'package:high_bee/viewmodel/news/news_view_model.dart';
+import 'package:high_bee/views/news/widgets/dialog_report.dart';
 import 'package:provider/provider.dart';
 
 class NewsPage extends StatefulWidget {
@@ -33,6 +36,25 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Consumer<NewsViewModel>(
       builder: (context, viewModel, child) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (viewModel.itsMeBaby) {
+            Toast.show(
+              context,
+              "Você não pode se auto denunciar",
+              variant: Variant.danger,
+            );
+            viewModel.itsMeBaby = false;
+          }
+
+          if (viewModel.isReported) {
+            Toast.show(
+              context,
+              "Denúncia enviada! Agradecemos o seu apoio!",
+              variant: Variant.success,
+            );
+            viewModel.isReported = false;
+          }
+        });
         return AppContainer(
           appBar: TopBar(),
           backgroundColor: PrimaryColors.claudeColor,
@@ -57,7 +79,7 @@ class _NewsPageState extends State<NewsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Tag.blackHigh(title: widget.news.tag!),
-                      if (widget.news.minReads! == 0)
+                      if (widget.news.minReads! > 0)
                         Text(
                           "${widget.news.minReads} min de leitura",
                           style: TextStyle(fontSize: 12),
@@ -161,7 +183,19 @@ class _NewsPageState extends State<NewsPage> {
                               BlendMode.srcIn,
                             ),
                           ),
-                          onPressed: () => {},
+                          onPressed: () async {
+                            final selectedReason = await showDialog<String>(
+                              context: context,
+                              builder:
+                                  (_) => DialogReport(items: viewModel.reports),
+                            );
+                            if (selectedReason != null) {
+                              viewModel.startReport(
+                                selectedReason,
+                                widget.news,
+                              );
+                            }
+                          },
                         ),
                         !viewModel.isSaved
                             ? ButtonCircle.def(

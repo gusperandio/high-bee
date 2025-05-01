@@ -100,11 +100,14 @@ class DemonstrationViewModel extends ChangeNotifier {
       newsDatas.user!.userId = userDatas!.id!;
       newsDatas.user!.name = userDatas.name!;
       newsDatas.user!.intention = userDatas.intention!;
-
+      newsDatas.user!.createdAt = userDatas.createdAt!;
       newsDatas.cape = urls[0];
+      newsDatas.createdAt = DateTime.now().toIso8601String();
+
       if (urls.length > 1) {
         newsDatas.photo1 = urls[1];
       }
+
       newsDatas.minReads = calcMinsRead(newsDatas.argument!);
       await newsService.createNews(newsDatas, newsDatas.user!.userId);
 

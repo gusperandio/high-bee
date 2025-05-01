@@ -8,8 +8,12 @@ import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/components/widgets/sticker/sticker.dart';
 import 'package:high_bee/components/widgets/tags/tag.dart';
 import 'package:high_bee/providers/authentication_state.dart';
+import 'package:high_bee/util/modal.dart';
 import 'package:high_bee/util/provider.dart';
+import 'package:high_bee/util/stage.dart';
 import 'package:high_bee/viewmodel/profile/profile_view_model.dart';
+import 'package:high_bee/views/profile/widgets/cannabis_stage.dart';
+import 'package:high_bee/views/profile/widgets/cannabis_stage_guide.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -41,9 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
           height: MediaQuery.of(context).size.height,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(
-                'assets/images/background_profile.png',
-              ),  
+              image: AssetImage('assets/images/background_profile.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -89,7 +91,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                               const SizedBox(width: 16),
-                              Tag.defLow(title: "Semente 🌱"),
+                              GestureDetector(
+                                onTap: () {
+                                  modalBottom(
+                                    context: context,
+                                    content: CannabisStageGuide(),
+                                    title: "Estágios",
+                                    closeColor: Colors.black,
+                                  );
+                                },
+                                child: CannabisStage(
+                                  stage:
+                                      viewModel.seedTime ??
+                                      DateTime.now().toIso8601String(),
+                                ),
+                              ),
                               Spacer(),
                               GestureDetector(
                                 onTap: () {
@@ -226,35 +242,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           runSpacing: 6,
                           spacing: 8,
                           children: [
-                            Sticker(
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/high-bee-3c65d.firebasestorage.app/o/stickers%2Fdoctor.png?alt=media&token=60a45a59-7fd7-489d-a3a7-f1c439fdf959",
-                              description: "Doctor",
-                            ),
-                            Sticker(
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/high-bee-3c65d.firebasestorage.app/o/stickers%2Fgorila.png?alt=media&token=2153e05f-66d9-41e1-82ff-b8fd91e75cd4",
-                              description: "Cadastro",
-                            ),
-                            Sticker(
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/high-bee-3c65d.firebasestorage.app/o/stickers%2Fhoney-bee.png?alt=media&token=e092b9fa-2a02-4dd8-a891-dbd8a0474785",
-                              description: "Cadastro",
-                            ),
-                            Sticker(
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/high-bee-3c65d.firebasestorage.app/o/stickers%2Fone-hundred.png?alt=media&token=c5736a14-3eea-465b-9825-f6e058d0b637",
-                              description: "Cadastro",
-                            ),
-                            Sticker(
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/high-bee-3c65d.firebasestorage.app/o/stickers%2Freggae.png?alt=media&token=4feba777-8158-491d-bdef-1685678a5e8a",
-                              description: "Cadastro",
-                            ),
-                            Sticker(
-                              imageUrl:
-                                  "https://firebasestorage.googleapis.com/v0/b/high-bee-3c65d.firebasestorage.app/o/stickers%2Fsurf.png?alt=media&token=3750f537-9ab4-4612-a52b-33f7a0f31489",
-                              description: "Cadastro",
+                            Text(
+                              "Nenhum Prêmio encontrado!",
+                              style: TextStyle(fontFamily: "Urbanist"),
                             ),
                           ],
                         ),

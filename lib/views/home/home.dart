@@ -5,6 +5,7 @@ import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
 import 'package:high_bee/viewmodel/home/home_view_model.dart';
 import 'package:high_bee/viewmodel/news/news_view_model.dart';
+import 'package:high_bee/viewmodel/saved/saved_view_model.dart';
 import 'package:high_bee/views/news/news.dart';
 import 'package:provider/provider.dart';
 import 'package:vertical_card_pager/vertical_card_pager.dart';
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                               right: 15,
                               bottom: 15,
                               child: Text(
-                                "Cannabis e reumatismo: uma nova perspectiva para o tratamento",
+                                news.title ?? "",
                                 style: const TextStyle(
                                   fontFamily: 'Urbanist',
                                   fontSize: 18,
@@ -148,62 +149,56 @@ class _HomePageState extends State<HomePage> {
                                           NetworkImage(newBg),
                                           context,
                                         );
-                                        setState(
-                                          () => viewModel.myBackground = newBg,
-                                        );
+                                        if (mounted) {
+                                          setState(
+                                            () =>
+                                                viewModel.myBackground = newBg,
+                                          );
+                                        }
                                       }
                                     },
                                     onSelectedItem: (index) {
                                       final news = newsList[index];
-                                      Navigator.of(context).push(
-                                        PageRouteBuilder(
-                                          transitionDuration: Duration(
-                                            milliseconds: 200,
-                                          ),
-                                          pageBuilder:
-                                              (
+                                      Navigator.of(context)
+                                          .push(
+                                            PageRouteBuilder(
+                                              transitionDuration: Duration(
+                                                milliseconds: 200,
+                                              ),
+                                              pageBuilder:
+                                                  (
+                                                    _,
+                                                    animation,
+                                                    secondaryAnimation,
+                                                  ) => ChangeNotifierProvider(
+                                                    create:
+                                                        (_) => NewsViewModel(),
+                                                    child: NewsPage(news: news),
+                                                  ),
+                                              transitionsBuilder: (
                                                 _,
                                                 animation,
-                                                secondaryAnimation,
-                                              ) => ChangeNotifierProvider(
-                                                create:
-                                                    (_) => NewsViewModel(),
-                                                child: NewsPage(news: news),
-                                              ),
-                                          transitionsBuilder: (
-                                            _,
-                                            animation,
-                                            __,
-                                            child,
-                                          ) {
-                                            return FadeTransition(
-                                              opacity: animation,
-                                              child: child,
-                                            );
-                                          },
-                                        ),
-                                      );
+                                                __,
+                                                child,
+                                              ) {
+                                                return FadeTransition(
+                                                  opacity: animation,
+                                                  child: child,
+                                                );
+                                              },
+                                            ),
+                                          )
+                                          .then((_) {
+                                            final viewModel =
+                                                context.read<HomeViewModel>();
+                                            viewModel.fetchNews();
+                                          });
                                     },
                                     initialPage: 0,
                                     align: ALIGN.LEFT,
                                     physics: const ClampingScrollPhysics(),
                                   )
-                                  : Center(
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 22,
-                                      ),
-                                      child: Text(
-                                        "Estamos sem contéudo hoje!",
-                                        style: const TextStyle(
-                                          fontFamily: 'Urbanist',
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.bold,
-                                          color: PrimaryColors.claudeColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  : SizedBox.shrink(),
                         ),
                       ],
                     ),
