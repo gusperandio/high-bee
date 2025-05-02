@@ -40,7 +40,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                   const Text(
-                    'Compartilhamos experiências com \nprodutos que a vida oferece conectando mentes, cultivando conhecimento.',
+                    'Compartilhamos experiências com \nprodutos que a vida oferece conectando mentes, cultivando conhecimento',
                     style: TextStyle(
                       color: Colors.black54,
                       fontSize: 18,

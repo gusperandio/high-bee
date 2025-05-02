@@ -4,9 +4,7 @@ import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/util/navigate.dart';
 import 'package:high_bee/viewmodel/main_page/main_page_view_model.dart';
-import 'package:high_bee/views/post/post.dart';
-import 'package:high_bee/views/training/training.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:high_bee/views/post/post.dart'; 
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,11 +18,9 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    Permission.notification.isDenied.then((value) {
-      if (value) {
-        Permission.notification.request();
-      }
-    });
+    // Future.microtask(() {
+    //   context.read<MainPageViewModel>().checkNotificationPermission();
+    // });
   }
 
   @override
@@ -38,7 +34,7 @@ class _MainPageState extends State<MainPage> {
               viewModel.selectedIndex == 0
                   ? FloatingActionButton(
                     mini: true,
-                    onPressed: () async { 
+                    onPressed: () async {
                       MSNavigate.toName(context, PostPage.routeName);
                     },
                     backgroundColor: PrimaryColors.highBeeColor,

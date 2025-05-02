@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/util/cache.dart' as highbeecache;
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:high_bee/viewmodel/competition/competition_view_model.dart';
 import 'package:high_bee/viewmodel/home/home_view_model.dart';
@@ -22,7 +23,7 @@ class MainPageViewModel extends ChangeNotifier {
   final cache = highbeecache.Cache();
   List<Widget?> get pages => _pages;
   List<bool> get initialized => _isPageInitialized;
-
+  bool _isRequestingPermission = false;
   MainPageViewModel() {
     _initializePage(0);
   }
@@ -101,4 +102,19 @@ class MainPageViewModel extends ChangeNotifier {
   Future<bool> isTrained() async {
     return await highbeecache.Cache().getTrained();
   }
+
+  // Future<void> checkNotificationPermission() async {
+  //   if (_isRequestingPermission) return;
+  //   _isRequestingPermission = true;
+  //   notifyListeners();
+  //   try {
+  //     final status = await Permission.notification.status;
+  //     if (status.isDenied) {
+  //       await Permission.notification.request();
+  //     }
+  //   } finally {
+  //     _isRequestingPermission = false;
+  //     notifyListeners();
+  //   }
+  // }
 }

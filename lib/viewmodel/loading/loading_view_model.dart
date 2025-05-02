@@ -1,6 +1,4 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/material.dart';
-import 'package:high_bee/models/datas/strain.dart';
+import 'package:flutter/material.dart'; 
 import 'package:high_bee/models/datas/user.dart';
 import 'package:high_bee/services/strains/strain_service.dart';
 import 'package:high_bee/services/user/user_service.dart';

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:high_bee/components/widgets/tags/tag.dart';
 
 class CannabisStage extends StatelessWidget {
-  final String stage;
+  final String? stage;
 
-  const CannabisStage({super.key, required this.stage});
+  const CannabisStage({super.key, this.stage});
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final createdDate = DateTime.parse(stage);
+    final createdDate = DateTime.parse(stage ?? now.toIso8601String());
     final days = now.difference(createdDate).inDays;
 
     if (days <= 7) {

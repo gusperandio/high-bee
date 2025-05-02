@@ -10,6 +10,7 @@ import 'package:high_bee/components/widgets/topbar/topbar.dart';
 import 'package:high_bee/models/datas/news.dart';
 import 'package:high_bee/viewmodel/news/news_view_model.dart';
 import 'package:high_bee/views/news/widgets/dialog_report.dart';
+import 'package:high_bee/views/profile/widgets/cannabis_stage.dart';
 import 'package:provider/provider.dart';
 
 class NewsPage extends StatefulWidget {
