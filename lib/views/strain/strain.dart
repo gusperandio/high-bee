@@ -4,7 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
-import 'package:high_bee/models/datas/strain.dart';
+import 'package:high_bee/infra/models/datas/strain.dart';
 import 'package:high_bee/viewmodel/strain/strain_view_model.dart';
 import 'package:provider/provider.dart';
 

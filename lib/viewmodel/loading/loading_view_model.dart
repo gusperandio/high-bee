@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart'; 
-import 'package:high_bee/models/datas/user.dart';
+import 'package:high_bee/infra/models/datas/user.dart';
 import 'package:high_bee/services/strains/strain_service.dart';
 import 'package:high_bee/services/user/user_service.dart';
 import 'package:high_bee/util/avatar.dart';

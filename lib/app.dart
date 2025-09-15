@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart'; 
 import 'package:high_bee/components/styles/colors.dart';
-import 'package:high_bee/router.dart';
+import 'package:high_bee/util/router.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

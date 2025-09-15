@@ -9,3 +9,14 @@ Future<void> redirect(String link, LaunchMode launch) async {
     throw "Erro ao redirecionar para o site!";
   }
 }
+
+void enviarEmail(String sendTo, String subject) async {
+  final Uri emailUri = Uri(
+    scheme: 'mailto',
+    path: sendTo,
+    queryParameters: {'subject': subject},
+  );
+  if (await canLaunchUrl(emailUri)) {
+    await launchUrl(emailUri);
+  }
+}

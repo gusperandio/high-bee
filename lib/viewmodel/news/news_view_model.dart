@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:high_bee/models/datas/news.dart';
-import 'package:high_bee/models/datas/reports.dart';
+import 'package:high_bee/infra/models/datas/news.dart';
+import 'package:high_bee/infra/models/datas/reports.dart';
 import 'package:high_bee/services/auth/auth_service.dart';
 import 'package:high_bee/services/reports/reports_service.dart';
 import 'package:high_bee/util/cache.dart';

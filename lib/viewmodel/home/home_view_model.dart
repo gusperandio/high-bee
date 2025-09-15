@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:high_bee/models/datas/news.dart';
-import 'package:high_bee/models/datas/strain.dart';
+import 'package:high_bee/infra/models/datas/news.dart';
+import 'package:high_bee/infra/models/datas/strain.dart';
 import 'package:high_bee/services/news/news_service.dart';
 
 class HomeViewModel extends ChangeNotifier {

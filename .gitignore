@@ -3,6 +3,10 @@
 
 # This is dynamic in a monorepo
 bin/internal/engine.version
+.env
+agent_log.md
+
+*.g.dart
 
 # Miscellaneous
 *.class
@@ -76,8 +80,7 @@ unlinked_spec.ds
 **/android/gradlew
 **/android/gradlew.bat
 **/android/local.properties
-**/android/**/GeneratedPluginRegistrant.java
-**/android/key.properties
+**/android/**/GeneratedPluginRegistrant.java 
 **/android/app/.cxx/
 *.jks
 
@@ -152,6 +155,3 @@ app.*.symbols
 .python-version
 .gclient_previous_custom_vars
 .gclient_previous_sync_commits
-.env
-
-android/app/google-services.json

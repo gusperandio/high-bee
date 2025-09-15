@@ -1,7 +1,7 @@
 import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:high_bee/components/styles/colors.dart';
-import 'package:high_bee/models/datas/user.dart';
+import 'package:high_bee/infra/models/datas/user.dart';
 import 'package:high_bee/services/auth/auth_service.dart';
 import 'package:high_bee/util/cache.dart';
 import 'package:intl/intl.dart';

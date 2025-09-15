@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/infra/models/datas/news.dart';
 import 'package:high_bee/util/cache.dart';
 
 class SavedViewModel extends ChangeNotifier {

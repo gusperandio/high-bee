@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/infra/models/datas/news.dart';
 
 import 'package:high_bee/util/cache.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,5 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:high_bee/models/datas/news.dart'; 
+import 'package:high_bee/infra/models/datas/news.dart'; 
 import 'package:high_bee/services/user/user_service.dart'; 
 
 class NewsService {

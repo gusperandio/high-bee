@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:high_bee/models/datas/user.dart';
+import 'package:high_bee/infra/models/datas/user.dart';
 import 'package:high_bee/services/auth/auth_service.dart';
 
 class UserService {

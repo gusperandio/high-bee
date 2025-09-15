@@ -3,7 +3,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:high_bee/components/app_container.dart';
 import 'package:high_bee/components/styles/colors.dart';
 import 'package:high_bee/components/widgets/loadings/loading_gif.dart';
-import 'package:high_bee/models/datas/news.dart';
+import 'package:high_bee/infra/models/datas/news.dart';
 import 'package:high_bee/viewmodel/news/news_view_model.dart';
 import 'package:high_bee/viewmodel/saved/saved_view_model.dart';
 import 'package:high_bee/views/news/news.dart';

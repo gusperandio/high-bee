@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:high_bee/models/pages/counter_model.dart';
+import 'package:high_bee/infra/models/pages/counter_model.dart';
 
 class CounterViewModel extends ChangeNotifier {
   final CounterModel _counterModel = CounterModel();

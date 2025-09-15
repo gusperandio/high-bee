@@ -1,5 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:high_bee/models/datas/strain.dart';
+import 'package:high_bee/infra/models/datas/strain.dart';
 
 class StrainService {
   static final StrainService _instance = StrainService._internal();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:high_bee/models/datas/strain.dart';
+import 'package:high_bee/infra/models/datas/strain.dart';
 import 'package:high_bee/util/cache.dart';
 
 class StrainViewModel extends ChangeNotifier{

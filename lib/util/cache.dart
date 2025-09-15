@@ -1,131 +1,209 @@
-import 'dart:convert';
-
-import 'package:high_bee/models/datas/news.dart';
-import 'package:high_bee/models/datas/strain.dart';
-import 'package:high_bee/models/datas/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';  
+import 'package:high_bee/infra/models/infra/cache_model.dart';
+import 'package:high_bee/infra/singletons/database_singleton.dart'; 
+import 'package:sqflite/sqflite.dart'; 
 
 class Cache {
-  static final Cache _instance = Cache._internal();
-  SharedPreferences? _prefs;
-
-  factory Cache() {
-    return _instance;
-  }
-
-  Cache._internal();
-
-  Future<void> init() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
-
-  bool? getAuth() {
-    return _prefs?.getBool('AuthenticationState');
-  }
-
-  Future<void> setAuth(bool value) async {
-    await _prefs?.setBool('AuthenticationState', value);
-  }
-
-  Future<void> setUser(UserModel user) async {
-    final userJson = jsonEncode(user.toJson());
-    await _prefs?.setString('user', userJson);
-  }
-
-  Future<UserModel?> getUser() async {
-    final userJson = _prefs?.getString('user');
-    if (userJson == null) return null;
-
-    final userMap = jsonDecode(userJson);
-    return UserModel.fromJson(userMap);
-  }
-
-  Future<void> setNews(NewsModel news) async {
-    final newsJson = jsonEncode(news.toJson());
-    await _prefs?.setString('post', newsJson);
-  }
-
-  Future<NewsModel?> getNews() async {
-    final newsJson = _prefs?.getString('post');
-    if (newsJson == null) return null;
-
-    final newsMap = jsonDecode(newsJson);
-    return NewsModel.fromJson(newsMap);
-  }
-
-  Future<void> setListNews(List<NewsModel> news) async {
-    final newsJson = jsonEncode(news.map((e) => e.toJson()).toList());
-    await _prefs?.setString('news', newsJson);
-  }
-
-  Future<List<NewsModel>?> getListNews() async {
-    final newsJson = _prefs?.getString('news');
-    if (newsJson == null) return null;
-
-    final newsMap = jsonDecode(newsJson);
-    return (newsMap as List).map((e) => NewsModel.fromJson(e)).toList();
-  }
-
-  Future<void> setListStrain(List<StrainModel> strain) async {
-    final strainJson = jsonEncode(strain.map((e) => e.toJson()).toList());
-    await _prefs?.setString('strains', strainJson);
-  }
-
-  Future<List<StrainModel>> getListStrains() async {
-    final strainJson = _prefs?.getString('strains');
-   if (strainJson == null) return [];
-
-    final newsMap = jsonDecode(strainJson);
-    return (newsMap as List).map((e) => StrainModel.fromJson(e)).toList();
-  }
-
-  Future<bool> getTrained() async {
-    final trained = _prefs?.getBool('trained');
-    if (trained == null) return false;
-    return trained;
-  }
-
-  Future<void> setTrained() async {
-    _prefs?.setBool('trained', true);
-    return;
-  }
-
-  Future<void> setListSavedNews(NewsModel news) async {
-    List<NewsModel> saved = await getListSavedNews();
-    if (!saved.any((item) => item.id == news.id)) {
-      saved.add(news);
+  static Future<dynamic> rememberCallback<T>(
+    String id,
+    Future<T> Function() callback, {
+    T Function(Map<String, dynamic> json)? fromJson,
+    T Function(List<dynamic> json)? fromJsonToList,
+    int addMinutes = 0,
+    int addHour = 0,
+    int addDays = 0,
+    int addMonth = 0,
+    int addYear = 1,
+    String? tag,
+  }) async {
+    dynamic dataCache = await get<T>(
+      id,
+      fromJson: fromJson,
+      fromJsonToList: fromJsonToList,
+    );
+    if (dataCache != null) {
+      return dataCache;
     }
 
-    final newsJson = jsonEncode(saved.map((e) => e.toJson()).toList());
-    await _prefs?.setString('saved', newsJson);
+    dataCache = await callback();
+    if (dataCache == null) return dataCache;
+
+    await set<T>(
+      id,
+      dataCache,
+      addMinutes: addMinutes,
+      addHour: addHour,
+      addDays: addDays,
+      addMonth: addMonth,
+      addYear: addYear,
+    );
+    return dataCache;
   }
 
-  Future<List<NewsModel>> getListSavedNews() async {
-    final newsJson = _prefs?.getString('saved');
-    if (newsJson == null) return [];
+  static Future<void> set<T>(
+    String id,
+    T value, {
+    int addMinutes = 0,
+    int addHour = 0,
+    int addDays = 0,
+    int addMonth = 0,
+    int addYear = 1,
+    String? tag,
+  }) async {
+    final db = await DatabaseSingleton.instance.database;
+    // Volta para o default de 1 ano caso algum outro valor for passado
+    if ((addMinutes != 0 || addHour != 0 || addDays != 0 || addMonth != 0) &&
+        addYear == 1) {
+      addYear = 0;
+    }
+    DateTime exp = _mountExp(addMinutes, addHour, addDays, addMonth, addYear);
 
-    final List<dynamic> decoded = jsonDecode(newsJson);
-    return decoded.map((e) => NewsModel.fromJson(e)).toList();
+    CacheModel data = CacheModel(
+      id: id,
+      value: jsonEncode(value),
+      exp: exp,
+      tag: tag,
+    );
+    await db.insert(
+      'cache',
+      data.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
-  Future<bool> isNewsSaved(String id) async {
-    List<NewsModel> saved = await getListSavedNews();
-    return saved.any((news) => news.id == id);
+  static Future<dynamic> get<T>(
+    String id, {
+    T Function(Map<String, dynamic> json)? fromJson,
+    T Function(List<dynamic> json)? fromJsonToList,
+  }) async {
+    final db = await DatabaseSingleton.instance.database;
+    final List<Map<String, Object?>> result = await db.query(
+      'cache',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    if (!result.isNotEmpty) return null;
+
+    Map<String, Object?> row = result.first;
+    // Verificação da data de validade do cache
+    DateTime exp = DateTime.parse(row['exp'] as String);
+    if (DateTime.now().isAfter(exp)) {
+      delete(id);
+      return null;
+    }
+
+    String valueString = row['value'] as String;
+    try {
+      dynamic dynamicValue = jsonDecode(valueString);
+      if (dynamicValue is List) {
+        return fromJsonToList != null
+            ? fromJsonToList(dynamicValue)
+            : dynamicValue;
+      }
+      return fromJson != null ? fromJson(dynamicValue) : dynamicValue;
+    } catch (err) {
+      return valueString;
+    }
   }
 
-  Future<void> removeNewsById(String id) async {
-    List<NewsModel> saved = await getListSavedNews();
-    saved.removeWhere((news) => news.id == id);
-
-    final newsJson = jsonEncode(saved.map((e) => e.toJson()).toList());
-    await _prefs?.setString('saved', newsJson);
+  static Future<void> update<T>(
+    String id,
+    T value, {
+    int addMinutes = 0,
+    int addHour = 0,
+    int addDays = 0,
+    int addMonth = 0,
+    int addYear = 1,
+    String? tag,
+  }) async {
+    // Get a reference to the database.
+    final db = await DatabaseSingleton.instance.database;
+    // Volta para o default de 1 ano caso algum outro valor for passado
+    if ((addMinutes != 0 || addHour != 0 || addDays != 0 || addMonth != 0) &&
+        addYear == 1) {
+      addYear = 0;
+    }
+    DateTime exp = _mountExp(addMinutes, addHour, addDays, addMonth, addYear);
+    CacheModel data = CacheModel(
+      id: id,
+      value: jsonEncode(value),
+      exp: exp,
+      tag: tag,
+    );
+    await db.update('cache', data.toMap(), where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<void> clear() async {
-    await _prefs?.clear();
+  static Future<void> delete(String id) async {
+    // Get a reference to the database.
+    final db = await DatabaseSingleton.instance.database;
+
+    await db.delete('cache', where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<void> remove(String key) async {
-    await _prefs?.remove(key);
+  // Este método retorna todos os dados do cache mesmo estando vencidos e também não remove dados vencidos,
+  // então cuidado ao utilizar.
+  // Recomendado utilizar sempre o método get para recuperação de dados direto
+  static Future<List<CacheModel>> listAll<T>() async {
+    final db = await DatabaseSingleton.instance.database;
+    final List<Map<String, Object?>> result = await db.query('cache');
+
+    return [
+      for (final Map<String, Object?> map in result)
+        CacheModel(
+          id: map['id'] as String,
+          value: map['value'] as String,
+          exp: DateTime.parse(map['exp'] as String),
+        ),
+    ];
+  }
+
+  static DateTime _mountExp(
+    int addMinutes,
+    int addHour,
+    int addDays,
+    int addMonth,
+    int addYear,
+  ) {
+    DateTime exp = DateTime.now().add(
+      Duration(minutes: addMinutes, hours: addHour, days: addDays),
+    );
+    if (addMonth != 0 || addYear != 0) {
+      int newYear = exp.year + addYear;
+      int newMonth = exp.month + addMonth;
+
+      // Ajusta o ano e o mês caso os meses adicionados excedam 12
+      while (newMonth > 12) {
+        newYear += 1;
+        newMonth -= 12;
+      }
+
+      exp = DateTime(
+        newYear,
+        newMonth,
+        exp.day,
+        exp.hour,
+        exp.minute,
+        exp.second,
+      );
+    }
+    return exp;
+  }
+
+  static Future<void> deleteAll() async {
+    final db = await DatabaseSingleton.instance.database;
+    await db.delete('cache');
+  }
+
+  static Future<void> clear() async {
+    final clearCacheIgnore = [
+      'quick-access',
+      'access-token',
+      'AuthenticationState',
+    ];
+    final db = await DatabaseSingleton.instance.database;
+    final placeholders = List.filled(
+      clearCacheIgnore.length, '?').join(', ');
+    final whereClause = 'id NOT IN ($placeholders)';
+    await db.delete('cache', where: whereClause, whereArgs: clearCacheIgnore);
   }
 }
